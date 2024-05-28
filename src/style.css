@@ -280,7 +280,7 @@ body
     margin: 10px 15px 5px 60px;
     
 
-    background: rgba(255, 255, 255, 0.13);
+    background: rgba(214, 214, 214, 0.13);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(8.5px);
@@ -298,6 +298,7 @@ body
     margin: 5px 0;
     cursor: pointer;
     transition: .3s;
+    
   }
   
 
@@ -306,6 +307,7 @@ body
   .label:focus-within,
   .label:active {
     background: hsla(0, 0%, 80%, .14);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
   .label:hover > .label-text {
     color: hsl(0, 0%, 0%);
@@ -362,4 +364,27 @@ body
 
   .radio-input:checked~.label-text {
     color: hsl(0, 0%, 81%);
+  }
+
+  @media only screen and (max-width: 600px) {
+    #points {
+        width: 20vh;
+        margin: 5px 15px 5px 16px;
+        
+    }
+    .label-text {
+        font-size: 10px;
+    }
+    .radio-design{
+       
+        height: 16px;
+        width: 16px;
+        transform: scale(1.1);
+    }
+    .radio-design::before {
+       
+        height: 16px;
+        width: 16px;
+    }
+    
   }

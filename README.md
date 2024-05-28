@@ -2,8 +2,9 @@
 
 ## Description
 
-- This web application is based on react-three-fiber (typescript) and utilizes the power of three.js to create a dynamic environment for preoperative planning of knee surgery.
-- Utilizes TransformControls to move, rotate the femur and tibia bones in 3D space for accurate alignment.
+- Preoperative planning is crucial in knee arthroplasty surgery, in addition to observing the overall knee alignment, this tool enables tweaking of knee alignment to perfection.
+- Utilizes TransformControls in a dynamic environment to move, rotate the femur in 3D space for accurate alignment.
+- This web application is based on [Three.js](https://threejs.org/)
 
 ## Demo
 
