@@ -60,9 +60,12 @@ const checkboxes = document.querySelector(".radio-input-wrapper .check-box");
 ////////////////////////////////////////////////////////////////////////////////
 // Variables
 let femur, part1, part2, parentPart;
-let transformControls, transformControls1, transformControls2, orbitControls;
+let transformControls, transformControls1, transformControls2;
 let needsRender = true;
 let enableAdding = false;
+let selectedMesh;
+let isCheckboxChecked = false;
+let isFirstClick = true;
 const cursor = new THREE.Vector2();
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
@@ -145,14 +148,23 @@ scene.add(overlay);
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(
-  75,
-  sizes.width / sizes.height,
-  0.1,
-  300
+// const camera = new THREE.PerspectiveCamera(
+//   60,
+//   sizes.width / sizes.height,
+//   0.1,
+//   1000.0
+// );
+var camera = new THREE.OrthographicCamera(
+  sizes.width / -30,
+  sizes.width / 30,
+  sizes.height / 30,
+  sizes.height / -30,
+  1,
+  1000
 );
+
 // camera.position.set(1.5, 13, 21);
-camera.position.set(0.8, 2.8, 15.5);
+camera.position.set(0.8, 1.8, 12.5);
 // camera.rotation.set(-0.2, 0, 0);
 scene.add(camera);
 
@@ -162,16 +174,10 @@ const camera2 = new THREE.PerspectiveCamera(
   0.01,
   1000
 );
+
 camera2.position.set(0.8, 2.8, 105.5);
 
 scene.add(camera2);
-
-// const testgeometry = new THREE.Mesh(
-//   new THREE.BoxGeometry(1, 1, 1),
-//   new THREE.MeshBasicMaterial({ color: 0xff0000 })
-// );
-// scene.add(testgeometry);
-// testgeometry.position.set(0, -87, -10);
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -189,10 +195,11 @@ rendererParameters.clearColor = "#1d1f2a";
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  antialias: true,
 });
 renderer.setClearColor(rendererParameters.clearColor);
 renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // canvas.appendChild(renderer.domElement);
 // document.body.appendChild(renderer.domElement);
 
@@ -243,14 +250,15 @@ scene.add(curr_transformPoint);
 const previousPosition = new THREE.Object3D();
 scene.add(previousPosition);
 // Set up controls
-orbitControls = new OrbitControls(camera, canvas);
+const orbitControls = new OrbitControls(camera, canvas);
+orbitControls.enableDamping = true;
 transformControls = new TransformControls(camera, canvas);
 // transformControls.attach(pivot);
-// scene.add(transformControls);
+scene.add(transformControls);
 
 // GIZMO
 // grid helper
-const gridHelper = new THREE.GridHelper(500, 40);
+const gridHelper = new THREE.GridHelper(100, 40);
 gridHelper.position.y = -15;
 scene.add(gridHelper);
 
@@ -271,9 +279,8 @@ const holoMaterial = new THREE.ShaderMaterial({
   fragmentShader: holographicFragmentShader,
   vertexShader: holographicVertexShader,
   uniforms: {
-    uTime: new THREE.Uniform(0),
+    uTime: { value: 0 },
     uColor: new THREE.Uniform(new THREE.Color(materialParameters.color)),
-    cameraPos: { value: camera.position },
   },
   transparent: true,
   side: THREE.DoubleSide,
@@ -297,6 +304,13 @@ gui
       });
     }
   });
+
+const testgeometry = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  holoMaterial
+);
+scene.add(testgeometry);
+testgeometry.position.set(0, 1.3, 10);
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Models
@@ -346,52 +360,58 @@ gui
 
 ////////////////////////////// landmarks
 // Event Listeners
-// State Management
-let sphere = null;
-// const transformControls = new THREE.TransformControls(camera, renderer.domElement);
+// Function to add a sphere at the point of click
+function addSphereAtClick(event) {
+  if (isCheckboxChecked && isFirstClick) {
+    // Convert the mouse click to normalized device coordinates (-1 to +1)
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-// Event Listeners
-canvas.addEventListener("click", onClick, false);
-checkboxes.addEventListener("change", onCheckboxChange, false);
+    // Update the raycaster with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
 
-function onCheckboxChange(event) {
-  if (!checkboxes.checked && sphere) {
-    scene.remove(sphere);
-    scene.remove(transformControls);
-    sphere = null;
-  }
-}
+    // Calculate objects intersecting the picking ray
+    const intersects = raycaster.intersectObjects(scene.children, true);
 
-function onClick(event) {
-  if (!checkboxes.checked) return;
+    if (intersects.length > 0) {
+      // Get the first intersection point
+      const pointOfIntersection = intersects[0].point;
 
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      // Create a sphere geometry at the intersection point
+      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const sphere = new THREE.Mesh(sphereGeometry, holoMaterial);
 
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObject(femur, true);
+      // Position the sphere at the intersection point
+      sphere.position.copy(pointOfIntersection);
+      scene.add(sphere);
 
-  if (intersects.length > 0) {
-    const point = intersects[0].point;
+      // Attach transform controls to the sphere
+      transformControls.attach(sphere);
 
-    if (!sphere) {
-      addSphere(point);
+      // Set isFirstClick to false after adding the sphere
+      isFirstClick = false;
+    }
+  } else if (!isFirstClick) {
+    // Toggle transform controls on subsequent clicks
+    if (transformControls.object === null) {
+      transformControls.attach(intersects[0].object);
+    } else {
+      transformControls.detach();
     }
   }
 }
 
-function addSphere(position) {
-  const geometry = new THREE.SphereGeometry(0.1, 32, 32);
-  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  sphere = new THREE.Mesh(geometry, material);
-  sphere.position.copy(position);
-  scene.add(sphere);
+// Event listener for the checkbox to enable adding a sphere on the next click
+document
+  .querySelector(".check-box")
+  .addEventListener("change", function (event) {
+    isCheckboxChecked = event.target.checked;
+    // isFirstClick = true; // Reset isFirstClick whenever the checkbox state changes
+  });
 
-  // Add transform controls
-  transformControls.attach(sphere);
-  scene.add(transformControls);
-  transformControls.setMode("translate");
-}
+// Event listener for mouse click to add sphere at click
+window.addEventListener("click", addSphereAtClick);
 
 ////////////////////////////////////////////////////////////////////////////////
 //// GSAP
@@ -407,10 +427,8 @@ document.getElementById("value-3").addEventListener("click", () => {
  * Animate
  */
 const clock = new THREE.Clock();
-const viewHelper = new ViewHelper(camera, canvas, orbitControls);
-function animate() {
-  requestAnimationFrame(animate);
-
+const viewHelper = new ViewHelper(camera, canvas);
+const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
   if (sceneReady) {
@@ -421,6 +439,8 @@ function animate() {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
+  orbitControls.update();
+
   renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
   renderer.render(scene, camera);
   renderer.autoClear = false;
@@ -428,12 +448,14 @@ function animate() {
   renderer.autoClear = true;
 
   renderer2.render(scene, camera2);
-}
+
+  window.requestAnimationFrame(animate);
+};
 
 animate();
 
 // gui.add(camera.position, "x").min(-20).max(50).step(0.5).name("Dir X pos");
-gui.add(camera2.position, "y").min(-100).max(50).step(1).name("Dir Y pos");
+// gui.add(camera2.position, "y").min(-100).max(50).step(1).name("Dir Y pos");
 // gui.add(camera.position, "z").min(-20).max(50).step(0.5).name("Dir Z pos");
 // gui
 //   .add(camera.rotation, "x")
