@@ -25,7 +25,7 @@ body
 body, button {
   color: var(--fg);
   font: 0.6966666667em system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  text-transform: uppercase;
+  
   transition: background-color var(--trans-dur), color var(--trans-dur);
 }
 
@@ -54,7 +54,7 @@ body, button {
     /* background: radial-gradient(circle at 90% center, rgba(5,5,5,0) 30%, #141414 70%); */
 }
 
-#viewport {
+/* #viewport {
     pointer-events: none;
     width: 200px;
     height: 340px;
@@ -71,8 +71,24 @@ body, button {
               0 0 20px 7px #ebecca,
               0 0 25px 20px #8a2be2,
               0 0 30px 25px #192c57;
-    
+} */
 
+#viewport {
+  pointer-events: none;
+  width: 50vh;
+  height: 46vh;
+  position: absolute;
+  margin: 16px;
+  right: 0;
+  margin-top: 200px;
+  border-radius: 12px;
+  border: 4px solid #000;
+
+  padding: 0;
+  outline: none;
+  box-shadow:
+            0 0 25px 20px #8a2be2,
+            0 0 30px 25px #192c57;
 }
 
 .loading {
@@ -408,10 +424,10 @@ body, button {
     margin: auto;
     padding: 0.75em 0;
     width: min-content;
-    height: 12em;
+    
     position: absolute;
     
-    margin: 25px 5px 5px 60px;
+    margin: 55px 5px 5px 60px;
   }
   .drop {
     --drop-trans-dur: 0.5s;
@@ -437,6 +453,7 @@ body, button {
     bottom: 100%;
     width: 9em;
     height: 9em;
+    z-index: 1;
  }
   .drop:after {
     border-radius: 0.4375em;
@@ -464,7 +481,7 @@ body, button {
     -webkit-appearance: none;
     appearance: none;
     -webkit-tap-highlight-color: transparent;
-    z-index: 1;
+    z-index: 2;
  }
   .drop__btn:hover, .drop__btn:focus-visible, .drop__btn[aria-expanded="true"] {
     background-color: #f4f1f1;
@@ -543,6 +560,7 @@ body, button {
    }
     .drop, .drop:after {
       background-color: #000;
+      z-index: 1;
    }
     .drop__btn {
       background-color: #1c1717;

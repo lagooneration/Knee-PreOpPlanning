@@ -4,9 +4,11 @@ import GUI from "lil-gui";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import gsap from "gsap";
-
+import { ViewHelper } from "three/addons/helpers/ViewHelper.js";
 import holographicVertexShader from "./shaders/holographic/vertex.glsl";
 import holographicFragmentShader from "./shaders/holographic/fragment.glsl";
+// import { ViewportGizmo } from "three-viewport-gizmo";
+import options from "./components/viewport.js";
 
 /**
  * Base
@@ -51,11 +53,19 @@ const loadingManager = new THREE.LoadingManager(
   }
 );
 
+const canvas = document.querySelector("canvas.webgl");
+const viewport = document.getElementById("viewport");
 ////////////////////////////////////////////////////////////////////////////////
 // Variables
 let femur, part1, part2, parentPart;
 let transformControls, transformControls1, transformControls2, orbitControls;
 let needsRender = true;
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  viewportWidth: viewport.clientWidth,
+  viewportHeight: viewport.clientHeight,
+};
 
 const gltfLoader = new GLTFLoader(loadingManager);
 
@@ -70,20 +80,9 @@ const params = {
 
 // Canvas
 // const canvas = document.querySelector("canvas.webgl");
-const canvas = document.getElementById("canvas");
-const viewport = document.getElementById("viewport");
 
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
 
 // Overlay
 const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1);
@@ -125,15 +124,77 @@ const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
 scene.add(overlay);
 
 ////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Camera
+ */
+const camera = new THREE.PerspectiveCamera(
+  75,
+  sizes.width / sizes.height,
+  0.1,
+  100
+);
+// camera.position.set(1.5, 13, 21);
+camera.position.set(0.8, 2.8, 15.5);
+// camera.rotation.set(-0.2, 0, 0);
+scene.add(camera);
+
+const camera2 = new THREE.PerspectiveCamera(
+  25,
+  sizes.viewportWidth / sizes.viewportHeight,
+  0.01,
+  1000
+);
+camera2.position.set(0.8, 2.8, 15.5);
+scene.add(camera2);
+
+const testgeometry = new THREE.Mesh(
+  new THREE.BoxGeometry(0, 0, 0),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+scene.add(testgeometry);
+testgeometry.position.set(0, 0, 0);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(2, 2, 2);
+scene.add(directionalLight);
+
+/**
+ * Renderer
+ */
+const rendererParameters = {};
+rendererParameters.clearColor = "#1d1f2a";
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+});
+renderer.setClearColor(rendererParameters.clearColor);
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+// canvas.appendChild(renderer.domElement);
+// document.body.appendChild(renderer.domElement);
+
+gui.addColor(rendererParameters, "clearColor").onChange(() => {
+  renderer.setClearColor(rendererParameters.clearColor);
+});
+
+const renderer2 = new THREE.WebGLRenderer({
+  antialias: false,
+});
+// renderer2.setClearColor(0x000000);
+renderer2.setClearColor(rendererParameters.clearColor);
+renderer2.setSize(sizes.viewportWidth, sizes.viewportHeight);
+
+renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+viewport.appendChild(renderer2.domElement);
+
 /**
  * Sizes
  */
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-  viewportWidth: viewport.clientWidth,
-  viewportHeight: viewport.clientHeight,
-};
 
 window.addEventListener("resize", () => {
   // Update sizes
@@ -151,71 +212,25 @@ window.addEventListener("resize", () => {
   renderer.setSize(sizes.width, sizes.height);
   renderer2.setSize(sizes.viewportWidth, sizes.viewportHeight);
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
   renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 });
 
-/**
- * Camera
- */
-const camera2 = new THREE.PerspectiveCamera(
-  25,
-  sizes.viewportWidth / sizes.viewportHeight,
-  0.01,
-  1000
-);
-camera2.position.set(0, 2.2, 15.5);
-scene.add(camera2);
-
-const testgeometry = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-scene.add(testgeometry);
-testgeometry.position.set(-2.5, 30.5, 0.5);
-
-// Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(2, 2, 2);
-scene.add(directionalLight);
-
-/**
- * Renderer
- */
-const rendererParameters = {};
-rendererParameters.clearColor = "#1d1f2a";
-
-// const renderer = new THREE.WebGLRenderer({
-//   antialias: true,
-// });
-renderer.setClearColor(rendererParameters.clearColor);
-// renderer.setSize(sizes.width, sizes.height);
-// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-// // canvas.appendChild(renderer.domElement);
-// document.body.appendChild(renderer.domElement);
-
-gui.addColor(rendererParameters, "clearColor").onChange(() => {
-  renderer.setClearColor(rendererParameters.clearColor);
-});
-
-const renderer2 = new THREE.WebGLRenderer({
-  antialias: false,
-});
-// renderer2.setClearColor(0x000000);
-renderer2.setClearColor(rendererParameters.clearColor);
-renderer2.setSize(sizes.viewportWidth, sizes.viewportHeight);
-
-renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
-viewport.appendChild(renderer2.domElement);
-
 // Set up controls
-orbitControls = new OrbitControls(camera, renderer.domElement);
-transformControls = new TransformControls(camera, renderer.domElement);
+// orbitControls = new OrbitControls(camera, canvas);
+transformControls = new TransformControls(camera, canvas);
 scene.add(transformControls);
 
+// Pivot point for transform controls
+const pivot = new THREE.Object3D();
+scene.add(pivot);
+
+// GIZMO
+// grid helper
+const gridHelper = new THREE.GridHelper(100, 100);
+scene.add(gridHelper);
+
+const viewhelper = new ViewHelper(camera, canvas);
 /**
  * Material
  */
@@ -280,9 +295,15 @@ gltfLoader.load("./models/Right_femur2.gltf", (gltf) => {
   part1 = femur.children[2]; // First part
   part2 = femur.children[3]; // Second part
   parentPart = femur.children[9];
+
+  // Compute the center of the geometry
+  const box = new THREE.Box3().setFromObject(femur);
+  const center = box.getCenter(new THREE.Vector3());
+  femur.position.sub(center); //
+
   scene.add(femur);
 
-  render();
+  // render();
 });
 
 gui
@@ -314,63 +335,64 @@ document.getElementById("value-2").addEventListener("click", () => {
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Mouse events
+
+// Track previous position
+let previousPosition = new THREE.Vector3();
+
 // Add raycaster for detecting clicks
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-document.addEventListener(
-  "mousemove",
-  (event) => {
-    // Convert mouse position to normalized device coordinates
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Add event listener for mouse clicks
+canvas.addEventListener("pointerdown", onPointerDown, false);
 
-    // Update the picking ray with the camera and mouse position// Update the picking ray with the camera and mouse position
-    raycaster.setFromCamera(mouse, camera);
+function onPointerDown(event) {
+  // Calculate mouse position in normalized device coordinates (-1 to +1)
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // var objectsToIntersect = scene.children.filter((obj) => obj !== parentPart);
-    var intersects = raycaster.intersectObjects(scene.children, true);
-    if (intersects.length > 0) {
-      var hoveredObject = intersects[0].object;
-      if (hoveredObject === part1) {
-        femur.children[2].material.color.set(0xff00f0);
-      } else if (hoveredObject === part2) {
-        femur.children[3].material.color.set(0xff00f0);
-      } else {
-        femur.children[2].material.color.set(0xff0000);
-        femur.children[3].material.color.set(0xff0000);
-      }
-    }
-  },
-  false
-);
+  // Update the raycaster with the camera and mouse position
+  raycaster.setFromCamera(mouse, camera);
 
-function onMouseClick(event) {
   // Calculate objects intersecting the picking ray
-  const intersects = raycaster.intersectObjects([part1, part2], true);
-  // 23console.log(intersects);
+  const intersects = raycaster.intersectObject(femur, true);
+
   if (intersects.length > 0) {
-    // Attach transform controls to the intersected object
-    transformControls.attach(intersects[0].object);
+    const intersect = intersects[0];
+    pivot.position.copy(intersect.point);
+    pivot.attach(intersect.object);
+    transformControls.attach(pivot);
+    previousPosition.copy(pivot.position);
   }
 }
 
-window.addEventListener("click", onMouseClick, false);
-
-// Ensure parts stay together when transformed
+// Custom translate behavior
 transformControls.addEventListener("objectChange", () => {
-  if (
-    transformControls.object === part1 ||
-    transformControls.object === part2
-  ) {
-    const transform = transformControls.object.matrix.clone();
-    parentPart.matrix.copy(transform);
-    parentPart.applyMatrix4(transform);
-    part1.matrix.copy(transform);
-    part1.applyMatrix4(transform);
-    part2.matrix.copy(transform);
-    part2.applyMatrix4(transform);
+  const delta = new THREE.Vector3().subVectors(
+    pivot.position,
+    previousPosition
+  );
+
+  if (transformControls.mode === "translate") {
+    if (transformControls.axis === "Y") {
+      // Allow up and down movement only on Y axis
+      pivot.position.set(
+        previousPosition.x,
+        pivot.position.y,
+        previousPosition.z
+      );
+    } else {
+      // Apply rotation transformation for XZ plane translation
+      pivot.position.set(
+        previousPosition.x,
+        previousPosition.y,
+        previousPosition.z
+      );
+      femur.rotation.x += delta.x * 0.01; // Adjust this multiplier for sensitivity
+    }
   }
+
+  previousPosition.copy(pivot.position);
 });
 
 /**
@@ -379,7 +401,7 @@ transformControls.addEventListener("objectChange", () => {
 const clock = new THREE.Clock();
 
 function animate() {
-  requestAnimationFrame(animate);
+  //requestAnimationFrame(animate);
   // render();
   // renderer.render(scene, camera);
   const elapsedTime = clock.getElapsedTime();
@@ -392,18 +414,20 @@ function animate() {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
-  orbitControls.update();
+  // orbitControls.update();
 
-  render();
-
+  renderer.render(scene, camera);
   //   renderer.render(scene, camera);
   renderer2.render(scene, camera2);
   // Call tick again on the next frame
+
+  requestAnimationFrame(animate);
+  // viewportGizmo.update();
 }
 
-function render() {
-  renderer.render(scene, camera);
-}
+// function render() {
+//   renderer.render(scene, camera);
+// }
 
 animate();
 
