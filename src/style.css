@@ -87,8 +87,16 @@ body, button {
   padding: 0;
   outline: none;
   box-shadow:
-            0 0 25px 20px #8a2be2,
-            0 0 30px 25px #192c57;
+            0 0 15px 4px #8a2be2,
+            0 0 20px 3px #192c57;
+}
+
+#gui { position: absolute; top: 200px; right: 2px }
+
+.moveGUI{ 
+  position: absolute;
+  top: 13.1em;
+  right: -1em;
 }
 
 .loading {

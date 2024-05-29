@@ -4,11 +4,11 @@ import GUI from "lil-gui";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { TransformControls } from "three/addons/controls/TransformControls.js";
 import gsap from "gsap";
-import { ViewHelper } from "three/addons/helpers/ViewHelper.js";
+// import { ViewHelper } from "three/addons/helpers/ViewHelper.js";
 import holographicVertexShader from "./shaders/holographic/vertex.glsl";
 import holographicFragmentShader from "./shaders/holographic/fragment.glsl";
 // import { ViewportGizmo } from "three-viewport-gizmo";
-import options from "./components/viewport.js";
+import { ViewHelper } from "./components/ViewHelper.js";
 
 /**
  * Base
@@ -70,7 +70,18 @@ const sizes = {
 const gltfLoader = new GLTFLoader(loadingManager);
 
 // Debug
-const gui = new GUI();
+
+const gui = new GUI({
+  width: 400,
+  position: "absolute",
+  top: 10,
+  left: 10,
+  zIndex: 10,
+});
+// gui.controllers.disabled = true;
+gui.close();
+// hide gui
+// gui.toggleHide();
 
 const params = {
   useShaderMaterial: false,
@@ -145,15 +156,16 @@ const camera2 = new THREE.PerspectiveCamera(
   0.01,
   1000
 );
-camera2.position.set(0.8, 2.8, 15.5);
+camera2.position.set(0.8, 2.8, 105.5);
+
 scene.add(camera2);
 
-const testgeometry = new THREE.Mesh(
-  new THREE.BoxGeometry(0, 0, 0),
-  new THREE.MeshBasicMaterial({ color: 0xff0000 })
-);
-scene.add(testgeometry);
-testgeometry.position.set(0, 0, 0);
+// const testgeometry = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1),
+//   new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// );
+// scene.add(testgeometry);
+// testgeometry.position.set(0, -87, -10);
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -216,21 +228,22 @@ window.addEventListener("resize", () => {
   renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 });
 
-// Set up controls
-// orbitControls = new OrbitControls(camera, canvas);
-transformControls = new TransformControls(camera, canvas);
-scene.add(transformControls);
-
 // Pivot point for transform controls
 const pivot = new THREE.Object3D();
 scene.add(pivot);
+// Set up controls
+orbitControls = new OrbitControls(camera, canvas);
+transformControls = new TransformControls(camera, canvas);
+transformControls.attach(pivot);
+scene.add(transformControls);
 
 // GIZMO
 // grid helper
 const gridHelper = new THREE.GridHelper(100, 100);
 scene.add(gridHelper);
 
-const viewhelper = new ViewHelper(camera, canvas);
+// const viewhelper = new ViewHelper(camera, canvas);
+// scene.add(viewhelper);
 /**
  * Material
  */
@@ -274,9 +287,10 @@ gui
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Models
+let center;
 const pointMaterial = new THREE.MeshToonMaterial({ color: 0xff0000 });
 // Right femur
-gltfLoader.load("./models/Right_femur2.gltf", (gltf) => {
+gltfLoader.load("./models/exact.glb", (gltf) => {
   femur = gltf.scene;
 
   femur.traverse((child) => {
@@ -288,18 +302,24 @@ gltfLoader.load("./models/Right_femur2.gltf", (gltf) => {
   });
 
   console.log(femur);
-  femur.position.set(0, -7, 0);
+  femur.position.set(0, -87, -10);
   femur.scale.set(0.1, 0.1, 0.1);
   femur.rotation.set(0, Math.PI, 0);
 
-  part1 = femur.children[2]; // First part
-  part2 = femur.children[3]; // Second part
-  parentPart = femur.children[9];
+  // part1 = femur.children[2];
+  // part2 = femur.children[3];
+  // parentPart = femur.children[9];
 
+  // const parent = new THREE.Object3D();
+  // parent.add(parentPart);
+  // parent.add(part1);
+  // parent.add(part2);
   // Compute the center of the geometry
   const box = new THREE.Box3().setFromObject(femur);
-  const center = box.getCenter(new THREE.Vector3());
-  femur.position.sub(center); //
+  center = box.getCenter(new THREE.Vector3());
+  pivot.position.copy(center);
+  // femur.position.sub(center); //
+  // previousPosition.position.copy(center);
 
   scene.add(femur);
 
@@ -336,35 +356,139 @@ document.getElementById("value-2").addEventListener("click", () => {
 ////////////////////////////////////////////////////////////////////////////////
 //// Mouse events
 
-// Track previous position
+// // Track previous position
+// let previousPosition = new THREE.Vector3();
+
+// // Add raycaster for detecting clicks
+// const raycaster = new THREE.Raycaster();
+// const mouse = new THREE.Vector2();
+
+// // Add event listener for mouse clicks
+// canvas.addEventListener("pointerdown", onPointerDown, false);
+
+// function onPointerDown(event) {
+//   // Calculate mouse position in normalized device coordinates (-1 to +1)
+//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+//   // Update the raycaster with the camera and mouse position
+//   raycaster.setFromCamera(mouse, camera);
+
+//   // Calculate objects intersecting the picking ray
+//   const intersects = raycaster.intersectObject(femur, true);
+
+//   if (intersects.length > 0) {
+//     const intersect = intersects[0];
+//     pivot.position.copy(intersect.point);
+//     pivot.attach(intersect.object);
+//     transformControls.attach(pivot);
+//     previousPosition.copy(pivot.position);
+//   }
+// }
+
+// // Custom translate behavior
+// transformControls.addEventListener("objectChange", () => {
+//   const delta = new THREE.Vector3().subVectors(
+//     pivot.position,
+//     previousPosition
+//   );
+
+//   if (transformControls.mode === "translate") {
+//     if (transformControls.axis === "Y") {
+//       // Allow up and down movement only on Y axis
+//       pivot.position.set(
+//         previousPosition.x,
+//         pivot.position.y,
+//         previousPosition.z
+//       );
+//     } else {
+//       // Apply rotation transformation for XZ plane translation
+//       pivot.position.set(
+//         previousPosition.x,
+//         previousPosition.y,
+//         previousPosition.z
+//       );
+
+//       // Calculate the rotation angle based on the delta movement in the XZ plane
+//       const angle = delta.length() * 0.01; // Adjust this multiplier for sensitivity
+//       const axis = new THREE.Vector3(1, 0, 0); // Y axis for rotation
+
+//       // Create a quaternion for the rotation
+//       const quaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+
+//       // Rotate the model around its origin
+//       femur.position.applyQuaternion(quaternion);
+//       femur.quaternion.multiplyQuaternions(quaternion, femur.quaternion);
+//     }
+//   }
+
+//   previousPosition.copy(pivot.position);
+// });
+
+// Handle enabling/disabling TransformControls
+let isTransforming = false;
 let previousPosition = new THREE.Vector3();
 
-// Add raycaster for detecting clicks
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+// Check if the mouse is over the TransformControls
+transformControls.addEventListener("mouseDown", function () {
+  isTransforming = true;
+  orbitControls.enabled = false;
+});
+transformControls.addEventListener("mouseUp", function () {
+  isTransforming = false;
+  orbitControls.enabled = true;
+});
 
-// Add event listener for mouse clicks
-canvas.addEventListener("pointerdown", onPointerDown, false);
+// canvas.addEventListener("pointerdown", onPointerDown, false);
 
-function onPointerDown(event) {
-  // Calculate mouse position in normalized device coordinates (-1 to +1)
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// canvas.addEventListener("pointerdown", onPointerDown, false);
 
-  // Update the raycaster with the camera and mouse position
-  raycaster.setFromCamera(mouse, camera);
+// function onPointerDown(event) {
+//   if (isTransforming) {
+//     const mouse = new THREE.Vector2(
+//       (event.clientX / window.innerWidth) * 2 - 1,
+//       -(event.clientY / window.innerHeight) * 2 + 1
+//     );
+//     const raycaster = new THREE.Raycaster();
+//     raycaster.setFromCamera(mouse, camera);
 
-  // Calculate objects intersecting the picking ray
-  const intersects = raycaster.intersectObject(femur, true);
+//     // Calculate objects intersecting the picking ray
+//     const intersects = raycaster.intersectObject(femur, true);
 
-  if (intersects.length > 0) {
-    const intersect = intersects[0];
-    pivot.position.copy(intersect.point);
-    pivot.attach(intersect.object);
-    transformControls.attach(pivot);
-    previousPosition.copy(pivot.position);
+//     if (intersects.length > 0 && intersects[0].object === femur) {
+//       const intersect = intersects[0];
+//       pivot.position.copy(intersect.point);
+//       pivot.attach(intersect.object);
+//       transformControls.attach(pivot);
+//       previousPosition.copy(pivot.position);
+//     } else {
+//       transformControls.detach();
+//     }
+//   }
+// }
+
+window.addEventListener("mousedown", function (event) {
+  if (!isTransforming) {
+    // Cast a ray from the camera to the mouse position to detect intersections
+    const mouse = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(femur, true);
+    if (intersects.length > 0 && intersects[0].object === femur) {
+      pivot.position.copy(intersects.point);
+      pivot.attach(intersects.object);
+      transformControls.attach(pivot);
+      previousPosition.copy(pivot.position);
+    } else {
+      // Clicked somewhere else, disable transform controls
+      transformControls.detach();
+    }
   }
-}
+});
 
 // Custom translate behavior
 transformControls.addEventListener("objectChange", () => {
@@ -388,19 +512,53 @@ transformControls.addEventListener("objectChange", () => {
         previousPosition.y,
         previousPosition.z
       );
-      femur.rotation.x += delta.x * 0.01; // Adjust this multiplier for sensitivity
+
+      // Calculate the rotation angle based on the delta movement in the XZ plane
+      const angle = delta.length() * 0.01; // Adjust this multiplier for sensitivity
+      const axis = new THREE.Vector3(0, 1, 0); // Y axis for rotation
+
+      // Create a quaternion for the rotation
+      const quaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+
+      // Rotate the model around its origin
+      femur.position.applyQuaternion(quaternion);
+      femur.quaternion.multiplyQuaternions(quaternion, femur.quaternion);
     }
   }
 
   previousPosition.copy(pivot.position);
 });
 
+// Add event listener for mouse click
+// window.addEventListener("mousedown", function (event) {
+//   if (!isTransforming) {
+//     // Cast a ray from the camera to the mouse position to detect intersections
+//     const mouse = new THREE.Vector2(
+//       (event.clientX / window.innerWidth) * 2 - 1,
+//       -(event.clientY / window.innerHeight) * 2 + 1
+//     );
+//     const raycaster = new THREE.Raycaster();
+//     raycaster.setFromCamera(mouse, camera);
+
+//     const intersects = raycaster.intersectObjects(femur, true);
+//     if (intersects.length > 0 && intersects[0].object === femur) {
+//       // Clicked on the cube, enable transform controls
+//       transformControls.attach(pivot);
+//     } else {
+//       // Clicked somewhere else, disable transform controls
+//       transformControls.detach();
+//     }
+//   }
+// });
+
 /**
  * Animate
  */
 const clock = new THREE.Clock();
-
+const viewHelper = new ViewHelper(camera, canvas, orbitControls);
 function animate() {
+  requestAnimationFrame(animate);
+  // orbitControls.update();
   //requestAnimationFrame(animate);
   // render();
   // renderer.render(scene, camera);
@@ -414,15 +572,18 @@ function animate() {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
-  // orbitControls.update();
-
-  renderer.render(scene, camera);
-  //   renderer.render(scene, camera);
   renderer2.render(scene, camera2);
+  renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
+  renderer.render(scene, camera);
+  renderer.autoClear = false;
+  viewHelper.render(renderer);
+  renderer.autoClear = true;
+  //   ren2derer.render(scene, camera);
+
   // Call tick again on the next frame
 
-  requestAnimationFrame(animate);
   // viewportGizmo.update();
+  // orbitControls.update();
 }
 
 // function render() {
@@ -431,22 +592,22 @@ function animate() {
 
 animate();
 
-gui.add(camera.position, "x").min(-20).max(50).step(0.5).name("Dir X pos");
-gui.add(camera.position, "y").min(-20).max(50).step(0.5).name("Dir Y pos");
-gui.add(camera.position, "z").min(-20).max(50).step(0.5).name("Dir Z pos");
-gui
-  .add(camera.rotation, "x")
-  .min(-Math.PI / 2)
-  .max(Math.PI / 2)
-  .step(0.02)
-  .name("ROT X pos");
-gui.add(camera.rotation, "y").step(0.1).name("Rot Y Cam3");
-gui.add(camera.rotation, "z").step(0.1).name("Rot Z Cam3");
-// gui.add(camera.position, "y").min(-20).max(20).step(0.1).name("elevation");
+// gui.add(camera.position, "x").min(-20).max(50).step(0.5).name("Dir X pos");
+gui.add(camera2.position, "y").min(-100).max(50).step(1).name("Dir Y pos");
+// gui.add(camera.position, "z").min(-20).max(50).step(0.5).name("Dir Z pos");
+// gui
+//   .add(camera.rotation, "x")
+//   .min(-Math.PI / 2)
+//   .max(Math.PI / 2)
+//   .step(0.02)
+//   .name("ROT X pos");
+// gui.add(camera.rotation, "y").step(0.1).name("Rot Y Cam3");
+// gui.add(camera.rotation, "z").step(0.1).name("Rot Z Cam3");
+// // gui.add(camera.position, "y").min(-20).max(20).step(0.1).name("elevation");
 
-gui
-  .add(testgeometry.position, "y")
-  .min(-20)
-  .max(50)
-  .step(0.5)
-  .name("Dir X pos");
+// gui
+//   .add(testgeometry.position, "y")
+//   .min(-20)
+//   .max(50)
+//   .step(0.5)
+//   .name("Dir X pos");
