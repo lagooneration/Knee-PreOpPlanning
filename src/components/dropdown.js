@@ -7,12 +7,12 @@ class DropdownMenu {
   animations = [];
   /** Options for this menu */
   options = [
-    { name: "windows", friendlyName: "Windows" },
-    { name: "mac", friendlyName: "Mac" },
-    { name: "linux", friendlyName: "Linux" },
+    { name: "Points", friendlyName: "Points" },
+    { name: "Angle", friendlyName: "Angle" },
+    { name: "Reset", friendlyName: "Reset" },
   ];
   /** Selected option by name */
-  selected = "windows";
+  selected = "Points";
   /** Menu is collapsing */
   isCollapsing = false;
   /** Menu is expanding */
