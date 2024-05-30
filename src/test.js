@@ -7,6 +7,9 @@ import gsap from "gsap";
 // import { ViewHelper } from "three/addons/helpers/ViewHelper.js";
 import holographicFragmentShader from "./shaders/holographic/fragment.glsl";
 import holographicVertexShader from "./shaders/holographic/vertex.glsl";
+
+import labelFragmentShader from "./shaders/labels/fragment.glsl";
+import labelVertexShader from "./shaders/labels/vertex.glsl";
 // import { ViewportGizmo } from "three-viewport-gizmo";
 import { ViewHelper } from "./components/ViewHelper.js";
 
@@ -288,6 +291,18 @@ const holoMaterial = new THREE.ShaderMaterial({
   blending: THREE.AdditiveBlending,
 });
 
+const labelMaterial = new THREE.ShaderMaterial({
+  fragmentShader: labelFragmentShader,
+  vertexShader: labelVertexShader,
+  uniforms: {
+    uTime: { value: 0 },
+  },
+  transparent: true,
+  side: THREE.DoubleSide,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+});
+
 const basicMaterial = new THREE.MeshLambertMaterial({
   color: materialParameters.color,
 });
@@ -305,12 +320,14 @@ gui
     }
   });
 
-const testgeometry = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  holoMaterial
-);
-scene.add(testgeometry);
-testgeometry.position.set(0, 1.3, 10);
+////////////////////////////////////////////////////////////////////////////////
+
+// const testgeometry = new THREE.Mesh(
+//   new THREE.BoxGeometry(1, 1, 1),
+//   holoMaterial
+// );
+// scene.add(testgeometry);
+// testgeometry.position.set(0, 1.3, 10);
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Models
@@ -380,7 +397,7 @@ function addSphereAtClick(event) {
       // Create a sphere geometry at the intersection point
       const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
       const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const sphere = new THREE.Mesh(sphereGeometry, holoMaterial);
+      const sphere = new THREE.Mesh(sphereGeometry, labelMaterial);
 
       // Position the sphere at the intersection point
       sphere.position.copy(pointOfIntersection);
