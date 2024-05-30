@@ -69,6 +69,8 @@ let enableAdding = false;
 let selectedMesh;
 let isCheckboxChecked = false;
 let isFirstClick = true;
+let addedSpheres = [];
+let checkboxStates = {};
 const cursor = new THREE.Vector2();
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
@@ -162,7 +164,7 @@ var camera = new THREE.OrthographicCamera(
   sizes.width / 30,
   sizes.height / 30,
   sizes.height / -30,
-  1,
+  0.01,
   1000
 );
 
@@ -375,60 +377,87 @@ gui
     needsRender = true;
   });
 
-////////////////////////////// landmarks
-// Event Listeners
+////////////////////////////////////////////////////////////////////////////////
+//// LANDMARKS
+
+const labelGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+
 // Function to add a sphere at the point of click
 function addSphereAtClick(event) {
-  if (isCheckboxChecked && isFirstClick) {
-    // Convert the mouse click to normalized device coordinates (-1 to +1)
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  // Convert the mouse click to normalized device coordinates (-1 to +1)
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Update the raycaster with the camera and mouse position
-    raycaster.setFromCamera(mouse, camera);
+  // Update the raycaster with the camera and mouse position
+  raycaster.setFromCamera(mouse, camera);
 
-    // Calculate objects intersecting the picking ray
-    const intersects = raycaster.intersectObjects(scene.children, true);
+  // Calculate objects intersecting the picking ray
+  const intersects = raycaster.intersectObjects(scene.children, true);
 
-    if (intersects.length > 0) {
-      // Get the first intersection point
-      const pointOfIntersection = intersects[0].point;
-
-      // Create a sphere geometry at the intersection point
-      const sphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const sphere = new THREE.Mesh(sphereGeometry, labelMaterial);
-
-      // Position the sphere at the intersection point
-      sphere.position.copy(pointOfIntersection);
-      scene.add(sphere);
-
-      // Attach transform controls to the sphere
-      transformControls.attach(sphere);
-
-      // Set isFirstClick to false after adding the sphere
-      isFirstClick = false;
-    }
-  } else if (!isFirstClick) {
-    // Toggle transform controls on subsequent clicks
-    if (transformControls.object === null) {
-      transformControls.attach(intersects[0].object);
-    } else {
-      transformControls.detach();
-    }
+  // Check if the click is on the transform control axes
+  if (transformControls.object && transformControls.axis) {
+    // Do nothing, let the transform controls handle the interaction
+    return;
   }
-}
 
-// Event listener for the checkbox to enable adding a sphere on the next click
-document
-  .querySelector(".check-box")
-  .addEventListener("change", function (event) {
-    isCheckboxChecked = event.target.checked;
-    // isFirstClick = true; // Reset isFirstClick whenever the checkbox state changes
-  });
+  document
+    .querySelectorAll(".radio-input-wrapper .check-box")
+    .forEach((checkbox) => {
+      const checkboxId = checkbox.id;
+
+      if (checkbox.checked && isFirstClick && !checkboxStates[checkboxId]) {
+        if (intersects.length > 0) {
+          const pointOfIntersection = intersects[0].point;
+
+          // Create a sphere geometry at the intersection point
+
+          const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
+
+          // Position the sphere at the intersection point
+          sphere.position.copy(pointOfIntersection);
+          sphere.userData.checkboxId = checkboxId;
+
+          scene.add(sphere);
+          transformControls.attach(sphere);
+          checkboxStates[checkboxId] = { sphere: sphere, added: true }; // Update the state
+        }
+      }
+    });
+}
 
 // Event listener for mouse click to add sphere at click
 window.addEventListener("click", addSphereAtClick);
+
+// Event listener for checkbox change
+document
+  .querySelectorAll(".radio-input-wrapper .check-box")
+  .forEach((checkbox) => {
+    checkbox.addEventListener("change", function (event) {
+      const checkboxId = event.target.id;
+      if (!event.target.checked) {
+        // If checkbox is unchecked, detach transform controls and update the state
+        if (checkboxStates[checkboxId] && checkboxStates[checkboxId].added) {
+          transformControls.detach(checkboxStates[checkboxId].sphere);
+        }
+      } else {
+        // If checkbox is checked, reset the first click state
+        checkboxStates[checkboxId] = { added: false };
+        orbitControls.enabled = false;
+      }
+    });
+  });
+
+// Event listener to toggle transform controls when clicking on a sphere
+scene.children.forEach((child) => {
+  if (child instanceof THREE.Mesh) {
+    child.addEventListener("click", function () {
+      const checkboxId = child.userData.checkboxId;
+      if (document.getElementById(checkboxId).checked) {
+        transformControls.attach(child);
+      }
+    });
+  }
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 //// GSAP
@@ -456,7 +485,7 @@ const animate = () => {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
-  orbitControls.update();
+  // orbitControls.update();
 
   renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
   renderer.render(scene, camera);
