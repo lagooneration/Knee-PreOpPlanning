@@ -9,12 +9,13 @@ class ViewHelper extends THREE.Object3D {
 
     const panel = document.createElement("div");
     panel.style.position = "absolute";
-    panel.style.right = "300px";
+    panel.style.left = "0";
     panel.style.bottom = "0px";
     panel.style.height = "128px";
     panel.style.width = "128px";
     panel.style.borderRadius = "50%";
     panel.style.backgroundColor = "rgba(0.3,0.3,0.3,0.5)";
+    panel.style.zIndex = "100";
 
     const scope = this;
 
@@ -260,6 +261,8 @@ class ViewHelper extends THREE.Object3D {
       const canvas2 = document.createElement("canvas");
       canvas2.width = 64;
       canvas2.height = 64;
+      canvas2.style.top = "90";
+      canvas2.style.zIndex = "100";
 
       const context = canvas2.getContext("2d");
       context.beginPath();

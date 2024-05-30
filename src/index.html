@@ -14,9 +14,7 @@
 </head>
 <body>
   <canvas class="webgl"></canvas>
-  <div id="viewport"></div>
-  <div  class = 'moveGUI'>
-  </div>
+  
     <!-- <canvas class="webgl"></canvas> -->
     <!-- <canvas class="viewport"></canvas> -->
     <div class="loading">
@@ -35,51 +33,71 @@
 
 <div class="main-container" style="visibility:hidden;">
   
-
+  <div id="viewport">
+    <div class="debug-2">
+      <button class="zoom__btn" id="zoom-in" >
+        
+        ZOOM
+      </button>
+      <button class="zoom__btn" id="zoom-out">
+        
+        OUT
+      </button>
+      
+    </div>
+    <div class="debug-x">
+    <button class="x__btn">
+        
+      X-RAY
+    </button>
+  </div>
+  </div>
+  
+  </div>
         
 
     <div id="points">
 
         <div class="radio-input-wrapper">
             <label class="label">
-              <input value="value-2" name="value-radio" id="value-2" class="check-box" type="checkbox">
+              <input value="0" name="value-radio" class="check-box" type="checkbox">
               
               <div class="label-text">Femur Center</div>
             </label>
             <label class="label">
-              <input value="value-3" name="value-radio" id="value-3" class="check-box" type="checkbox">
+              <input value="1" name="value-radio" class="check-box" type="checkbox">
               <div class="label-text">Hip Center</div>
             </label>
             <label class="label">
-              <input value="value-4" name="value-radio" id="value-4" class="check-box" type="checkbox">
+              <input value="2" name="value-radio" class="check-box" type="checkbox">
               <div class="label-text">Femur Proximal Canal</div>
             </label>
             <label class="label">
-                <input value="value-5" name="value-radio" id="value-5" class="check-box" type="checkbox">
+                <input value="3" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Femur Distal Canal</div>
               </label>
               <label class="label">
-                <input value="value-6" name="value-radio" id="value-6" class="check-box" type="checkbox">
+                <input value="4" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Medial Epicondyle</div>
               </label>
               <label class="label">
-                <input value="value-7" name="value-radio" id="value-7" class="check-box" type="checkbox">
+                <input value="5" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Lateral Epicondyle</div>
               </label>
               <label class="label">
-                <input value="value-8" name="value-radio" id="value-8" class="check-box" type="checkbox">
+                <input value="6" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Distal Medial Point</div>
               </label>
               <label class="label">
-                <input value="value-9" name="value-radio" id="value-9" class="check-box" type="checkbox">
+                <input value="7" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Distal Lateral Point</div>
               </label>
               <label class="label">
-                <input value="value-10" name="value-radio" id="value-10" class="check-box" type="checkbox">
+                <input value="8" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Posterior Medial Point</div>
               </label>
               <label class="label">
-                <input value="value-11" name="value-radio" id="value-11" class="check-box" type="checkbox">
+                <input value="9" name="value-radio" class="check-box" type="checkbox">
                 <div class="label-text">Posterior Lateral Point</div>
               </label>
           </div>
