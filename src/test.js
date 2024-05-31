@@ -10,6 +10,14 @@ import holographicVertexShader from "./shaders/holographic/vertex.glsl";
 
 import labelFragmentShader from "./shaders/labels/fragment.glsl";
 import labelVertexShader from "./shaders/labels/vertex.glsl";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { DotScreenShader } from "three/examples/jsm/shaders/DotScreenShader.js";
+
+import { LuminosityShader } from "three/addons/shaders/LuminosityShader.js";
+import { SobelOperatorShader } from "three/addons/shaders/SobelOperatorShader.js";
+
 // import { ViewportGizmo } from "three-viewport-gizmo";
 import { ViewHelper } from "./components/ViewHelper.js";
 
@@ -217,7 +225,7 @@ scene.add(directionalLight2);
  * Renderer
  */
 const rendererParameters = {};
-rendererParameters.clearColor = "#1d1f2a";
+rendererParameters.clearColor = "#13141b";
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -243,9 +251,51 @@ renderer2.setSize(sizes.viewportWidth, sizes.viewportHeight);
 renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
 viewport.appendChild(renderer2.domElement);
 
-/**
- * Sizes
- */
+/////////////////////////////////////////////////////////////////////////
+///// POST PROCESSING EFFECTS
+
+// const renderPass = new RenderPass(scene, camera);
+const renderPass2 = new RenderPass(scene, camera2);
+
+// const renderTarget = new THREE.WebGLRenderTarget(width, height, {
+//     minFilter: THREE.LinearFilter,
+//     magFilter: THREE.LinearFilter,
+//     format: THREE.RGBAFormat,
+// });
+
+const renderTarget2 = new THREE.WebGLRenderTarget(
+  viewport.clientWidth,
+  viewport.clientHeight,
+  {
+    minFilter: THREE.LinearFilter,
+    magFilter: THREE.LinearFilter,
+    format: THREE.RGBAFormat,
+  }
+);
+
+// const composer = new EffectComposer(renderer, renderTarget);
+// composer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+
+const composer2 = new EffectComposer(renderer2, renderTarget2);
+composer2.setPixelRatio(Math.min(window.devicePixelRatio, 1));
+
+composer2.addPass(renderPass2);
+
+let effectSobel;
+effectSobel = new ShaderPass(SobelOperatorShader);
+effectSobel.uniforms["resolution"].value.x =
+  window.innerWidth * window.devicePixelRatio;
+effectSobel.uniforms["resolution"].value.y =
+  window.innerHeight * window.devicePixelRatio;
+composer2.addPass(effectSobel);
+
+// const dotEffect = new ShaderPass(DotScreenShader);
+// dotEffect.uniforms["scale"].value = 5;
+
+composer2.addPass(effectSobel);
+
+////////////////////////////////////////////////////////////////////////////////
+//// SIZES
 
 window.addEventListener("resize", () => {
   // Update sizes
@@ -285,8 +335,9 @@ scene.add(transformControls);
 
 // GIZMO
 // grid helper
-const gridHelper = new THREE.GridHelper(500, 100);
+const gridHelper = new THREE.GridHelper(500, 100, 0xffffff, 0x262836);
 gridHelper.position.y = -45;
+
 scene.add(gridHelper);
 
 // const viewhelper = new ViewHelper(camera, canvas);
@@ -410,15 +461,12 @@ for (let i = 0; i < 10; i++) {
 }
 
 // on button with class name add a sphere
-const butn = document.querySelector(".reset__btn");
-butn.addEventListener("click", () => {
-  if (spheres.length > 0) {
-    scene.remove(sphere);
-  }
-
-  // scene.add(spheres[0]);
-  //console.log(spheres);
-});
+// const butn = document.querySelector(".reset__btn");
+// butn.addEventListener("click", () => {
+//   if (spheres.length > 0) {
+//     scene.remove(sphere);
+//   }
+// });
 
 // let sizee = sphere.scale.set(sphereSize, sphereSize, sphereSize);
 // gui.add(sphere, "scale.set").min(-2).max(5).step(0.1).name("Dir X pos");
@@ -547,20 +595,19 @@ function animateCamera(position, rotation) {
 const zoomIn = document.getElementById("zoom-in");
 const zoomOut = document.getElementById("zoom-out");
 const xRay = document.getElementById("x-ray");
-
-xRay.addEventListener("change", (event) => {
-  changeMaterial(event.target.checked);
-});
-
-function changeMaterial(value) {
+xRay.addEventListener("click", () => {
   if (femur) {
     femur.traverse((child) => {
       if (child.isMesh && child.name === "Right_Femur") {
-        child.material = value ? holoMaterial : basicMaterial;
+        if (child.material === holoMaterial) {
+          child.material = basicMaterial;
+        } else {
+          child.material = holoMaterial;
+        }
       }
     });
   }
-}
+});
 
 zoomIn.addEventListener("click", () => {
   animateCamera({ x: 2.8, y: -6, z: 30.7 }, { y: 0.2 });
@@ -575,36 +622,36 @@ zoomOut.addEventListener("click", () => {
 //////////////////////////////////////////////////////////////////////////////////////////
 //// AXES ////  https://codepen.io/ClockBlock/pen/LYvqNQz
 
-const dropdown = document.querySelector(".dropdown");
-const select = dropdown.querySelector(".select");
-const caret = dropdown.querySelector(".caret");
-const menu = dropdown.querySelector(".menu");
-const options = dropdown.querySelectorAll(".menu li");
-const selected = dropdown.querySelector(".selected");
-select.addEventListener("click", () => {
-  select.classList.toggle("select-clicked");
-  caret.classList.toggle("caret-rotate");
-  menu.classList.toggle("menu-open");
-});
-options.forEach((option) => {
-  option.addEventListener("click", () => {
-    selected.innerText = option.innerText;
-    select.classList.remove("select-clicked");
-    caret.classList.remove("caret-rotate");
-    menu.classList.remove("menu-open");
-    options.forEach((option) => {
-      option.classList.remove("active");
-    });
-    option.classList.add("active");
-    if (option.innerText === "Front-View") {
-      animateCamera({ x: -2.8, y: 0.8, z: 65.5 }, { y: 0 });
-    } else if (option.innerText === "Side-View") {
-      animateCamera({ x: 65.5, y: 0.8, z: -3 }, { y: Math.PI / 2 });
-    } else if (option.innerText === "Top-View") {
-      animateCamera({ x: -3, y: -60, z: 0.8 }, { x: Math.PI / 2 });
-    }
-  });
-});
+// const dropdown = document.querySelector(".dropdown");
+// const select = dropdown.querySelector(".select");
+// const caret = dropdown.querySelector(".caret");
+// const menu = dropdown.querySelector(".menu");
+// const options = dropdown.querySelectorAll(".menu li");
+// const selected = dropdown.querySelector(".selected");
+// select.addEventListener("click", () => {
+//   select.classList.toggle("select-clicked");
+//   caret.classList.toggle("caret-rotate");
+//   menu.classList.toggle("menu-open");
+// });
+// options.forEach((option) => {
+//   option.addEventListener("click", () => {
+//     selected.innerText = option.innerText;
+//     select.classList.remove("select-clicked");
+//     caret.classList.remove("caret-rotate");
+//     menu.classList.remove("menu-open");
+//     options.forEach((option) => {
+//       option.classList.remove("active");
+//     });
+//     option.classList.add("active");
+//     if (option.innerText === "Front-View") {
+//       animateCamera({ x: -2.8, y: 0.8, z: 65.5 }, { y: 0 });
+//     } else if (option.innerText === "Side-View") {
+//       animateCamera({ x: 65.5, y: 0.8, z: -3 }, { y: Math.PI / 2 });
+//     } else if (option.innerText === "Top-View") {
+//       animateCamera({ x: -3, y: -60, z: 0.8 }, { x: Math.PI / 2 });
+//     }
+//   });
+// });
 
 ////////////////////////////////////////////////////////////////////////////////
 //// GSAP
@@ -624,6 +671,14 @@ const viewHelper = new ViewHelper(camera, canvas);
 function animate() {
   TWEEN.update();
 
+  renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
+  renderer.render(scene, camera);
+  renderer.autoClear = false;
+  viewHelper.render(renderer);
+  renderer.autoClear = true;
+
+  renderer2.render(scene, camera2);
+
   const elapsedTime = clock.getElapsedTime();
 
   if (sceneReady) {
@@ -636,14 +691,7 @@ function animate() {
   // Update controls
   orbitControls.update();
 
-  renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
-  renderer.render(scene, camera);
-  renderer.autoClear = false;
-  viewHelper.render(renderer);
-  renderer.autoClear = true;
-
-  renderer2.render(scene, camera2);
-
+  composer2.render();
   requestAnimationFrame(animate);
 }
 

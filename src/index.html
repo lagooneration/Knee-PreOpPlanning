@@ -37,8 +37,8 @@
     
       <div class="debug-2">
         <div class="zoombtns">
-        <button class="zoom__btn" id="zoom-in" >ZOOM</button>
-        <button class="zoom__btn" id="zoom-out">OUT</button>
+        <button class="zoom__btn" id="zoom-in" >Zoom-In</button>
+        <button class="zoom__btn" id="zoom-out">Zoom-Out</button>
       </div>
 
         <div class="zoombtns" id="slid">
@@ -50,16 +50,17 @@
       
     </div>
     <div class="debug-x">
-      <div class="xr">
+      <div class="zoombtns">
       
-          <label id="xRayControl" class="holog">
+          <!-- <label id="xRayControl" class="holog">
             <input value="holo" type="checkbox" id="x-ray" class="holo"> XRay
-        </label>
+        </label> -->
+        <button class="zoom__btn" id="x-ray" >X-ray</button>
+        <button class="zoom__btn" id="w-ray">WireF</button>
       
-      
-        <label id="xRayControl" class="holog">
+        <!-- <label id="xRayControl" class="holog">
           <input value="holo" type="checkbox" id="x-ray" class="holo"> WireF
-      </label>
+      </label> -->
     
       </div>
 
@@ -69,7 +70,7 @@
           <button class="axes"></button>
       </div> -->
       <div id="views">
-      <div class="dropdown">
+      <!-- <div class="dropdown">
             <div class="select">
                 <span class="selected">Front-<span>View</span></span>
                 <div class="caret"></div>
@@ -80,6 +81,19 @@
                 <li>Top-View</li>
                 
             </ul>
+        </div> -->
+        <div class="drop-down">  
+          <div class="drop" id="dummy">
+            <button class="drop__btn" aria-expanded="false" aria-haspopup="true" type="button"></button>
+            <div class="drop__items" data-items>
+              <div class="drop__items-inner">
+                <button class="drop__btn" type="button" value="Front-view">Front-view</button>
+                <button class="drop__btn" type="button" value="Side-view">Side-view</button>
+                <button class="drop__btn" type="button" value="Top-view">Top-view</button>
+              </div>
+            </div>
+          </div>
+              
         </div>
       </div>
 
@@ -94,27 +108,66 @@
     <div id="popup" class="hidden" >
       <div class="settings-window">
         <div class="header">
-          <h1>Settings</h1>
+          <h1>Landmarks</h1>
+            
           <button class="close-button"
                   id="close-popup">&times;</button>
+          
+          
         </div>
 
         <div class="settings-body">
-          <nav class="sidebar">
-            <ul>
-              <li><a href="#general"
-                     class="active">General</a></li>
-              <li><a href="#speech">Speech</a></li>
-              <li><a href="#data-controls">Data controls</a></li>
-              <li><a href="#builder-profile">Builder
-                profile</a></li>
-              <li><a href="#security">Security</a></li>
-            </ul>
-          </nav>
+          
 
           <div class="content">
             <div id="general" class="content-section">
-              <p>General settings go here...</p>
+              
+              <div id="points">
+
+                <div class="radio-input-wrapper">
+                    <label class="label">
+                      <input value="0" name="value-radio" class="check-box" type="checkbox">
+                      
+                      <div class="label-text">Femur Center</div>
+                    </label>
+                    <label class="label">
+                      <input value="1" name="value-radio" class="check-box" type="checkbox">
+                      <div class="label-text">Hip Center</div>
+                    </label>
+                    <label class="label">
+                      <input value="2" name="value-radio" class="check-box" type="checkbox">
+                      <div class="label-text">Femur Proximal Canal</div>
+                    </label>
+                    <label class="label">
+                        <input value="3" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Femur Distal Canal</div>
+                      </label>
+                      <label class="label">
+                        <input value="4" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Medial Epicondyle</div>
+                      </label>
+                      <label class="label">
+                        <input value="5" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Lateral Epicondyle</div>
+                      </label>
+                      <label class="label">
+                        <input value="6" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Distal Medial Point</div>
+                      </label>
+                      <label class="label">
+                        <input value="7" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Distal Lateral Point</div>
+                      </label>
+                      <label class="label">
+                        <input value="8" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Posterior Medial Point</div>
+                      </label>
+                      <label class="label">
+                        <input value="9" name="value-radio" class="check-box" type="checkbox">
+                        <div class="label-text">Posterior Lateral Point</div>
+                      </label>
+                  </div>
+            </div>
             </div>
 
             <div id="speech" class="content-section hidden">
@@ -135,77 +188,30 @@
             </div>
           </div>
         </div>
+
+        <div class="footer">
+          <div class="reset">
+            <button class="reset__btn" type="reset">
+              <span class="reset-icon"><svg width="20px" height="20px" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.00014"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M7 14A7 7 0 1 1 7 0a7 7 0 0 1 0 14z"></path><path d="M7 13A6 6 0 1 0 7 1a6 6 0 0 0 0 12z" fill="#2a2f3b" fill-rule="nonzero" style="fill: var(--svg-status-bg, #2a2f3b);"></path><path d="M6.415 7.04L4.579 5.203a.295.295 0 0 1 .004-.416l.349-.349a.29.29 0 0 1 .416-.004l2.214 2.214a.289.289 0 0 1 .019.021l.132.133c.11.11.108.291 0 .398L5.341 9.573a.282.282 0 0 1-.398 0l-.331-.331a.285.285 0 0 1 0-.399L6.415 7.04zm2.54 0L7.119 5.203a.295.295 0 0 1 .004-.416l.349-.349a.29.29 0 0 1 .416-.004l2.214 2.214a.289.289 0 0 1 .019.021l.132.133c.11.11.108.291 0 .398L7.881 9.573a.282.282 0 0 1-.398 0l-.331-.331a.285.285 0 0 1 0-.399L8.955 7.04z"></path></g></svg></span>
+              </span>Update
+            </button>
+          </div>
+          <div class="reset">
+            <button class="reset__btn" type="reset">
+              <span class="reset-icon"><svg width="32px" height="32px" viewBox="0 -2.5 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0.00025"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.05"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56189 13.5L4.14285 13.9294L4.5724 14.3486L4.99144 13.9189L4.56189 13.5ZM9.92427 15.9243L15.9243 9.92427L15.0757 9.07574L9.07574 15.0757L9.92427 15.9243ZM9.07574 9.92426L15.0757 15.9243L15.9243 15.0757L9.92426 9.07574L9.07574 9.92426ZM19.9 12.5C19.9 16.5869 16.5869 19.9 12.5 19.9V21.1C17.2496 21.1 21.1 17.2496 21.1 12.5H19.9ZM5.1 12.5C5.1 8.41309 8.41309 5.1 12.5 5.1V3.9C7.75035 3.9 3.9 7.75035 3.9 12.5H5.1ZM12.5 5.1C16.5869 5.1 19.9 8.41309 19.9 12.5H21.1C21.1 7.75035 17.2496 3.9 12.5 3.9V5.1ZM5.15728 13.4258C5.1195 13.1227 5.1 12.8138 5.1 12.5H3.9C3.9 12.8635 3.92259 13.2221 3.9665 13.5742L5.15728 13.4258ZM12.5 19.9C9.9571 19.9 7.71347 18.6179 6.38048 16.6621L5.38888 17.3379C6.93584 19.6076 9.54355 21.1 12.5 21.1V19.9ZM4.99144 13.9189L7.42955 11.4189L6.57045 10.5811L4.13235 13.0811L4.99144 13.9189ZM4.98094 13.0706L2.41905 10.5706L1.58095 11.4294L4.14285 13.9294L4.98094 13.0706Z" fill="#ffffff"></path> </g></svg>
+              
+              </span>Reset
+            </button>
+          </div>
+        
+        </div>
       </div>
     </div>
 
 <!-- //////////////////////////////////////////////////////////////////////////////// -->
 
-    <div id="points">
-
-        <div class="radio-input-wrapper">
-            <label class="label">
-              <input value="0" name="value-radio" class="check-box" type="checkbox">
-              
-              <div class="label-text">Femur Center</div>
-            </label>
-            <label class="label">
-              <input value="1" name="value-radio" class="check-box" type="checkbox">
-              <div class="label-text">Hip Center</div>
-            </label>
-            <label class="label">
-              <input value="2" name="value-radio" class="check-box" type="checkbox">
-              <div class="label-text">Femur Proximal Canal</div>
-            </label>
-            <label class="label">
-                <input value="3" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Femur Distal Canal</div>
-              </label>
-              <label class="label">
-                <input value="4" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Medial Epicondyle</div>
-              </label>
-              <label class="label">
-                <input value="5" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Lateral Epicondyle</div>
-              </label>
-              <label class="label">
-                <input value="6" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Distal Medial Point</div>
-              </label>
-              <label class="label">
-                <input value="7" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Distal Lateral Point</div>
-              </label>
-              <label class="label">
-                <input value="8" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Posterior Medial Point</div>
-              </label>
-              <label class="label">
-                <input value="9" name="value-radio" class="check-box" type="checkbox">
-                <div class="label-text">Posterior Lateral Point</div>
-              </label>
-          </div>
-    </div>
-
-    <div class="drop-down">  
-      <div class="drop" id="dummy">
-        <button class="drop__btn" aria-expanded="false" aria-haspopup="true" type="button"></button>
-        <div class="drop__items" data-items>
-          <div class="drop__items-inner">
-            <button class="drop__btn" type="button" value="LandMarks">LandMarks</button>
-            <button class="drop__btn" type="button" value="Angle">Angle</button>
-            <button class="drop__btn" type="button" value="Reset">Reset</button>
-          </div>
-        </div>
-      </div>
-      <div class="reset">
-        <button class="reset__btn" type="reset">
-          <span class="reset-icon"><svg width="32px" height="32px" viewBox="0 -2.5 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="0.00025"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.05"></g><g id="SVGRepo_iconCarrier"> <path d="M4.56189 13.5L4.14285 13.9294L4.5724 14.3486L4.99144 13.9189L4.56189 13.5ZM9.92427 15.9243L15.9243 9.92427L15.0757 9.07574L9.07574 15.0757L9.92427 15.9243ZM9.07574 9.92426L15.0757 15.9243L15.9243 15.0757L9.92426 9.07574L9.07574 9.92426ZM19.9 12.5C19.9 16.5869 16.5869 19.9 12.5 19.9V21.1C17.2496 21.1 21.1 17.2496 21.1 12.5H19.9ZM5.1 12.5C5.1 8.41309 8.41309 5.1 12.5 5.1V3.9C7.75035 3.9 3.9 7.75035 3.9 12.5H5.1ZM12.5 5.1C16.5869 5.1 19.9 8.41309 19.9 12.5H21.1C21.1 7.75035 17.2496 3.9 12.5 3.9V5.1ZM5.15728 13.4258C5.1195 13.1227 5.1 12.8138 5.1 12.5H3.9C3.9 12.8635 3.92259 13.2221 3.9665 13.5742L5.15728 13.4258ZM12.5 19.9C9.9571 19.9 7.71347 18.6179 6.38048 16.6621L5.38888 17.3379C6.93584 19.6076 9.54355 21.1 12.5 21.1V19.9ZM4.99144 13.9189L7.42955 11.4189L6.57045 10.5811L4.13235 13.0811L4.99144 13.9189ZM4.98094 13.0706L2.41905 10.5706L1.58095 11.4294L4.14285 13.9294L4.98094 13.0706Z" fill="#ffffff"></path> </g></svg>
-          
-          </span>Reset
-        </button>
-      </div>
-    </div>
+    
+   
 
     
 </div>
