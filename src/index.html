@@ -34,15 +34,19 @@
 <div class="main-container" style="visibility:hidden;">
   
   <div id="viewport">
-    <div class="debug-2">
-      <button class="zoom__btn" id="zoom-in" >
-        
-        ZOOM
-      </button>
-      <button class="zoom__btn" id="zoom-out">
-        
-        OUT
-      </button>
+    
+      <div class="debug-2">
+        <div class="zoombtns">
+        <button class="zoom__btn" id="zoom-in" >ZOOM</button>
+        <button class="zoom__btn" id="zoom-out">OUT</button>
+      </div>
+
+        <div class="zoombtns" id="slid">
+          <div class="PB-range-slider-div">
+            <input type="range" min="0" max="20" value="10" class="PB-range-slider" id="myRange">
+        </div>
+        </div>
+      
       
     </div>
     <div class="debug-x">

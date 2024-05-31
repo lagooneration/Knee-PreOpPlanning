@@ -72,7 +72,8 @@ const spheres = [];
 let isFirstClick = true;
 let firstChecked = Array.from({ length: 10 }, (value, index) => false);
 let CheckedState = firstChecked;
-console.log(CheckedState);
+let labelAdded = firstChecked;
+
 let isChecked = false;
 let addedSpheres = [];
 let checkboxStates = {};
@@ -278,6 +279,7 @@ scene.add(previousPosition);
 const orbitControls = new OrbitControls(camera, canvas);
 orbitControls.enableDamping = true;
 transformControls = new TransformControls(camera, canvas);
+transformControls.setSize(0.8);
 // transformControls.attach(pivot);
 scene.add(transformControls);
 
@@ -367,7 +369,6 @@ gltfLoader.load("./models/exact.glb", (gltf) => {
     if (child.isMesh && child.name === "Right_Femur") {
       child.material = basicMaterial;
       child.wireframe = true;
-      child.C;
     }
   });
 
@@ -384,32 +385,26 @@ gltfLoader.load("./models/exact.glb", (gltf) => {
   // parentObject.add(femur);
 });
 
-// gui
-//   .add(params, "showTransform1")
-//   .name("Show Transform Part 1")
-//   .onChange((value) => {
-//     transformControls1.visible = value;
-//     needsRender = true;
-//   });
-
-// gui
-//   .add(params, "showTransform2")
-//   .name("Show Transform Part 2")
-//   .onChange((value) => {
-//     transformControls2.visible = value;
-//     needsRender = true;
-//   });
-
 ////////////////////////////////////////////////////////////////////////////////
 //// LANDMARKS
 let sphereSize = 0.5;
-
+let labels = [10];
+labels[2] = 2;
+console.log(labels);
 const labelGeometry = new THREE.SphereGeometry(sphereSize, 32, 32);
+
+// Handle slider input
+const sliderrange = document.getElementById("myRange");
+const slider = document.getElementById("slid");
 
 const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
 for (let i = 0; i < 10; i++) {
   const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
   // sphere.position.x = i - 4.5; // Position spheres in a line for visibility
+  sliderrange.addEventListener("input", (event) => {
+    const scale = 0.07 * event.target.value;
+    sphere.scale.set(scale, scale, scale);
+  });
   spheres.push(sphere);
   // scene.add(sphere);
 }
@@ -436,14 +431,15 @@ const checkbox = document.querySelectorAll(".radio-input-wrapper .check-box");
 checkbox.forEach((box, index) => {
   box.addEventListener("click", () => {
     if (CheckedState[index] === false) {
-      CheckedState[index] = true;
-      firstChecked[index] = true;
       currentCheckbox = true;
       currentIndex = index;
+      CheckedState[index] = true;
+      firstChecked[index] = true;
+      console.log(labelAdded[index]);
     } else {
-      CheckedState[index] = false;
       currentCheckbox = false;
       currentIndex = index;
+      CheckedState[index] = false;
     }
   });
 });
@@ -455,9 +451,10 @@ function addSphere(position) {
   tempsphere.position.copy(position);
   // sphere.scale.set(sizee, sizee, sizee);
   scene.add(tempsphere);
+  labelAdded[currentIndex] = true;
   // spheres.push(sphere);
+  slider.style.visibility = "visible";
   return tempsphere;
-  tempsphere = null;
 }
 
 // check first checked array for change in state to true
