@@ -66,12 +66,14 @@ let femur, part1, part2, parentPart;
 let transformControls, transformControls1, transformControls2;
 let needsRender = true;
 let enableAdding = false;
-let selectedMesh;
+let currentIndex;
 let currentCheckbox = false;
 const spheres = [];
 let isFirstClick = true;
-const firstChecked = Array.from({ length: 10 }, (value, index) => false);
-console.log(firstChecked);
+let firstChecked = Array.from({ length: 10 }, (value, index) => false);
+let CheckedState = firstChecked;
+console.log(CheckedState);
+let isChecked = false;
 let addedSpheres = [];
 let checkboxStates = {};
 const cursor = new THREE.Vector2();
@@ -102,13 +104,21 @@ guiContainer.style.zIndex = "100";
 // gui.close();
 // hide gui
 // gui.toggleHide();
+// add hello label on gui
+
+// add upload option on lil gui
 
 const params = {
   useShaderMaterial: false,
   showTransform1: false,
   showTransform2: false,
+  Knee_Alignment: "version_0.0.2",
+  loadFile: function () {
+    console.log("Upload Femur GLTF MODEL");
+  },
 };
 
+gui.add(params, "Knee_Alignment");
 // Canvas
 // const canvas = document.querySelector("canvas.webgl");
 
@@ -186,7 +196,7 @@ const camera2 = new THREE.PerspectiveCamera(
   1000
 );
 
-camera2.position.set(-2.8, 0.8, 65.5);
+camera2.position.set(-2.8, 0.8, 95.5);
 
 scene.add(camera2);
 
@@ -197,6 +207,10 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(2, 2, 2);
 scene.add(directionalLight);
+
+const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight2.position.set(-2, -2, -2);
+scene.add(directionalLight2);
 
 /**
  * Renderer
@@ -269,8 +283,8 @@ scene.add(transformControls);
 
 // GIZMO
 // grid helper
-const gridHelper = new THREE.GridHelper(100, 40);
-gridHelper.position.y = -15;
+const gridHelper = new THREE.GridHelper(500, 100);
+gridHelper.position.y = -45;
 scene.add(gridHelper);
 
 // const viewhelper = new ViewHelper(camera, canvas);
@@ -315,18 +329,18 @@ const basicMaterial = new THREE.MeshLambertMaterial({
   color: materialParameters.color,
 });
 
-gui
-  .add(params, "useShaderMaterial")
-  .name("Holographic View")
-  .onChange((value) => {
-    if (femur) {
-      femur.traverse((child) => {
-        if (child.isMesh && child.name === "Right_Femur") {
-          child.material = value ? holoMaterial : basicMaterial;
-        }
-      });
-    }
-  });
+// gui
+//   .add(params, "useShaderMaterial")
+//   .name("Holographic View")
+//   .onChange((value) => {
+//     if (femur) {
+//       femur.traverse((child) => {
+//         if (child.isMesh && child.name === "Right_Femur") {
+//           child.material = value ? holoMaterial : basicMaterial;
+//         }
+//       });
+//     }
+//   });
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -352,6 +366,8 @@ gltfLoader.load("./models/exact.glb", (gltf) => {
   femur.traverse((child) => {
     if (child.isMesh && child.name === "Right_Femur") {
       child.material = basicMaterial;
+      child.wireframe = true;
+      child.C;
     }
   });
 
@@ -386,15 +402,17 @@ gltfLoader.load("./models/exact.glb", (gltf) => {
 
 ////////////////////////////////////////////////////////////////////////////////
 //// LANDMARKS
+let sphereSize = 0.5;
 
-const labelGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-// const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
-// for (let i = 0; i < 10; i++) {
-//   const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
-//   // sphere.position.x = i - 4.5; // Position spheres in a line for visibility
-//   spheres.push(sphere);
-//   // scene.add(sphere);
-// }
+const labelGeometry = new THREE.SphereGeometry(sphereSize, 32, 32);
+
+const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
+for (let i = 0; i < 10; i++) {
+  const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
+  // sphere.position.x = i - 4.5; // Position spheres in a line for visibility
+  spheres.push(sphere);
+  // scene.add(sphere);
+}
 
 // on button with class name add a sphere
 const butn = document.querySelector(".reset__btn");
@@ -406,56 +424,105 @@ butn.addEventListener("click", () => {
   // scene.add(spheres[0]);
   //console.log(spheres);
 });
-const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
-function addSphere(position) {
-  sphere.position.copy(position);
-  scene.add(sphere);
-  spheres.push(sphere);
-  return sphere;
-}
+
+// let sizee = sphere.scale.set(sphereSize, sphereSize, sphereSize);
+// gui.add(sphere, "scale.set").min(-2).max(5).step(0.1).name("Dir X pos");
 
 // Event listener for creating spheres on click
+//////////////////////////////////////////////////////////////////////////////////////////
+//// MOUSE EVENTS
+
+const checkbox = document.querySelectorAll(".radio-input-wrapper .check-box");
+checkbox.forEach((box, index) => {
+  box.addEventListener("click", () => {
+    if (CheckedState[index] === false) {
+      CheckedState[index] = true;
+      firstChecked[index] = true;
+      currentCheckbox = true;
+      currentIndex = index;
+    } else {
+      CheckedState[index] = false;
+      currentCheckbox = false;
+      currentIndex = index;
+    }
+  });
+});
+
+function addSphere(position) {
+  let tempsphere = new THREE.Object3D();
+  tempsphere = spheres[currentIndex];
+
+  tempsphere.position.copy(position);
+  // sphere.scale.set(sizee, sizee, sizee);
+  scene.add(tempsphere);
+  // spheres.push(sphere);
+  return tempsphere;
+  tempsphere = null;
+}
+
+// check first checked array for change in state to true
+// if true, add sphere to scene
+// if false, remove sphere from scene
+// check when first checked state changes to true, whenever it changes to true, add sphere to scene
+// whenever it changes to false, remove sphere from scene
+
+if (firstChecked.includes(true)) {
+  // scene.add(sphere);
+  console.log("sphere added");
+} else {
+  // scene.remove(sphere);
+  console.log("sphere removed");
+}
+
 window.addEventListener("click", (event) => {
-  const mouse = new THREE.Vector2();
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
-
   // Check if click is on an existing object
-  const intersects = raycaster.intersectObjects(spheres);
-  if (intersects.length > 0) {
-    const sphere = intersects[0].object;
-    transformControls.attach(sphere);
-    orbitControls.enabled = false;
-  } else {
-    const intersectsGround = raycaster.intersectObject(femur);
-    if (intersectsGround.length > 0) {
-      const sphere = addSphere(intersectsGround[0].point);
+
+  if (currentCheckbox === true) {
+    const intersects = raycaster.intersectObjects(spheres);
+    if (intersects.length > 0) {
+      const sphere = intersects[0].object;
       transformControls.attach(sphere);
       orbitControls.enabled = false;
+    } else {
+      const intersectsGround = raycaster.intersectObject(femur);
+      if (intersectsGround.length > 0 && firstChecked[currentIndex] == true) {
+        const sphere = addSphere(intersectsGround[0].point);
+        transformControls.attach(sphere);
+        orbitControls.enabled = false;
+      } else {
+        transformControls.detach();
+        orbitControls.enabled = true;
+      }
+    }
+  } else {
+    const intersects = raycaster.intersectObjects(scene.children, true);
+    if (intersects.length === 0) {
+      transformControls.detach();
+      orbitControls.enabled = true;
     }
   }
 });
 
-// Disable transform controls when clicking elsewhere
-window.addEventListener("mousedown", (event) => {
-  if (event.target.tagName !== "CANVAS") return;
+// // Disable transform controls when clicking elsewhere
+// window.addEventListener("mousedown", (event) => {
+//   if (event.target.tagName !== "CANVAS") return;
 
-  const mouse = new THREE.Vector2();
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-  const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera(mouse, camera);
+//   raycaster.setFromCamera(mouse, camera);
 
-  const intersects = raycaster.intersectObjects(spheres);
-  if (intersects.length === 0) {
-    transformControls.detach();
-    orbitControls.enabled = true;
-  }
-});
+//   const intersects = raycaster.intersectObjects(femur, true);
+//   if (intersects.length === 0) {
+//     transformControls.detach();
+//     orbitControls.enabled = true;
+//   }
+// });
 
 // Event listener for mouse click to add sphere at click
 let checkboxIndex;
@@ -482,6 +549,22 @@ function animateCamera(position, rotation) {
 }
 const zoomIn = document.getElementById("zoom-in");
 const zoomOut = document.getElementById("zoom-out");
+const xRay = document.getElementById("x-ray");
+
+xRay.addEventListener("change", (event) => {
+  changeMaterial(event.target.checked);
+});
+
+function changeMaterial(value) {
+  if (femur) {
+    femur.traverse((child) => {
+      if (child.isMesh && child.name === "Right_Femur") {
+        child.material = value ? holoMaterial : basicMaterial;
+      }
+    });
+  }
+}
+
 zoomIn.addEventListener("click", () => {
   animateCamera({ x: 2.8, y: -6, z: 30.7 }, { y: 0.2 });
 });
@@ -491,6 +574,40 @@ zoomOut.addEventListener("click", () => {
 });
 
 // -2.8, 0.8, 65.5
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//// AXES ////  https://codepen.io/ClockBlock/pen/LYvqNQz
+
+const dropdown = document.querySelector(".dropdown");
+const select = dropdown.querySelector(".select");
+const caret = dropdown.querySelector(".caret");
+const menu = dropdown.querySelector(".menu");
+const options = dropdown.querySelectorAll(".menu li");
+const selected = dropdown.querySelector(".selected");
+select.addEventListener("click", () => {
+  select.classList.toggle("select-clicked");
+  caret.classList.toggle("caret-rotate");
+  menu.classList.toggle("menu-open");
+});
+options.forEach((option) => {
+  option.addEventListener("click", () => {
+    selected.innerText = option.innerText;
+    select.classList.remove("select-clicked");
+    caret.classList.remove("caret-rotate");
+    menu.classList.remove("menu-open");
+    options.forEach((option) => {
+      option.classList.remove("active");
+    });
+    option.classList.add("active");
+    if (option.innerText === "Front-View") {
+      animateCamera({ x: -2.8, y: 0.8, z: 65.5 }, { y: 0 });
+    } else if (option.innerText === "Side-View") {
+      animateCamera({ x: 65.5, y: 0.8, z: -3 }, { y: Math.PI / 2 });
+    } else if (option.innerText === "Top-View") {
+      animateCamera({ x: -3, y: -60, z: 0.8 }, { x: Math.PI / 2 });
+    }
+  });
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 //// GSAP
@@ -520,7 +637,7 @@ function animate() {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
-  // orbitControls.update();
+  orbitControls.update();
 
   renderer.setViewport(0, 0, canvas?.offsetWidth, canvas?.offsetHeight);
   renderer.render(scene, camera);
@@ -559,3 +676,4 @@ transformControls.addEventListener("dragging-changed", function (event) {
 //   .max(50)
 //   .step(0.5)
 //   .name("Dir X pos");
+gui.add(params, "loadFile").name("Upload Femur GLTF Model");

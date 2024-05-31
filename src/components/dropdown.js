@@ -1,3 +1,6 @@
+///////////////////////////////////////////////////////////////////////////////
+////  DROPDOWN CODEPEN //// ATRIBUTES: https://codepen.io/jkantner/pen/YzbwqZN
+
 window.addEventListener("DOMContentLoaded", () => {
   const drop = new DropdownMenu("#dummy");
 });
@@ -7,12 +10,12 @@ class DropdownMenu {
   animations = [];
   /** Options for this menu */
   options = [
-    { name: "Points", friendlyName: "Points" },
+    { name: "LandMarks", friendlyName: "LandMarks" },
     { name: "Angle", friendlyName: "Angle" },
     { name: "Reset", friendlyName: "Reset" },
   ];
   /** Selected option by name */
-  selected = "Points";
+  selected = "LandMarks";
   /** Menu is collapsing */
   isCollapsing = false;
   /** Menu is expanding */
@@ -317,5 +320,51 @@ class DropdownMenu {
     this.isExpanding = false;
     this.itemList.style.height = "";
     this.el?.classList.remove("drop--collapsing", "drop--expanding");
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//// POINTS //// ATRIBUTES: https://codepen.io/Yanis-Ahmidach/pen/VwNNGrO
+
+document.getElementById("open-popup").addEventListener("click", function () {
+  document.getElementById("popup").classList.toggle("hidden");
+  addOverlay(); // Call function to add overlay
+});
+
+document.getElementById("close-popup").addEventListener("click", function () {
+  document.getElementById("popup").classList.add("hidden");
+  removeOverlay(); // Call function to remove overlay
+});
+
+const links = document.querySelectorAll(".sidebar ul li a");
+
+links.forEach((link) => {
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    // Toggle active class on sidebar links
+    links.forEach((link) => link.classList.remove("active"));
+    this.classList.add("active");
+
+    // Show the relevant section
+    const targetSection = document.querySelector(this.getAttribute("href"));
+    document
+      .querySelectorAll(".content-section")
+      .forEach((section) => section.classList.add("hidden"));
+    targetSection.classList.remove("hidden");
+  });
+});
+
+function addOverlay() {
+  // Create overlay element
+  const overlay = document.createElement("div");
+  overlay.classList.add("overlay"); // Add class for styling
+  document.body.appendChild(overlay); // Append overlay to the body
+}
+
+function removeOverlay() {
+  const overlay = document.querySelector(".overlay");
+  if (overlay) {
+    overlay.parentNode.removeChild(overlay); // Remove overlay if exists
   }
 }

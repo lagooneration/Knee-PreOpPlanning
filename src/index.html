@@ -46,15 +46,95 @@
       
     </div>
     <div class="debug-x">
-    <button class="x__btn">
-        
-      X-RAY
-    </button>
-  </div>
+      <div class="xr">
+      
+          <label id="xRayControl" class="holog">
+            <input value="holo" type="checkbox" id="x-ray" class="holo"> XRay
+        </label>
+      
+      
+        <label id="xRayControl" class="holog">
+          <input value="holo" type="checkbox" id="x-ray" class="holo"> WireF
+      </label>
+    
+      </div>
+
+      <!-- <div id="views">
+          <button class="axes"></button>
+           <button class="axes"></button> 
+          <button class="axes"></button>
+      </div> -->
+      <div id="views">
+      <div class="dropdown">
+            <div class="select">
+                <span class="selected">Front-<span>View</span></span>
+                <div class="caret"></div>
+            </div>
+            <ul class="menu">
+              <li class="active">Front-View</li>
+              <li>Side-View</li>
+                <li>Top-View</li>
+                
+            </ul>
+        </div>
+      </div>
+
+    </div>
   </div>
   
   </div>
-        
+       
+  <!-- //////////////////////////////////////////////////////////// -->
+  <button id="open-popup">Open Settings</button>
+
+    <div id="popup" class="hidden" >
+      <div class="settings-window">
+        <div class="header">
+          <h1>Settings</h1>
+          <button class="close-button"
+                  id="close-popup">&times;</button>
+        </div>
+
+        <div class="settings-body">
+          <nav class="sidebar">
+            <ul>
+              <li><a href="#general"
+                     class="active">General</a></li>
+              <li><a href="#speech">Speech</a></li>
+              <li><a href="#data-controls">Data controls</a></li>
+              <li><a href="#builder-profile">Builder
+                profile</a></li>
+              <li><a href="#security">Security</a></li>
+            </ul>
+          </nav>
+
+          <div class="content">
+            <div id="general" class="content-section">
+              <p>General settings go here...</p>
+            </div>
+
+            <div id="speech" class="content-section hidden">
+              <p>Speech settings go here...</p>
+            </div>
+
+            <div id="data-controls" class="content-section hidden">
+              <p>Data controls settings go here...</p>
+            </div>
+
+            <div id="builder-profile"
+                 class="content-section hidden">
+              <p>Builder profile settings go here...</p>
+            </div>
+
+            <div id="security" class="content-section hidden">
+              <p>Security settings go here...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- //////////////////////////////////////////////////////////////////////////////// -->
 
     <div id="points">
 
@@ -108,7 +188,7 @@
         <button class="drop__btn" aria-expanded="false" aria-haspopup="true" type="button"></button>
         <div class="drop__items" data-items>
           <div class="drop__items-inner">
-            <button class="drop__btn" type="button" value="Points">Points</button>
+            <button class="drop__btn" type="button" value="LandMarks">LandMarks</button>
             <button class="drop__btn" type="button" value="Angle">Angle</button>
             <button class="drop__btn" type="button" value="Reset">Reset</button>
           </div>
