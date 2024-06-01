@@ -113,6 +113,7 @@
         <div class="header">
           <!-- <h1>Landmarks</h1> -->
           <nav class="nav">
+            
             <a  href="#landmarks" class="nav-item is-active">
               <i class='bx bx-heart'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M4 19h9l-2 2H4c-.5 0-1.03-.21-1.41-.59S2 19.5 2 19V9h2zM17.63 5.84C17.27 5.33 16.67 5 16 5H8c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h8c.67 0 1.27-.34 1.63-.85L22 11z"/></svg>
@@ -126,8 +127,8 @@
               <span>Angles</span>
             </a>
             
-            <a href="#settings" class="nav-item">
-              <i class='bx bx-settings'>
+            <a href="#datacontrols" class="nav-item">
+              <i class='bx bx-basket'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m19.44 12.99l-.01.02c.04-.33.08-.67.08-1.01c0-.34-.03-.66-.07-.99l.01.02l2.44-1.92l-2.43-4.22l-2.87 1.16l.01.01c-.52-.4-1.09-.74-1.71-1h.01L14.44 2H9.57l-.44 3.07h.01c-.62.26-1.19.6-1.71 1l.01-.01l-2.88-1.17l-2.44 4.22l2.44 1.92l.01-.02c-.04.33-.07.65-.07.99c0 .34.03.68.08 1.01l-.01-.02l-2.1 1.65l-.33.26l2.43 4.2l2.88-1.15l-.02-.04c.53.41 1.1.75 1.73 1.01h-.03L9.58 22h4.85s.03-.18.06-.42l.38-2.65h-.01c.62-.26 1.2-.6 1.73-1.01l-.02.04l2.88 1.15l2.43-4.2s-.14-.12-.33-.26zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5"/></svg>              </i>
               <span>Settings</span>
             </a>
@@ -135,6 +136,7 @@
             <div class="nav-indicator-wrapper">
               <span class="nav-indicator"></span>
             </div>
+          
           </nav>
           <button class="close-button"
                   id="close-popup">&times;</button>
@@ -147,9 +149,9 @@
           <div class="content">
             <div id="landmarks" class="content-section">
               
-              <div id="points">
-
-                <div class="radio-input-wrapper">
+              
+              
+                <div class="radio-input-wrapper" id="checkbox-list">
                     <label class="label">
                       <input value="0" name="value-radio" class="check-box" type="checkbox">
                       
@@ -193,40 +195,45 @@
                       </label>
                       
                       
-                  </div>
-            </div>
+                  
+                </div>
+              
             </div>
 
             <div id="angles" class="content-section hidden">
               <p>Speech settings go here...</p>
             </div>
 
-            <div id="settings" class="content-section hidden">
-              <p>Data controls 
+            <div id="datacontrols" class="content-section hidden">
               
               
+              <div id="gap">
+                <p>Data controls </p>
               <div  id="slid">Add Landmark
                 <div class="add-landmark"> 
-                  <input type="text" class="input-textS" > 
-                  <button class="custom-button">Add</button>              
+                  <input type="text" id="new-item-text" placeholder="Enter landmark" > 
+                  <button class="custom-button" id="add-landmark">Add</button>              
                 </div>
               </div>
-              <div  id="slid">Remove Landmark
+              <div  id="slid2">Remove Landmark
                 <div class="add-landmark"> 
-                  <input type="text" class="input-textS" > 
-                  <button class="custom-button">Remove</button>
+                  <div class="select-dropdown">
+                  <select id="dropdown"></select>
+                </div>
+                  <button class="custom-button" id="remove-landmark">Remove</button>
+                </div>
               </div>
-              </div>
+
+              
 
               <div class="zoombtns" id="slid">Landmark Size
                 <div class="PB-range-slider-div"> 
                   <input type="range" min="1" max="20" value="10" class="PB-range-slider" id="myRange">
               </div>
               </div>
-             </p>
             </div>
 
-            
+          </div>
 
             
           </div>

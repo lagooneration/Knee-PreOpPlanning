@@ -324,52 +324,6 @@ class DropdownMenu {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//// POINTS //// ATRIBUTES: https://codepen.io/Yanis-Ahmidach/pen/VwNNGrO
-
-document.getElementById("open-popup").addEventListener("click", function () {
-  document.getElementById("popup").classList.toggle("hidden");
-  addOverlay(); // Call function to add overlay
-});
-
-document.getElementById("close-popup").addEventListener("click", function () {
-  document.getElementById("popup").classList.add("hidden");
-  removeOverlay(); // Call function to remove overlay
-});
-
-const links = document.querySelectorAll(".nav a");
-
-links.forEach((link) => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    // Toggle active class on sidebar links
-    links.forEach((link) => link.classList.remove("active"));
-    this.classList.add("active");
-
-    // Show the relevant section
-    const targetSection = document.querySelector(this.getAttribute("href"));
-    document
-      .querySelectorAll(".content-section")
-      .forEach((section) => section.classList.add("hidden"));
-    targetSection.classList.remove("hidden");
-  });
-});
-
-function addOverlay() {
-  // Create overlay element
-  const overlay = document.createElement("div");
-  overlay.classList.add("overlay"); // Add class for styling
-  document.body.appendChild(overlay); // Append overlay to the body
-}
-
-function removeOverlay() {
-  const overlay = document.querySelector(".overlay");
-  if (overlay) {
-    overlay.parentNode.removeChild(overlay); // Remove overlay if exists
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////
 //// NAVBAR //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
 // const list = document.querySelectorAll(".navigation li");

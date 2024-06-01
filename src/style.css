@@ -328,7 +328,7 @@ body, button {
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 460px;
-    height: 800px;
+    height: 900px;
     max-height: 764px;
     font-family: 'Poppins', sans-serif;
     z-index: 3;
@@ -445,14 +445,17 @@ body, button {
     background-color: #444;
     color: #fff;
   }
+
+
   
   .content {
     height: 100%;
     padding: 12px 15px;
     /* Adjust padding */
     overflow-y: auto;
-    max-height: 695px;
+    max-height: 600px;
     flex-grow: 1;
+    
     color: white;
   }
   
@@ -481,10 +484,12 @@ body, button {
   
   .content-section {
     display: block;
+    
   }
   
   .content-section.hidden {
     display: none;
+    
   }
   
   .overlay {
@@ -513,6 +518,12 @@ body, button {
     border: 1px solid #3b3b3b;
     position: absolute;
   }
+
+#gap {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
 
 #points {
 
@@ -900,7 +911,7 @@ svg:hover{
   gap: 0.3em;
   border-radius: 12px;
 }
-.input-textS {
+#new-item-text {
   height: 2.5em;
   width: 300px;
   justify-content: space-between;
@@ -915,6 +926,12 @@ svg:hover{
 }
 
 #slid {
+  align-items: center;
+  font-size: medium;
+  
+  justify-content: space-between;
+}
+#slid2 {
   align-items: center;
   font-size: medium;
   
@@ -1390,17 +1407,18 @@ svg:hover{
 }
 
 .custom-button {
-  background-color: #4CAF50; /* Green background */
-  border: none;             /* No border */
-  color: white;             /* White text */
-  padding: 10px 20px;       /* Some padding */
-  text-align: center;       /* Centered text */
-  text-decoration: none;    /* No underline */
-  display: inline-block;    /* Inline-block element */
-  font-size: 16px;          /* Increase font size */
-  margin: 4px 2px;          /* Some margin */
-  cursor: pointer;          /* Pointer/hand icon on hover */
-  border-radius: 8px;       /* Rounded corners */
+  background-color: #4CAF50; 
+  border: none;             
+  color: white;            
+  padding: 10px 20px;       
+  text-align: center;       
+  text-decoration: none;    
+  display: inline-block;    
+  font-size: 16px;          
+  margin: 4px 2px;          
+  cursor: pointer;          
+  border-radius: 8px;  
+  width: 120px;     
 }
 
 .custom-button:hover {
@@ -1418,6 +1436,11 @@ svg:hover{
 	border: 1px solid #252325;
 	border-radius: 16px;
 	overflow: hidden;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
 }
 
 .nav i {
@@ -1481,4 +1504,54 @@ svg:hover{
 	height: 3px;
 	background-color: #6ba7a8;
 	border-radius: 10px;
+}
+
+.select-dropdown,
+.select-dropdown * {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	box-sizing: border-box;
+  height: 2.5em;
+  width: 300px;
+  justify-content: space-between;
+  align-content: center;
+  color: white;
+  background-color: #444444;
+  
+}
+.select-dropdown {
+	position: relative;
+	background-color: #444444;
+  color: white;
+	border-radius: 4px;
+  
+}
+.select-dropdown select {
+	
+	font-weight: normal;
+	max-width: 100%;
+	padding: 8px 24px 8px 10px;
+	border: none;
+	background-color: transparent;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	appearance: none;
+}
+.select-dropdown select:active, .select-dropdown select:focus {
+	outline: none;
+	box-shadow: none;
+}
+.select-dropdown:after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	width: 0;
+	height: 0;
+  padding: 0;
+	margin-top: -2px;
+	border-top: 5px solid #f8f8f8;
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
 }
