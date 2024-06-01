@@ -336,7 +336,7 @@ document.getElementById("close-popup").addEventListener("click", function () {
   removeOverlay(); // Call function to remove overlay
 });
 
-const links = document.querySelectorAll(".sidebar ul li a");
+const links = document.querySelectorAll(".nav a");
 
 links.forEach((link) => {
   link.addEventListener("click", function (e) {
@@ -367,4 +367,21 @@ function removeOverlay() {
   if (overlay) {
     overlay.parentNode.removeChild(overlay); // Remove overlay if exists
   }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//// NAVBAR //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
+
+// const list = document.querySelectorAll(".navigation li");
+// function activelink() {
+//   list.forEach((item) => item.classList.remove("active"));
+//   this.classList.add("active");
+// }
+// list.forEach((item) => item.addEventListener("click", activelink));
+
+if (document.querySelector(".main")) {
+  document.querySelector(".main").onclick = function () {
+    var submenu = document.querySelector(".spacer");
+    submenu.classList.toggle("show");
+  };
 }

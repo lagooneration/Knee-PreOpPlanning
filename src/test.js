@@ -225,7 +225,7 @@ scene.add(directionalLight2);
  * Renderer
  */
 const rendererParameters = {};
-rendererParameters.clearColor = "#13141b";
+rendererParameters.Background_Color = "#13141b";
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -237,8 +237,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // canvas.appendChild(renderer.domElement);
 // document.body.appendChild(renderer.domElement);
 
-gui.addColor(rendererParameters, "clearColor").onChange(() => {
-  renderer.setClearColor(rendererParameters.clearColor);
+gui.addColor(rendererParameters, "Background_Color").onChange(() => {
+  renderer.setClearColor(rendererParameters.Background_Color);
 });
 
 const renderer2 = new THREE.WebGLRenderer({
@@ -346,11 +346,11 @@ scene.add(gridHelper);
  * Material
  */
 const materialParameters = {};
-materialParameters.color = "#70c1ff";
+materialParameters.Bone_Color = "#70c1ff";
 
-gui.addColor(materialParameters, "color").onChange(() => {
-  holoMaterial.uniforms.uColor.value.set(materialParameters.color);
-  basicMaterial.color.set(materialParameters.color);
+gui.addColor(materialParameters, "Bone_Color").onChange(() => {
+  holoMaterial.uniforms.uColor.value.set(materialParameters.Bone_Color);
+  basicMaterial.color.set(materialParameters.Bone_Color);
 });
 
 const holoMaterial = new THREE.ShaderMaterial({
@@ -379,7 +379,7 @@ const labelMaterial = new THREE.ShaderMaterial({
 });
 
 const basicMaterial = new THREE.MeshLambertMaterial({
-  color: materialParameters.color,
+  color: materialParameters.Bone_Color,
 });
 
 // gui
