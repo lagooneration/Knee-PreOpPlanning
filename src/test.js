@@ -10,6 +10,10 @@ import holographicVertexShader from "./shaders/holographic/vertex.glsl";
 
 import labelFragmentShader from "./shaders/labels/fragment.glsl";
 import labelVertexShader from "./shaders/labels/vertex.glsl";
+
+import lineFragmentShader from "./shaders/lineSegments/fragment.glsl";
+import lineVertexShader from "./shaders/lineSegments/vertex.glsl";
+
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
@@ -569,6 +573,70 @@ window.addEventListener("click", (event) => {
 //   }
 // });
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//// LINE DRAWING
+const uniforms = {
+  spherePosition1: { value: spheres[0].position }, // Set to sphere1's position
+  spherePosition2: { value: spheres[1].position }, // Set to sphere2's position
+  u_time: { value: 0.0 },
+};
+
+const LineshaderMaterial = new THREE.ShaderMaterial({
+  uniforms: uniforms,
+  vertexShader: lineVertexShader,
+  fragmentShader: lineFragmentShader,
+  transparent: true,
+});
+
+function createAxes() {
+  // Create a geometry that represents the line
+  const lineGeometry = new THREE.BufferGeometry();
+  const positions = new Float32Array([
+    0,
+    0,
+    0, // Start at sphere 1
+    1,
+    0,
+    0, // End at sphere 2
+  ]);
+  lineGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3)
+  );
+
+  // Create the line and add it to the scene
+  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
+  scene.add(line);
+}
+
+document.getElementById("updateButton").addEventListener("click", function () {
+  createAxes();
+});
+
+// Creating Axes on update button click
+// document.getElementById("updateButton").addEventListener("click", function () {
+//   // Get all checkbox elements within the wrapper
+//   var checkboxes = document.querySelectorAll(
+//     '#checkbox-list .label input[type="checkbox"]'
+//   );
+//   var allChecked = true;
+
+//   // Check if all checkboxes are checked
+//   for (var i = 0; i < checkboxes.length; i++) {
+//     if (!checkboxes[i].checked) {
+//       allChecked = false;
+//       break;
+//     }
+//   }
+
+//   // If not all checkboxes are checked, display a warning
+//   if (!allChecked) {
+//     alert("Warning: Please complete all landmarks before updating.");
+//   } else {
+//     createAxes();
+//   }
+// });
+
 // Event listener for mouse click to add sphere at click
 let checkboxIndex;
 
@@ -685,6 +753,12 @@ function animate() {
     document.querySelector(".main-container").style.visibility = "visible";
     sceneReady = false;
   }
+
+  uniforms.u_time.value += 0.01; // Increment time
+  if (uniforms.u_time.value > 1.0) {
+    uniforms.u_time.value = 1.0; // Clamp the time value
+  }
+
   // Update material
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
