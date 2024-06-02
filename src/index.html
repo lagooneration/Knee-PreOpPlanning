@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta
-      name="description"
-      content="Three.Js based knee surgery planning app. Preoperative planning is crucial in knee arthroplasty, in addition to observing the overall knee alignment, with this tool enables tweaking the knee alignment to perfection."
-    />
+    <meta name="description"
+          content="Three.Js based knee surgery planning app. Preoperative planning is crucial in knee arthroplasty, in addition to observing the overall knee alignment, with this tool enables tweaking the knee alignment to perfection." />
     <meta name="author" content="Puneet Lagoo" />
     <title>Knee PreOp</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="/femur.svg">
 
-   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 </head>
 <body>
   <canvas class="webgl"></canvas>
@@ -203,50 +203,38 @@
             <div id="angles" class="content-section hidden">
               <div id="gap">
               <p>Axes</p>
-              <div class="containerAxis">
-                <div class="input-row">
-                  <div class="titleA">
-                    <h2 class="labelA">Varus/Valgus</h2>
-                    <p class="description">People 18 years old and above.</p>
-                  </div>
-                  <div class="inputA">
-                    <button id="pm" class="minus" aria-label="Decrease by one" disabled>
-                      <svg width="16" height="2" viewBox="0 0 16 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line y1="1" x2="16" y2="1" stroke="#0064FE" stroke-width="2" class="icon" />
+              <div>
+                  <div class="slider-wrapper">
+                      <input class="slider-input" type="range" value="720" max="1440" step="1">
+                      <div class="slider-thumb">
+                          <div class="slider-value-container">
+                              <p class="slider-value">12:00°</p>
+                          </div>
+                      </div>
+                      <svg class="slider-svg" viewBox="0 0 238 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path class="slider-svg-path" d="M2 34L7.21879 31.0968C78.5901 -8.60616 165.659 -7.50128 236 34V34" stroke="url(#paint0_linear_339_100980)" stroke-width=".25em" stroke-linecap="round" vector-effect="non-scaling-stroke" filter="url(#filter0_i_339_100980)" />
+                          <defs>
+                              <filter id="filter0_i_339_100980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                  <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                  <feOffset dy="1" />
+                                  <feGaussianBlur stdDeviation="0.5" />
+                                  <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+                                  <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                                  <feBlend mode="normal" in2="shape" result="effect1_innerShadow_339_100980" />
+                              </filter>
+                              <linearGradient id="paint0_linear_339_100980" gradientUnits="userSpaceOnUse">
+                                  <stop stop-color="#F3D970" />
+                                  <stop offset="0.2" stop-color="#FCBB5D" />
+                                  <stop offset="0.4" stop-color="#F6876D" />
+                                  <stop offset="0.6" stop-color="#934284" />
+                                  <stop offset="0.8" stop-color="#402862" />
+                                  <stop offset="1" stop-color="#011549" />
+                              </linearGradient>
+                          </defs>
                       </svg>
-                    </button>
-                    <div class="number dim">0</div>
-                    <button id="pm" class="plus" aria-label="Increase by one">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon">
-                        <line x1="8" y1="4.37114e-08" x2="8" y2="16" stroke="#0064FE" stroke-width="2" />
-                        <line y1="8" x2="16" y2="8" stroke="#0064FE" stroke-width="2" />
-                      </svg>
-              
-                    </button>
                   </div>
-                </div>
-                <div class="input-row">
-                  <div class="titleA">
-                    <h2 class="labelA">Children</h2>
-                    <p class="description">People under 18 years old.</p>
-                  </div>
-                  <div class="inputA">
-                    <button id="pm" class="minus" aria-label="Decrease by one" disabled>
-                      <svg width="16" height="2" viewBox="0 0 16 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <line y1="1" x2="16" y2="1" stroke="#0064FE" stroke-width="2" class="icon" />
-                      </svg>
-              
-                    </button>
-                    <div class="number dim">0</div>
-                    <button id="pm" class="plus" aria-label="Increase by one">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="plus">
-                        <line x1="8" y1="4.37114e-08" x2="8" y2="16" stroke="#0064FE" stroke-width="2" />
-                        <line y1="8" x2="16" y2="8" stroke="#0064FE" stroke-width="2" />
-                      </svg>
-              
-                    </button>
-                  </div>
-                </div>
               </div>
               <div class="radio-input-wrapper" id="checkbox-list">
                 <label class="label">
@@ -305,15 +293,16 @@
         </div>
 
         <div class="footer">
-          <div class="update-btn">
-            <button class="update-button" id="updateButton">
-              <svg class="svgIcon" viewBox="0 0 384 512">
-                <path
-                  d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
-                ></path>
-              </svg>
-            </button>
-          </div>
+            <div class="update-btn">
+                <div class="loaderU">
+                </div>
+                    <button class="update-button" id="updateButton">
+                        <svg class="svgIcon" viewBox="0 0 384 512">
+                            <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
+                        </svg>
+                    </button>
+                
+            </div>
           <div class="reset-btn">
             <button class="reset-button">
               <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>

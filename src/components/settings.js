@@ -1,6 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
+import $ from 'jquery';
+
+
 const indicator = document.querySelector(".nav-indicator-wrapper");
 const items = document.querySelectorAll(".nav-item");
 
@@ -222,3 +225,144 @@ buttons.forEach((button) => {
     }
   });
 });
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+////  AxES PLUS MINUS////
+
+//$(document).on('click', '.inputs-block .minus', function () {
+//    var $_inp = $(this).parent().find('input');
+//    $_inp.val(parseInt($_inp.val()) - 1);
+//    $_inp.trigger('propertychange');
+//    return false;
+//});
+
+//$(document).on('click', '.inputs-block .plus', function () {
+//    var $_inp = $(this).parent().find('input');
+//    $_inp.val(parseInt($_inp.val()) + 1);
+//    $_inp.trigger('propertychange');
+//    return false;
+//});
+
+//$('.inputs-block input').bind('input propertychange', function () {
+//    var $this = $(this);
+//    $this.val($this.val().replace(/[^0-9]/gim, ''));
+//    if ($this.val().length == 0 || parseInt($this.val()) <= 0)
+//        $this.val(1);
+//    var a = $('.inputs-block input').val();
+//    var b = $('body').find('#pum-344').find('input[name="count"]').val(a);
+//});
+
+//$("#element").anglepicker({
+//    start: function (e, ui) {
+
+//    },
+//    change: function (e, ui) {
+//        $("#label").text(ui.value)
+//    },
+//    stop: function (e, ui) {
+
+//    },
+//    value: 90
+//});
+
+
+
+//$("#element").anglepicker("value", 50);
+
+
+
+// following code needs some refactoring
+
+const sliderWrapper = document.querySelector('.slider-wrapper');
+const sliderSvg = document.querySelector('.slider-svg');
+const sliderPath = document.querySelector('.slider-svg-path');
+const sliderPathLength = sliderPath.getTotalLength();
+const sliderThumb = document.querySelector('.slider-thumb');
+const sliderInput = document.querySelector('.slider-input');
+const sliderMinValue = +sliderInput.min || 0;
+const sliderMaxValue = +sliderInput.max || 100;
+
+const time = document.querySelector('.slider-value');
+
+const updateTime = (timeInMinutes) => {
+    let hours = Math.floor(timeInMinutes / 60);
+    const minutes = timeInMinutes % 60;
+    const isMorning = hours < 12;
+    const formattedHours = String(isMorning ? hours || 12 : (hours - 12 || 12)).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    time.textContent = `${formattedHours}:${formattedMinutes} ${isMorning || (hours === 24) ? '-' : '+'}`;
+}
+
+const setColor = (progress) => {
+    const colorStops = [
+        { r: 243, g: 217, b: 112 },  // #F3D970
+        { r: 252, g: 187, b: 93 },   // #FCBB5D
+        { r: 246, g: 135, b: 109 },  // #F6876D
+        { r: 147, g: 66, b: 132 },   // #934284
+        { r: 64, g: 40, b: 98 },     // #402862
+        { r: 1, g: 21, b: 73 }        // #011549
+    ];
+    const numStops = colorStops.length;
+
+    const index = (numStops - 1) * progress;
+    const startIndex = Math.floor(index);
+    const endIndex = Math.ceil(index);
+
+    const startColor = colorStops[startIndex];
+    const endColor = colorStops[endIndex];
+
+    const percentage = index - startIndex;
+
+    const [r, g, b] = [Math.round(startColor.r + (endColor.r - startColor.r) * percentage), Math.round(startColor.g + (endColor.g - startColor.g) * percentage), Math.round(startColor.b + (endColor.b - startColor.b) * percentage)];
+
+    sliderThumb.style.setProperty('--color', `rgb(${r} ${g} ${b})`);
+}
+
+// updating position could be done with CSS Motion Path instead of absolute positioning but Safari <15.4 doesn’t seem to support it
+const updatePosition = (progress) => {
+    const point = sliderPath.getPointAtLength(progress * sliderPathLength);
+    const svgRect = sliderSvg.getBoundingClientRect();
+    const scaleX = svgRect.width / sliderSvg.viewBox.baseVal.width;
+    const scaleY = svgRect.height / sliderSvg.viewBox.baseVal.height;
+    sliderThumb.style.left = `${point.x * scaleX * 100 / svgRect.width}%`;
+    sliderThumb.style.top = `${point.y * scaleY * 100 / svgRect.height}%`;
+    const value = Math.round(progress * (sliderMaxValue - sliderMinValue));
+    sliderInput.value = value;
+    updateTime(value);
+    setColor(progress);
+};
+
+sliderInput.addEventListener('input', () => {
+    const progress = sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue);
+    updatePosition(progress);
+});
+
+const handlePointerMove = (event) => {
+    const sliderWidth = sliderPath.getBoundingClientRect().width;
+    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
+    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
+    updatePosition(progress);
+};
+
+const handlePointerDown = (event) => {
+    const sliderWidth = sliderPath.getBoundingClientRect().width;
+    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
+    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
+    const isThumb = event.target.classList.contains('slider-thumb');
+    if (!isThumb) updatePosition(progress);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', () => {
+        window.removeEventListener('pointermove', handlePointerMove);
+    });
+};
+
+sliderThumb.addEventListener('pointerdown', handlePointerDown);
+sliderPath.addEventListener('pointerdown', handlePointerDown);
+
+updatePosition(sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue));
+
+sliderWrapper.addEventListener('selectstart', (event) => {
+    event.preventDefault();
+})

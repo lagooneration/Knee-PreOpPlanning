@@ -588,32 +588,59 @@ const LineshaderMaterial = new THREE.ShaderMaterial({
   transparent: true,
 });
 
-function createAxes() {
-  // Create a geometry that represents the line
-  const lineGeometry = new THREE.BufferGeometry();
-  const positions = new Float32Array([
-    0,
-    0,
-    0, // Start at sphere 1
-    1,
-    0,
-    0, // End at sphere 2
-  ]);
-  lineGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(positions, 3)
-  );
 
-  // Create the line and add it to the scene
-  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
-  scene.add(line);
-}
 
-document.getElementById("updateButton").addEventListener("click", function () {
-  createAxes();
-});
+const testSphere = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), holoMaterial);
+testSphere.position.set(1, 1, 1);
+scene.add(testSphere);
 
-// Creating Axes on update button click
+const testSphere2 = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), holoMaterial);
+testSphere2.position.set(-1, -1, -1);
+scene.add(testSphere2);
+
+
+
+const testmaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+const points = [];
+points.push(testSphere.position); // Start point of the first line
+points.push(testSphere2.position); // End point of the first line
+// Add more points if you have multiple line segments
+
+const testgeometry = new THREE.BufferGeometry().setFromPoints(points);
+const line = new THREE.LineSegments(testgeometry, testmaterial);
+scene.add(line);
+
+
+
+/// CREATING LINE SEGMENTS FUNCTION
+//function createAxes() {
+//  // Create a geometry that represents the line
+//  const lineGeometry = new THREE.BufferGeometry();
+//  const positions = new Float32Array([
+//    0,
+//    0,
+//    0, // Start at sphere 1
+//    1,
+//    0,
+//    0, // End at sphere 2
+//  ]);
+//  lineGeometry.setAttribute(
+//    "position",
+//    new THREE.BufferAttribute(positions, 3)
+//  );
+
+//  // Create the line and add it to the scene
+//  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
+//  scene.add(line);
+//}
+
+//document.getElementById("updateButton").addEventListener("click", function () {
+//  createAxes();
+//});
+
+
+
+// WARNING FOR COMPLETING ALL LANDMARKS
 // document.getElementById("updateButton").addEventListener("click", function () {
 //   // Get all checkbox elements within the wrapper
 //   var checkboxes = document.querySelectorAll(
@@ -636,6 +663,63 @@ document.getElementById("updateButton").addEventListener("click", function () {
 //     createAxes();
 //   }
 // });
+
+//const raycaster2 = new THREE.Raycaster();
+//  const lineGeometry = new THREE.BufferGeometry();
+//  const positions = new Float32Array([
+//    0,
+//    0,
+//    0, // Start at sphere 1
+//    1,
+//    0,
+//    0, // End at sphere 2
+//  ]);
+//  lineGeometry.setAttribute(
+//    "position",
+//    new THREE.BufferAttribute(positions, 3)
+//  );
+
+//  // Create the line and add it to the scene
+//  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
+//  scene.add(line);
+
+//const tooltip = document.createElement('div');
+//tooltip.style.position = 'absolute';
+//tooltip.style.backgroundColor = 'rgba(0,0,0,0.7)';
+//tooltip.style.color = 'white';
+//tooltip.style.padding = '5px';
+//tooltip.style.borderRadius = '5px';
+//tooltip.style.display = 'none';
+//document.body.appendChild(tooltip);
+
+
+
+// Event listener for mouse movement
+//document.addEventListener('mousemove', onMouseMove, false);
+
+//function onMouseMove(event) {
+   
+
+//    cursor.x = (event.clientX / window.innerWidth) * 2 - 1;
+//    cursor.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+//    // Update raycaster
+//    raycaster2.setFromCamera(cursor, camera);
+
+//    // Calculate intersections
+//    const intersects = raycaster2.intersectObject(line);
+//    -
+//    if (intersects.length > 0) {
+//        // If hovering over the line, show tooltip
+//        tooltip.style.display = 'block';
+//        tooltip.style.left = event.clientX + 'px';
+//        tooltip.style.top = event.clientY + 'px';
+//        tooltip.textContent = 'This is a line segment';
+//    } else {
+//        // If not hovering, hide tooltip
+//        tooltip.style.display = 'none';
+//    }
+//}
 
 // Event listener for mouse click to add sphere at click
 let checkboxIndex;
