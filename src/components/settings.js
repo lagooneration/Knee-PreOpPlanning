@@ -186,45 +186,45 @@ initializeDropdown();
 // });
 
 
-const buttons = document.querySelectorAll("button");
-const minValue = 0;
-const maxValue = 10;
+//const buttons = document.querySelectorAll("button");
+//const minValue = 0;
+//const maxValue = 10;
 
-buttons.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    // 1. Get the clicked element
-    const element = event.currentTarget;
-    // 2. Get the parent
-    const parent = element.parentNode;
-    // 3. Get the number (within the parent)
-    const numberContainer = parent.querySelector(".number");
-    const number = parseFloat(numberContainer.textContent);
-    // 4. Get the minus and plus buttons
-    const increment = parent.querySelector(".plus");
-    const decrement = parent.querySelector(".minus");
-    // 5. Change the number based on click (either plus or minus)
-    const newNumber = element.classList.contains("plus")
-      ? number + 1
-      : number - 1;
-    numberContainer.textContent = newNumber;
-    console.log(newNumber);
-    // 6. Disable and enable buttons based on number value (and undim number)
-    if (newNumber === minValue) {
-      decrement.disabled = true;
-      numberContainer.classList.add("dim");
-      // Make sure the button won't get stuck in active state (Safari)
-      element.blur();
-    } else if (newNumber > minValue && newNumber < maxValue) {
-      decrement.disabled = false;
-      increment.disabled = false;
-      numberContainer.classList.remove("dim");
-    } else if (newNumber === maxValue) {
-      increment.disabled = true;
-      numberContainer.textContent = `${newNumber}+`;
-      element.blur();
-    }
-  });
-});
+//buttons.forEach((button) => {
+//  button.addEventListener("click", (event) => {
+//    // 1. Get the clicked element
+//    const element = event.currentTarget;
+//    // 2. Get the parent
+//    const parent = element.parentNode;
+//    // 3. Get the number (within the parent)
+//    const numberContainer = parent.querySelector(".number");
+//    const number = parseFloat(numberContainer.textContent);
+//    // 4. Get the minus and plus buttons
+//    const increment = parent.querySelector(".plus");
+//    const decrement = parent.querySelector(".minus");
+//    // 5. Change the number based on click (either plus or minus)
+//    const newNumber = element.classList.contains("plus")
+//      ? number + 1
+//      : number - 1;
+//    numberContainer.textContent = newNumber;
+//    console.log(newNumber);
+//    // 6. Disable and enable buttons based on number value (and undim number)
+//    if (newNumber === minValue) {
+//      decrement.disabled = true;
+//      numberContainer.classList.add("dim");
+//      // Make sure the button won't get stuck in active state (Safari)
+//      element.blur();
+//    } else if (newNumber > minValue && newNumber < maxValue) {
+//      decrement.disabled = false;
+//      increment.disabled = false;
+//      numberContainer.classList.remove("dim");
+//    } else if (newNumber === maxValue) {
+//      increment.disabled = true;
+//      numberContainer.textContent = `${newNumber}+`;
+//      element.blur();
+//    }
+//  });
+//});
 
 
 
@@ -275,6 +275,65 @@ buttons.forEach((button) => {
 
 // following code needs some refactoring
 
+
+
+
+//const curve = {
+//    x: 0,
+//    y: 50,
+//    cpx: 60,
+//    cpy: 0,
+//    endx: 120,
+//    endy: 50
+//}
+//let percent = 0.7
+
+//let curveEl = document.getElementById('curve')
+//let thumbEl = document.getElementById('thumb')
+
+//// get the XY at the specified percentage along the curve
+//const getQuadraticBezierXYatPercent = (curve, percent) => {
+//    let x = Math.pow(1 - percent, 2) * curve.x + 2 * (1 - percent) * percent
+//        * curve.cpx + Math.pow(percent, 2) * curve.endx
+//    let y = Math.pow(1 - percent, 2) * curve.y + 2 * (1 - percent) * percent
+//        * curve.cpy + Math.pow(percent, 2) * curve.endy
+
+//    return { x, y }
+//}
+
+//const drawCurve = () => {
+//    curveEl.setAttribute(
+//        'd',
+//        `M${curve.x},${curve.y} Q${curve.cpx},${curve.cpy} ${curve.endx},${curve.endy}`
+//    )
+//}
+
+//const drawThumb = percent => {
+//    let pos = getQuadraticBezierXYatPercent(curve, percent)
+//    document.getElementById('value').textContent = Math.floor(percent * 100);
+
+//    thumbEl.setAttribute('cx', pos.x)
+//    thumbEl.setAttribute('cy', pos.y)
+//}
+
+//const moveThumb = e => {
+//    console.log(e.target.value)
+//    percent = e.target.value / 100
+//    drawThumb(percent)
+//}
+
+//// event on the range input
+//let rangeEl = document.getElementById('range')
+//rangeEl.value = percent * 100
+//rangeEl.addEventListener('input', moveThumb)
+
+//// init
+//drawCurve()
+//drawThumb(percent)
+
+
+
+
 const sliderWrapper = document.querySelector('.slider-wrapper');
 const sliderSvg = document.querySelector('.slider-svg');
 const sliderPath = document.querySelector('.slider-svg-path');
@@ -292,7 +351,7 @@ const updateTime = (timeInMinutes) => {
     const isMorning = hours < 12;
     const formattedHours = String(isMorning ? hours || 12 : (hours - 12 || 12)).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
-    time.textContent = `${formattedHours}:${formattedMinutes} ${isMorning || (hours === 24) ? '-' : '+'}`;
+    time.textContent = `${formattedHours}:${formattedMinutes} ${isMorning || (hours === 24) ? 'AM' : 'PM'}`;
 }
 
 const setColor = (progress) => {

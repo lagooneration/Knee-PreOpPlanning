@@ -124,7 +124,7 @@
               <i class='bx bx-home'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16M112 88a64.07 64.07 0 0 1 64 64a8 8 0 0 1-16 0a48.05 48.05 0 0 0-48-48a8 8 0 0 1 0-16m88 104H80a8 8 0 0 1-8-8v-80H56a8 8 0 0 1 0-16h16V72a8 8 0 0 1 16 0v104h112a8 8 0 0 1 0 16"/></svg>
               </i>
-              <span>Axes</span>
+              <span>Planning</span>
             </a>
             
             <a href="#datacontrols" class="nav-item">
@@ -145,151 +145,179 @@
         </div>
 
         <div class="settings-body">
-          
-          <div class="content">
-            <div id="landmarks" class="content-section">
-              
-              
-              
-                <div class="radio-input-wrapper" id="checkbox-list">
-                    <label class="label">
-                      <input value="0" name="value-radio" class="check-box" type="checkbox">
-                      
-                      <div class="label-text">Femur Center</div>
-                    </label>
-                    <label class="label">
-                      <input value="1" name="value-radio" class="check-box" type="checkbox">
-                      <div class="label-text">Hip Center</div>
-                    </label>
-                    <label class="label">
-                      <input value="2" name="value-radio" class="check-box" type="checkbox">
-                      <div class="label-text">Femur Proximal Canal</div>
-                    </label>
-                    <label class="label">
-                        <input value="3" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Femur Distal Canal</div>
-                      </label>
-                      <label class="label">
-                        <input value="4" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Medial Epicondyle</div>
-                      </label>
-                      <label class="label">
-                        <input value="5" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Lateral Epicondyle</div>
-                      </label>
-                      <label class="label">
-                        <input value="6" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Distal Medial Point</div>
-                      </label>
-                      <label class="label">
-                        <input value="7" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Distal Lateral Point</div>
-                      </label>
-                      <label class="label">
-                        <input value="8" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Posterior Medial Point</div>
-                      </label>
-                      <label class="label">
-                        <input value="9" name="value-radio" class="check-box" type="checkbox">
-                        <div class="label-text">Posterior Lateral Point</div>
-                      </label>
-                      
-                      
-                  
+
+            <div class="content">
+                <div id="landmarks" class="content-section">
+
+
+
+                    <div class="radio-input-wrapper" id="checkbox-list">
+                        <label class="label">
+                            <input value="0" name="value-radio" class="check-box" type="checkbox">
+
+                            <div class="label-text">Femur Center</div>
+                        </label>
+                        <label class="label">
+                            <input value="1" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Hip Center</div>
+                        </label>
+                        <label class="label">
+                            <input value="2" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Femur Proximal Canal</div>
+                        </label>
+                        <label class="label">
+                            <input value="3" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Femur Distal Canal</div>
+                        </label>
+                        <label class="label">
+                            <input value="4" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Medial Epicondyle</div>
+                        </label>
+                        <label class="label">
+                            <input value="5" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Lateral Epicondyle</div>
+                        </label>
+                        <label class="label">
+                            <input value="6" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Distal Medial Point</div>
+                        </label>
+                        <label class="label">
+                            <input value="7" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Distal Lateral Point</div>
+                        </label>
+                        <label class="label">
+                            <input value="8" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Posterior Medial Point</div>
+                        </label>
+                        <label class="label">
+                            <input value="9" name="value-radio" class="check-box" type="checkbox">
+                            <div class="label-text">Posterior Lateral Point</div>
+                        </label>
+
+
+
+                    </div>
+
                 </div>
-              
+
+                <div id="angles" class="content-section hidden">
+                    <div id="gap">
+                        <p>Angles</p>
+                        <div id="gap2">
+                            <div class="label2">
+
+                                <div class="label-text">Varus/Valgus</div>
+
+                                <div>
+                                    <div class="slider-wrapper">
+                                        <input class="slider-input" type="range" value="720" max="1440" step="1">
+                                        <div class="slider-thumb">
+                                            <div class="slider-value-container">
+                                                <p class="slider-value">00:00°</p>
+                                            </div>
+                                        </div>
+                                        <svg class="slider-svg" viewBox="0 0 238 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path class="slider-svg-path" d="M2 34L7.21879 31.0968C78.5901 -8.60616 165.659 -7.50128 236 34V34" stroke="url(#paint0_linear_339_100980)" stroke-width=".25em" stroke-linecap="round" vector-effect="non-scaling-stroke" filter="url(#filter0_i_339_100980)" />
+                                            <defs>
+                                                <filter id="filter0_i_339_100980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                                    <feOffset dy="1" />
+                                                    <feGaussianBlur stdDeviation="0.5" />
+                                                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+                                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                                                    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_339_100980" />
+                                                </filter>
+                                                <linearGradient id="paint0_linear_339_100980" gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#6ba7a810" />
+                                                    <stop offset="0.2" stop-color="#6ba7a830" />
+                                                    <stop offset="0.4" stop-color="#6ba7a850" />
+                                                    <stop offset="0.6" stop-color="#6ba7a850" />
+                                                    <stop offset="0.8" stop-color="#6ba7a830" />
+                                                    <stop offset="1" stop-color="#6ba7a810" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p>Axes</p>
+
+                        <div class="radio-input-wrapper" id="checkbox-list">
+
+                            <label class="label">
+                                <input value="B" name="value-radio" class="check-box" type="checkbox">
+
+                                <div class="label-text">Mechanical Axis</div>
+                            </label>
+                            <label class="label">
+                                <input value="C" name="value-radio" class="check-box" type="checkbox">
+
+                                <div class="label-text">Anatomical Axis</div>
+                            </label>
+                        </div>
+
+                        <p>Planes</p>
+
+                        <div class="radio-input-wrapper" id="checkbox-list">
+
+                            <label class="label">
+                                <input value="B" name="value-radio" class="check-box" type="checkbox">
+
+                                <div class="label-text">Trans epicondyle Axis/Plane</div>
+                            </label>
+                            <label class="label">
+                                <input value="C" name="value-radio" class="check-box" type="checkbox">
+
+                                <div class="label-text">Posterior Condyle Axis/Plane</div>
+                            </label>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <div id="datacontrols" class="content-section hidden">
+
+
+                    <div id="gap">
+                        <p>Data controls </p>
+                        <div id="slid">
+                            Add New Landmark
+                            <div class="add-landmark">
+                                <input type="text" id="new-item-text" placeholder="Enter landmark">
+                                <button class="custom-button" id="add-landmark">Add</button>
+                            </div>
+                        </div>
+                        <div id="slid2">
+                            Remove Landmark
+                            <div class="add-landmark">
+                                <div class="select-dropdown">
+                                    <select id="dropdown"></select>
+                                </div>
+                                <button class="custom-button" id="remove-landmark">Remove</button>
+                            </div>
+                        </div>
+
+
+
+                        <div class="zoombtns" id="slid">
+                            Landmark Size
+                            <div class="PB-range-slider-div">
+                                <input type="range" min="1" max="20" value="10" class="PB-range-slider" id="myRange">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
             </div>
-
-            <div id="angles" class="content-section hidden">
-              <div id="gap">
-              <p>Axes</p>
-              <div>
-                  <div class="slider-wrapper">
-                      <input class="slider-input" type="range" value="720" max="1440" step="1">
-                      <div class="slider-thumb">
-                          <div class="slider-value-container">
-                              <p class="slider-value">12:00°</p>
-                          </div>
-                      </div>
-                      <svg class="slider-svg" viewBox="0 0 238 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path class="slider-svg-path" d="M2 34L7.21879 31.0968C78.5901 -8.60616 165.659 -7.50128 236 34V34" stroke="url(#paint0_linear_339_100980)" stroke-width=".25em" stroke-linecap="round" vector-effect="non-scaling-stroke" filter="url(#filter0_i_339_100980)" />
-                          <defs>
-                              <filter id="filter0_i_339_100980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                  <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-                                  <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                  <feOffset dy="1" />
-                                  <feGaussianBlur stdDeviation="0.5" />
-                                  <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
-                                  <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                                  <feBlend mode="normal" in2="shape" result="effect1_innerShadow_339_100980" />
-                              </filter>
-                              <linearGradient id="paint0_linear_339_100980" gradientUnits="userSpaceOnUse">
-                                  <stop stop-color="#F3D970" />
-                                  <stop offset="0.2" stop-color="#FCBB5D" />
-                                  <stop offset="0.4" stop-color="#F6876D" />
-                                  <stop offset="0.6" stop-color="#934284" />
-                                  <stop offset="0.8" stop-color="#402862" />
-                                  <stop offset="1" stop-color="#011549" />
-                              </linearGradient>
-                          </defs>
-                      </svg>
-                  </div>
-              </div>
-              <div class="radio-input-wrapper" id="checkbox-list">
-                <label class="label">
-                  
-                  <div class="label-text">Varus/Valgus</div>
-                  
-                </label>
-                <label class="label">
-                  <input value="B" name="value-radio" class="check-box" type="checkbox">
-                  
-                  <div class="label-text">Flexion/Extension</div>
-                </label>
-                <label class="label">
-                  <input value="C" name="value-radio" class="check-box" type="checkbox">
-                  
-                  <div class="label-text">Distal Resection</div>
-                </label>
-                </div>
-
-            </div>
-            </div>
-
-            <div id="datacontrols" class="content-section hidden">
-              
-              
-              <div id="gap">
-                <p>Data controls </p>
-              <div  id="slid">Add New Landmark
-                <div class="add-landmark"> 
-                  <input type="text" id="new-item-text" placeholder="Enter landmark" > 
-                  <button class="custom-button" id="add-landmark">Add</button>              
-                </div>
-              </div>
-              <div  id="slid2">Remove Landmark
-                <div class="add-landmark"> 
-                  <div class="select-dropdown">
-                  <select id="dropdown"></select>
-                </div>
-                  <button class="custom-button" id="remove-landmark">Remove</button>
-                </div>
-              </div>
-
-              
-
-              <div class="zoombtns" id="slid">Landmark Size
-                <div class="PB-range-slider-div"> 
-                  <input type="range" min="1" max="20" value="10" class="PB-range-slider" id="myRange">
-              </div>
-              </div>
-            </div>
-
-          </div>
-
-            
-          </div>
         </div>
 
         <div class="footer">

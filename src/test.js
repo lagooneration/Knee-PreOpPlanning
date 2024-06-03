@@ -613,30 +613,30 @@ scene.add(line);
 
 
 /// CREATING LINE SEGMENTS FUNCTION
-//function createAxes() {
-//  // Create a geometry that represents the line
-//  const lineGeometry = new THREE.BufferGeometry();
-//  const positions = new Float32Array([
-//    0,
-//    0,
-//    0, // Start at sphere 1
-//    1,
-//    0,
-//    0, // End at sphere 2
-//  ]);
-//  lineGeometry.setAttribute(
-//    "position",
-//    new THREE.BufferAttribute(positions, 3)
-//  );
+function createAxes() {
+  // Create a geometry that represents the line
+  const lineGeometry = new THREE.BufferGeometry();
+  const positions = new Float32Array([
+    0,
+    0,
+    0, // Start at sphere 1
+    1,
+    0,
+    0, // End at sphere 2
+  ]);
+  lineGeometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(positions, 3)
+  );
 
-//  // Create the line and add it to the scene
-//  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
-//  scene.add(line);
-//}
+  // Create the line and add it to the scene
+  const line = new THREE.Line(lineGeometry, LineshaderMaterial);
+  scene.add(line);
+}
 
-//document.getElementById("updateButton").addEventListener("click", function () {
-//  createAxes();
-//});
+document.getElementById("updateButton").addEventListener("click", function () {
+  createAxes();
+});
 
 
 
