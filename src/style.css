@@ -2910,7 +2910,7 @@ a:hover {
             color: #30cfd0;
             transition-delay: 0.2s;
             
-            transition: .6s;
+            transition: .6s ease-in;
             
         }
 
