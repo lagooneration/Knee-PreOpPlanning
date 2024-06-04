@@ -10,12 +10,12 @@ class DropdownMenu {
   animations = [];
   /** Options for this menu */
   options = [
-    { name: "Front-view", friendlyName: "Front-view" },
-    { name: "Side-view", friendlyName: "Side-view" },
-    { name: "Top-view", friendlyName: "Top-view" },
+    { name: "Front", friendlyName: "Front" },
+    { name: "Side", friendlyName: "Side" },
+      { name: "Roam", friendlyName: "Roam" },
   ];
   /** Selected option by name */
-  selected = "Front-view";
+  selected = "Front";
   /** Menu is collapsing */
   isCollapsing = false;
   /** Menu is expanding */

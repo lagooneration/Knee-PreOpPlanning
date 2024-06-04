@@ -1,11 +1,11 @@
 import * as THREE from "three";
 
 class ViewHelper extends THREE.Object3D {
-  constructor(editorCamera, container, controls) {
+  constructor(editorCamera, container, orbitControls) {
     super();
 
     this.animating = false;
-    this.controls = controls;
+      this.orbitControls = orbitControls;
 
     const panel = document.createElement("div");
     panel.style.position = "absolute";
@@ -14,8 +14,8 @@ class ViewHelper extends THREE.Object3D {
     panel.style.height = "128px";
     panel.style.width = "128px";
     panel.style.borderRadius = "50%";
-    panel.style.backgroundColor = "rgba(0.3,0.3,0.3,0.5)";
-    panel.style.zIndex = "100";
+    panel.style.backgroundColor = "rgba(0.3,0.3,0.3,0.7)";
+    panel.style.zIndex = "9999";
 
     const scope = this;
 

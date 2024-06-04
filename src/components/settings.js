@@ -1,3 +1,6 @@
+
+//import "./angles.css";
+
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
@@ -25,6 +28,34 @@ items.forEach((item) => {
 
   item.classList.contains("is-active") && handleIndicator(item);
 });
+
+
+//////// VIEW
+
+
+const indicator2 = document.querySelector(".nav-indicator-wrapper2");
+const items2 = document.querySelectorAll(".nav-item2");
+
+function handleIndicator2(el) {
+    items2.forEach((items) => {
+        items.classList.remove("is-active");
+    });
+
+    indicator2.style.width = `${el.offsetWidth}px`;
+    indicator2.style.left = `${el.offsetLeft}px`;
+
+    el.classList.add("is-active");
+}
+
+items2.forEach((items) => {
+    items.addEventListener("click", (e) => {
+        handleIndicator2(items);
+    });
+
+    items.classList.contains("is-active") && handleIndicator2(items);
+});
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //// POINTS //// ATRIBUTES: https://codepen.io/Yanis-Ahmidach/pen/VwNNGrO
@@ -71,6 +102,53 @@ function removeOverlay() {
     overlay.parentNode.removeChild(overlay); // Remove overlay if exists
   }
 }
+
+
+
+//////////////////////////////////////////////////////  /////////////////////////
+//document.getElementById("open-popup2").addEventListener("click", function () {
+//    document.getElementById("popup2").classList.toggle("hidden");
+//    addOverlay(); // Call function to add overlay
+//});
+
+//document.getElementById("close-popup2").addEventListener("click", function () {
+//    document.getElementById("popup2").classList.add("hidden");
+//    removeOverlay2(); // Call function to remove overlay
+//});
+
+const links2 = document.querySelectorAll(".nav2 a");
+
+links2.forEach((link) => {
+    link.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Toggle active class on sidebar links
+        links2.forEach((link) => link.classList.remove("active"));
+        this.classList.add("active");
+
+        // Show the relevant section
+        const targetSection = document.querySelector(this.getAttribute("href"));
+        document
+            .querySelectorAll(".content-section2")
+            .forEach((section) => section.classList.add("hidden"));
+        targetSection.classList.remove("hidden");
+    });
+});
+
+//function addOverlay2() {
+//    // Create overlay element
+//    const overlay = document.createElement("div");
+//    overlay.classList.add("overlay"); // Add class for styling
+//    document.body.appendChild(overlay); // Append overlay to the body
+//}
+
+function removeOverlay2() {
+    const overlay = document.querySelector(".overlay");
+    if (overlay) {
+        overlay.parentNode.removeChild(overlay); // Remove overlay if exists
+    }
+}
+
 
 // function handleIndicator(el) {
 //   links.forEach((item) => {
@@ -334,94 +412,269 @@ initializeDropdown();
 
 
 
-const sliderWrapper = document.querySelector('.slider-wrapper');
-const sliderSvg = document.querySelector('.slider-svg');
-const sliderPath = document.querySelector('.slider-svg-path');
-const sliderPathLength = sliderPath.getTotalLength();
-const sliderThumb = document.querySelector('.slider-thumb');
-const sliderInput = document.querySelector('.slider-input');
-const sliderMinValue = +sliderInput.min || 0;
-const sliderMaxValue = +sliderInput.max || 100;
+//const sliderWrapper = document.querySelector('.slider-wrapper');
+//const sliderSvg = document.querySelector('.slider-svg');
+//const sliderPath = document.querySelector('.slider-svg-path');
+//const sliderPathLength = sliderPath.getTotalLength();
+//const sliderThumb = document.querySelector('.slider-thumb');
+//const sliderInput = document.querySelector('.slider-input');
+//const sliderMinValue = +sliderInput.min || 0;
+//const sliderMaxValue = +sliderInput.max || 100;
 
-const time = document.querySelector('.slider-value');
+//const time = document.querySelector('.slider-value');
 
-const updateTime = (timeInMinutes) => {
-    let hours = Math.floor(timeInMinutes / 60);
-    const minutes = timeInMinutes % 60;
-    const isMorning = hours < 12;
-    const formattedHours = String(isMorning ? hours || 12 : (hours - 12 || 12)).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    time.textContent = `${formattedHours}:${formattedMinutes} ${isMorning || (hours === 24) ? 'AM' : 'PM'}`;
-}
+//const updateTime = (timeInMinutes) => {
+//    let hours = Math.floor(timeInMinutes / 60);
+//    const minutes = timeInMinutes % 60;
+//    const isMorning = hours < 12;
+//    const formattedHours = String(isMorning ? hours || 12 : (hours - 12 || 12)).padStart(2, '0');
+//    const formattedMinutes = String(minutes).padStart(2, '0');
+//    time.textContent = `${formattedHours}:${formattedMinutes} ${isMorning || (hours === 24) ? 'AM' : 'PM'}`;
+//}
 
-const setColor = (progress) => {
-    const colorStops = [
-        { r: 243, g: 217, b: 112 },  // #F3D970
-        { r: 252, g: 187, b: 93 },   // #FCBB5D
-        { r: 246, g: 135, b: 109 },  // #F6876D
-        { r: 147, g: 66, b: 132 },   // #934284
-        { r: 64, g: 40, b: 98 },     // #402862
-        { r: 1, g: 21, b: 73 }        // #011549
-    ];
-    const numStops = colorStops.length;
+//const setColor = (progress) => {
+//    const colorStops = [
+//        { r: 243, g: 217, b: 112 },  // #F3D970
+//        { r: 252, g: 187, b: 93 },   // #FCBB5D
+//        { r: 246, g: 135, b: 109 },  // #F6876D
+//        { r: 147, g: 66, b: 132 },   // #934284
+//        { r: 64, g: 40, b: 98 },     // #402862
+//        { r: 1, g: 21, b: 73 }        // #011549
+//    ];
+//    const numStops = colorStops.length;
 
-    const index = (numStops - 1) * progress;
-    const startIndex = Math.floor(index);
-    const endIndex = Math.ceil(index);
+//    const index = (numStops - 1) * progress;
+//    const startIndex = Math.floor(index);
+//    const endIndex = Math.ceil(index);
 
-    const startColor = colorStops[startIndex];
-    const endColor = colorStops[endIndex];
+//    const startColor = colorStops[startIndex];
+//    const endColor = colorStops[endIndex];
 
-    const percentage = index - startIndex;
+//    const percentage = index - startIndex;
 
-    const [r, g, b] = [Math.round(startColor.r + (endColor.r - startColor.r) * percentage), Math.round(startColor.g + (endColor.g - startColor.g) * percentage), Math.round(startColor.b + (endColor.b - startColor.b) * percentage)];
+//    const [r, g, b] = [Math.round(startColor.r + (endColor.r - startColor.r) * percentage), Math.round(startColor.g + (endColor.g - startColor.g) * percentage), Math.round(startColor.b + (endColor.b - startColor.b) * percentage)];
 
-    sliderThumb.style.setProperty('--color', `rgb(${r} ${g} ${b})`);
-}
+//    sliderThumb.style.setProperty('--color', `rgb(${r} ${g} ${b})`);
+//}
 
-// updating position could be done with CSS Motion Path instead of absolute positioning but Safari <15.4 doesn’t seem to support it
-const updatePosition = (progress) => {
-    const point = sliderPath.getPointAtLength(progress * sliderPathLength);
-    const svgRect = sliderSvg.getBoundingClientRect();
-    const scaleX = svgRect.width / sliderSvg.viewBox.baseVal.width;
-    const scaleY = svgRect.height / sliderSvg.viewBox.baseVal.height;
-    sliderThumb.style.left = `${point.x * scaleX * 100 / svgRect.width}%`;
-    sliderThumb.style.top = `${point.y * scaleY * 100 / svgRect.height}%`;
-    const value = Math.round(progress * (sliderMaxValue - sliderMinValue));
-    sliderInput.value = value;
-    updateTime(value);
-    setColor(progress);
-};
+//// updating position could be done with CSS Motion Path instead of absolute positioning but Safari <15.4 doesn’t seem to support it
+//const updatePosition = (progress) => {
+//    const point = sliderPath.getPointAtLength(progress * sliderPathLength);
+//    const svgRect = sliderSvg.getBoundingClientRect();
+//    const scaleX = svgRect.width / sliderSvg.viewBox.baseVal.width;
+//    const scaleY = svgRect.height / sliderSvg.viewBox.baseVal.height;
+//    sliderThumb.style.left = `${point.x * scaleX * 100 / svgRect.width}%`;
+//    sliderThumb.style.top = `${point.y * scaleY * 100 / svgRect.height}%`;
+//    const value = Math.round(progress * (sliderMaxValue - sliderMinValue));
+//    sliderInput.value = value;
+//    updateTime(value);
+//    setColor(progress);
+//};
 
-sliderInput.addEventListener('input', () => {
-    const progress = sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue);
-    updatePosition(progress);
-});
+//sliderInput.addEventListener('input', () => {
+//    const progress = sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue);
+//    updatePosition(progress);
+//});
 
-const handlePointerMove = (event) => {
-    const sliderWidth = sliderPath.getBoundingClientRect().width;
-    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
-    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
-    updatePosition(progress);
-};
+//const handlePointerMove = (event) => {
+//    const sliderWidth = sliderPath.getBoundingClientRect().width;
+//    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
+//    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
+//    updatePosition(progress);
+//};
 
-const handlePointerDown = (event) => {
-    const sliderWidth = sliderPath.getBoundingClientRect().width;
-    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
-    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
-    const isThumb = event.target.classList.contains('slider-thumb');
-    if (!isThumb) updatePosition(progress);
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', () => {
-        window.removeEventListener('pointermove', handlePointerMove);
-    });
-};
+//const handlePointerDown = (event) => {
+//    const sliderWidth = sliderPath.getBoundingClientRect().width;
+//    const pointerX = event.clientX - sliderPath.getBoundingClientRect().left;
+//    const progress = Math.min(Math.max(pointerX / sliderWidth, 0), 1);
+//    const isThumb = event.target.classList.contains('slider-thumb');
+//    if (!isThumb) updatePosition(progress);
+//    window.addEventListener('pointermove', handlePointerMove);
+//    window.addEventListener('pointerup', () => {
+//        window.removeEventListener('pointermove', handlePointerMove);
+//    });
+//};
 
-sliderThumb.addEventListener('pointerdown', handlePointerDown);
-sliderPath.addEventListener('pointerdown', handlePointerDown);
+//sliderThumb.addEventListener('pointerdown', handlePointerDown);
+//sliderPath.addEventListener('pointerdown', handlePointerDown);
 
-updatePosition(sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue));
+//updatePosition(sliderInput.valueAsNumber / (sliderMaxValue - sliderMinValue));
 
-sliderWrapper.addEventListener('selectstart', (event) => {
-    event.preventDefault();
-})
+//sliderWrapper.addEventListener('selectstart', (event) => {
+//    event.preventDefault();
+//})
+
+
+
+
+
+
+////////////////////////////////// CANVAS ANGLE////////////////////////////////////
+
+
+
+//function renderLoop() {
+//    requestAnimationFrame(renderLoop);
+
+
+
+
+//renderLoop();
+
+//ctx.font = "20px Helvetica";
+//ctx.textBaseline = "top";
+
+
+//const canvas = document.getElementById("canvas");
+//const ctx = canvas.getContext("2d");
+//const pi = Math.PI;
+
+//// background gradient
+//var gradient;
+//function fixDpiResizeCanvas() {
+//    const dpr = window.devicePixelRatio || 1;
+//    canvas.style.width = window.innerWidth + "px";
+//    canvas.style.height = window.innerHeight + "px";
+//    canvas.width = window.innerWidth * dpr;
+//    canvas.height = window.innerHeight * dpr;
+//    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+//    // sorry for not using css
+//    gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, 0);
+//    gradient.addColorStop(0, "#88d8ff");
+//    gradient.addColorStop(1, "#d899ff");
+//}
+//fixDpiResizeCanvas();
+//window.addEventListener("resize", fixDpiResizeCanvas);
+
+////
+
+///////////////////////////
+////  JOYSTICK UPDATING  //
+///////////////////////////
+
+//var positions = {
+//    // Here, fixed is the outer circle and inner is the small circle that moves
+//    fixedX: undefined,
+//    fixedY: undefined,
+//    innerX: undefined,
+//    innerY: undefined
+//};
+
+//var angle = undefined;
+
+//function touchStart(x, y) {
+//    if (positions.fixedX || positions.fixedY) return;
+//    positions.fixedX = positions.innerX = x;
+//    positions.fixedY = positions.innerY = y;
+//}
+
+//function touchMove(x, y) {
+//    if (!(positions.fixedX || positions.fixedY)) return;
+
+//    positions.innerX = x;
+//    positions.innerY = y;
+
+//    angle = Math.atan2(
+//        positions.innerY - positions.fixedY,
+//        positions.innerX - positions.fixedX
+//    );
+
+//    // If inner circle is outside joystick radius, reduce it to the circumference
+//    if (!(
+//        (x - positions.fixedX) ** 2 +
+//        (y - positions.fixedY) ** 2 < 10000
+//    )) {
+//        positions.innerX = Math.round(Math.cos(angle) * 100 + positions.fixedX);
+//        positions.innerY = Math.round(Math.sin(angle) * 100 + positions.fixedY);
+//    }
+//}
+
+//function touchEndOrCancel() {
+//    positions.fixedX
+//        = positions.fixedY
+//        = positions.innerX
+//        = positions.innerY
+//        = angle
+//        = undefined;
+//}
+
+//canvas.addEventListener("touchstart", function (e) {
+//    touchStart(e.touches[0].clientX, e.touches[0].clientY);
+//});
+
+//canvas.addEventListener("touchmove", function (e) {
+//    touchMove(e.touches[0].clientX, e.touches[0].clientY)
+//});
+
+//canvas.addEventListener("touchend", touchEndOrCancel);
+//canvas.addEventListener("touchcancel", touchEndOrCancel);
+
+//// TODO: test mouse on pc
+//canvas.addEventListener("mousedown", function (e) {
+//    touchStart(e.offsetX, e.offsetY);
+//});
+
+//canvas.addEventListener("mousemove", function (e) {
+//    touchMove(e.offsetX, e.offsetY);
+//});
+
+//canvas.addEventListener("mouseup", touchEndOrCancel);
+
+//function renderLoop() {
+//    requestAnimationFrame(renderLoop);
+
+
+//    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+//    // Background gradient
+//    ctx.fillStyle = gradient;
+//    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+//    // Invert Y axis and turn into positive
+//    var displayAngle = (-angle + 2 * pi) % (2 * pi);
+
+
+
+//    ctx.fillStyle = "#0008";
+//    // Draw other message if not touching screen
+//    if (!(positions.fixedX || positions.fixedY)) {
+//        ctx.fillText("Touch the screen", 20, 20);
+//        return;
+//    };
+
+//    // Display data
+//    ctx.fillText(
+//        `Angle: ${Math.round((displayAngle * 180) / pi)} degrees (${Math.round(displayAngle * 100) / 100
+//        } radians)`,
+//        20,
+//        20
+//    );
+
+//    ctx.fillText(`Raw angle: ${Math.round(angle * 100) / 100} radians (inverted Y axis)`, 20, 50);
+//    ctx.fillText(`Inner joystick: (${positions.innerX},${positions.innerY})`, 20, 80);
+//    ctx.fillText(`Touch start point: (${positions.fixedX},${positions.fixedY}) or (${Math.round(positions.fixedX / window.innerWidth * 1000) / 1000},${Math.round(positions.fixedY / window.innerHeight * 1000) / 1000})`, 20, 110);
+
+//    // Draw joystick outer circle
+//    ctx.beginPath();
+//    ctx.fillStyle = "#0004";
+//    ctx.arc(positions.fixedX, positions.fixedY, 100, 0, 2 * pi);
+//    ctx.fill();
+//    ctx.closePath();
+
+//    // Draw inner circle
+//    ctx.beginPath();
+//    ctx.fillStyle = "#0008";
+//    ctx.arc(positions.innerX, positions.innerY, 30, 0, 2 * pi);
+//    ctx.fill();
+//    ctx.closePath();
+//}
+
+//renderLoop();
+
+//ctx.font = "20px Helvetica";
+//ctx.textBaseline = "top";
+
+
+

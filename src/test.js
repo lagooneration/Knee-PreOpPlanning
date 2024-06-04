@@ -747,18 +747,22 @@ function animateCamera(position, rotation) {
 const zoomIn = document.getElementById("zoom-in");
 const zoomOut = document.getElementById("zoom-out");
 const xRay = document.getElementById("x-ray");
+const checkboxHighlight = document.getElementById("checkboxA");
 xRay.addEventListener("click", () => {
   if (femur) {
     femur.traverse((child) => {
       if (child.isMesh && child.name === "Right_Femur") {
         if (child.material === holoMaterial) {
-          child.material = basicMaterial;
+            child.material = basicMaterial;
+            checkboxHighlight.checked = false;
         } else {
-          child.material = holoMaterial;
+            child.material = holoMaterial;
+            checkboxHighlight.checked = true;
         }
       }
     });
-  }
+    }
+    
 });
 
 zoomIn.addEventListener("click", () => {
@@ -812,14 +816,21 @@ zoomOut.addEventListener("click", () => {
 //   gsap.to(camera.rotation, { x: 0.5, y: 1.2, z: 0, duration: 2 });
 // });
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
-//// Mouse events
+//// 2D Canvas
+
+
+
 
 /**
  * Animate
  */
 const clock = new THREE.Clock();
-const viewHelper = new ViewHelper(camera, canvas);
+const viewHelper = new ViewHelper(camera, canvas, orbitControls);
+
 function animate() {
   TWEEN.update();
 
@@ -850,7 +861,11 @@ function animate() {
   orbitControls.update();
 
   composer2.render();
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
+
+
+
+
 }
 
 animate();
