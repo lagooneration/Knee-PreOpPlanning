@@ -105,16 +105,17 @@ const gltfLoader = new GLTFLoader(loadingManager);
 
 const gui = new GUI({
   autoPlace: true,
-  width: 370,
+    width: 430,
 });
 const guiContainer = gui.domElement;
 guiContainer.style.position = "absolute";
 guiContainer.style.top = "0";
 guiContainer.style.right = "120px";
 guiContainer.style.zIndex = "100";
-
+// gui title
+gui.title("Knee Alignment Tool (V0.0.2)");
 // gui.controllers.disabled = true;
-// gui.close();
+ gui.close();
 // hide gui
 // gui.toggleHide();
 // add hello label on gui
@@ -125,13 +126,17 @@ const params = {
   useShaderMaterial: false,
   showTransform1: false,
   showTransform2: false,
-  Knee_Alignment: "version_0.0.2",
+  
   loadFile: function () {
     console.log("Upload Femur GLTF MODEL");
-  },
+    },
+
+    moreSettings: function () {
+        console.log("Upload Femur GLTF MODEL");
+    },
 };
 
-gui.add(params, "Knee_Alignment");
+
 // Canvas
 // const canvas = document.querySelector("canvas.webgl");
 
@@ -895,3 +900,4 @@ transformControls.addEventListener("dragging-changed", function (event) {
 //   .step(0.5)
 //   .name("Dir X pos");
 gui.add(params, "loadFile").name("Upload Femur GLTF Model");
+gui.add(params, "moreSettings").name("More settings");
