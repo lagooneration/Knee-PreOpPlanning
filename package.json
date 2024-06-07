@@ -7,26 +7,27 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "devDependencies": {
-    "sass": "^1.43.4",
-    "vite": "^5.2.10",
-    "vite-plugin-glsl": "^1.3.0",
-    "vite-plugin-restart": "^0.4.0"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "@tweenjs/tween.js": "^23.1.2",
-    "css-layout": "^1.1.1",
-    "css-pro-layout": "^1.1.0",
-    "gsap": "^3.12.5",
-    "jquery": "^3.7.1",
-    "less": "^4.2.0",
-    "lil-gui": "^0.19.2",
-    "postcss": "^8.4.38",
-    "remixicon": "^4.2.0",
-    "scss": "^0.2.4",
-    "three": "^0.164.1",
-    "three-gpu-pathtracer": "^0.0.22",
-    "three-viewport-gizmo": "^0.1.5"
-  }
+    "devDependencies": {
+        "sass": "^1.43.4",
+        
+        "vite": "^5.2.10",
+        "vite-plugin-glsl": "^1.3.0",
+        "vite-plugin-restart": "^0.4.0"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.8",
+        "@tweenjs/tween.js": "^23.1.2",
+        "css-layout": "^1.1.1",
+        "css-pro-layout": "^1.1.0",
+        "gsap": "^3.12.5",
+        "jquery": "^3.7.1",
+        "less": "^4.2.0",
+        "lil-gui": "^0.19.2",
+        "postcss": "^8.4.38",
+        "remixicon": "^4.2.0",
+        "scss": "^0.2.4",
+        "three": "^0.164.1",
+        "three-gpu-pathtracer": "^0.0.22",
+        "three-viewport-gizmo": "^0.1.5"
+    }
 }

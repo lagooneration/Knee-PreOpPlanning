@@ -283,17 +283,17 @@ $sidebar-footer-height: 230px;
                 }
             }
 
-            &.icon-shape-circle .menu-item a .menu-icon {
-                border-radius: 50%;
-            }
+                &.icon-shape-circle .menu-item a .menu-icon {
+                    border-radius: 50%;
+                }
 
-            &.icon-shape-rounded .menu-item a .menu-icon {
-                border-radius: 4px;
-            }
+                &.icon-shape-rounded .menu-item a .menu-icon {
+                    border-radius: 4px;
+                }
 
-            &.icon-shape-square .menu-item a .menu-icon {
-                border-radius: 0;
-            }
+                &.icon-shape-square .menu-item a .menu-icon {
+                    border-radius: 0;
+                }
         }
 
         &:not(.collapsed) {

@@ -31,6 +31,8 @@ a {
   }
 }
 
+
+
 .layout {
   .sidebar {
     .pro-sidebar-logo {
@@ -49,7 +51,7 @@ a {
         color: white;
         font-size: 24px;
         font-weight: 700;
-        background-color: #ff8100;
+        background-color: #ffffff60;
         margin-right: 10px;
       }
 
@@ -170,4 +172,9 @@ a {
     margin: 0 10px;
     color: #3f4750;
   }
+}
+
+
+.layout {
+    position: absolute;
 }
