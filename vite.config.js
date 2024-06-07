@@ -1,6 +1,6 @@
 import restart from 'vite-plugin-restart'
 import glsl from 'vite-plugin-glsl'
-import { defineConfig } from 'vite'
+
 export default {
     root: 'src/',
     publicDir: '../static/',
@@ -26,16 +26,3 @@ export default {
 
 
 
-export default defineConfig({
-    css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: `
-          @import "./src/styles/_layout.scss";
-          @import "./src/styles/_menu.scss";
-          @import "./src/styles/_sidebar.scss";
-          @import "./src/styles/_variables.scss";
-        `
-            }
-        }
-    }

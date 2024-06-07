@@ -4,99 +4,99 @@
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
-import $ from 'jquery';
+//import $ from 'jquery';
+//import './sidebar.scss';
 
+////import './styles/styles.scss';
+////import { slideToggle, slideUp, slideDown } from './libs/slide';
+////import {
+////    ANIMATION_DURATION,
+////    FIRST_SUB_MENUS_BTN,
+////    INNER_SUB_MENUS_BTN,
+////    SIDEBAR_EL,
+////} from './libs/constants';
+//import Poppers from './libs/poppers';
 
-import './styles/styles.scss';
-import { slideToggle, slideUp, slideDown } from './libs/slide';
-import {
-    ANIMATION_DURATION,
-    FIRST_SUB_MENUS_BTN,
-    INNER_SUB_MENUS_BTN,
-    SIDEBAR_EL,
-} from './libs/constants';
-import Poppers from './libs/poppers';
+//const PoppersInstance = new Poppers();
+//import { FIRST_SUB_MENUS_BTN, INNER_SUB_MENUS_BTN, SIDEBAR_EL, ANIMATION_DURATION } from './libs/constants';
+///**
+// * wait for the current animation to finish and update poppers position
+// */
+//const updatePoppersTimeout = () => {
+//    setTimeout(() => {
+//        PoppersInstance.updatePoppers();
+//    }, ANIMATION_DURATION);
+//};
 
-const PoppersInstance = new Poppers();
+///**
+// * sidebar collapse handler
+// */
+//document.getElementById('btn-collapse').addEventListener('click', () => {
+//    SIDEBAR_EL.classList.toggle('collapsed');
+//    PoppersInstance.closePoppers();
+//    if (SIDEBAR_EL.classList.contains('collapsed'))
+//        FIRST_SUB_MENUS_BTN.forEach((element) => {
+//            element.parentElement.classList.remove('open');
+//        });
 
-/**
- * wait for the current animation to finish and update poppers position
- */
-const updatePoppersTimeout = () => {
-    setTimeout(() => {
-        PoppersInstance.updatePoppers();
-    }, ANIMATION_DURATION);
-};
+//    updatePoppersTimeout();
+//});
 
-/**
- * sidebar collapse handler
- */
-document.getElementById('btn-collapse').addEventListener('click', () => {
-    SIDEBAR_EL.classList.toggle('collapsed');
-    PoppersInstance.closePoppers();
-    if (SIDEBAR_EL.classList.contains('collapsed'))
-        FIRST_SUB_MENUS_BTN.forEach((element) => {
-            element.parentElement.classList.remove('open');
-        });
+///**
+// * sidebar toggle handler (on break point )
+// */
+//document.getElementById('btn-toggle').addEventListener('click', () => {
+//    SIDEBAR_EL.classList.toggle('toggled');
 
-    updatePoppersTimeout();
-});
+//    updatePoppersTimeout();
+//});
 
-/**
- * sidebar toggle handler (on break point )
- */
-document.getElementById('btn-toggle').addEventListener('click', () => {
-    SIDEBAR_EL.classList.toggle('toggled');
+///**
+// * toggle sidebar on overlay click
+// */
+//document.getElementById('overlay').addEventListener('click', () => {
+//    SIDEBAR_EL.classList.toggle('toggled');
+//});
 
-    updatePoppersTimeout();
-});
+//const defaultOpenMenus = document.querySelectorAll('.menu-item.sub-menu.open');
 
-/**
- * toggle sidebar on overlay click
- */
-document.getElementById('overlay').addEventListener('click', () => {
-    SIDEBAR_EL.classList.toggle('toggled');
-});
+//defaultOpenMenus.forEach((element) => {
+//    element.lastElementChild.style.display = 'block';
+//});
 
-const defaultOpenMenus = document.querySelectorAll('.menu-item.sub-menu.open');
+///**
+// * handle top level submenu click
+// */
+//FIRST_SUB_MENUS_BTN.forEach((element) => {
+//    element.addEventListener('click', () => {
+//        if (SIDEBAR_EL.classList.contains('collapsed'))
+//            PoppersInstance.togglePopper(element.nextElementSibling);
+//        else {
+//            /**
+//             * if menu has "open-current-only" class then only one submenu opens at a time
+//             */
+//            const parentMenu = element.closest('.menu.open-current-submenu');
+//            if (parentMenu)
+//                parentMenu
+//                    .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
+//                    .forEach(
+//                        (el) =>
+//                            window.getComputedStyle(el.nextElementSibling).display !==
+//                            'none' && slideUp(el.nextElementSibling)
+//                    );
+//            slideToggle(element.nextElementSibling);
+//        }
+//    });
+//});
 
-defaultOpenMenus.forEach((element) => {
-    element.lastElementChild.style.display = 'block';
-});
-
-/**
- * handle top level submenu click
- */
-FIRST_SUB_MENUS_BTN.forEach((element) => {
-    element.addEventListener('click', () => {
-        if (SIDEBAR_EL.classList.contains('collapsed'))
-            PoppersInstance.togglePopper(element.nextElementSibling);
-        else {
-            /**
-             * if menu has "open-current-only" class then only one submenu opens at a time
-             */
-            const parentMenu = element.closest('.menu.open-current-submenu');
-            if (parentMenu)
-                parentMenu
-                    .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
-                    .forEach(
-                        (el) =>
-                            window.getComputedStyle(el.nextElementSibling).display !==
-                            'none' && slideUp(el.nextElementSibling)
-                    );
-            slideToggle(element.nextElementSibling);
-        }
-    });
-});
-
-/**
- * handle inner submenu click
- */
-INNER_SUB_MENUS_BTN.forEach((element) => {
-    element.addEventListener('click', () => {
-        slideToggle(element.nextElementSibling);
-    });
-});
+///**
+// * handle inner submenu click
+// */
+//INNER_SUB_MENUS_BTN.forEach((element) => {
+//    element.addEventListener('click', () => {
+//        slideToggle(element.nextElementSibling);
+//    });
+//});
 
 
 /////////////////// ////////////////////////////////////////////////////////////
@@ -780,3 +780,129 @@ initializeDropdown();
 ////////////////////////////////////////////////////////////////////////////////
 //// SIDEBAR 
 //const ANIMATION_DURATION = 300;
+$(".menu > ul > li").click(function (e) {
+    // Remove the 'active' class from other menu items
+    $(this).siblings().removeClass("active");
+    // Toggle the 'active' class on the clicked menu item
+    $(this).toggleClass("active");
+    // Toggle the visibility of the submenu
+    $(this).find("ul").slideToggle();
+    // Close other submenus if they are open
+    $(this).siblings().find("ul").slideUp();
+    // Remove the 'active' class from submenu items
+    $(this).siblings().find("ul").find("li").removeClass("active");
+});
+
+$(".menu-btn").click(function () {
+    // Toggle the 'active' class on the sidebar
+    $(".sidebar").toggleClass("active");
+});
+
+
+
+
+////
+//////////////////////////////////////////////////////////////////////////\
+
+function selectItem(item) {
+    const items = document.querySelectorAll('.sidebarM li');
+    items.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+}
+
+function toggleSection(sectionId, element) {
+    const section = document.getElementById(sectionId);
+    const icon = element.querySelector('.bx');
+
+    if (section.style.maxHeight && section.style.maxHeight !== "0px") {
+        section.style.maxHeight = "0px";
+        section.style.padding = "0";
+    } else {
+        section.style.maxHeight = section.scrollHeight + "px";
+        section.style.padding = "10px 0";
+    }
+
+    icon.classList.toggle('bx-chevron-down');
+    icon.classList.toggle('bx-chevron-up');
+}
+
+// Initialize sections to be expanded
+document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll('.sidebarM ul');
+    sections.forEach(section => {
+        section.style.maxHeight = section.scrollHeight + "px";
+        section.style.padding = "10px 0";
+    });
+
+    const icons = document.querySelectorAll('.section-title .bx');
+    icons.forEach(icon => {
+        icon.classList.add('bx-chevron-up');
+        icon.classList.remove('bx-chevron-down');
+    });
+});
+
+// Check the saved dark mode state on page load
+document.addEventListener("DOMContentLoaded", function () {
+    const darkModeSwitch = document.getElementById('dark-mode-switch');
+    const darkModeState = localStorage.getItem('dark-mode');
+
+    if (darkModeState === 'enabled') {
+        document.body.classList.add('dark-mode');
+        darkModeSwitch.checked = true;
+    }
+
+    darkModeSwitch.addEventListener('change', function () {
+        if (darkModeSwitch.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('dark-mode', 'enabled');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('dark-mode', 'disabled');
+        }
+    });
+});
+
+// Make the DIV element draggable:
+dragElement(document.getElementById("mySidebar"));
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    const dragHandle = document.getElementById("mySidebarHeader");
+
+    dragHandle.onmousedown = dragMouseDown;
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+
+        // Add grabbing cursor
+        document.body.classList.add('dragging');
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+
+        // Remove grabbing cursor
+        document.body.classList.remove('dragging');
+    }
+}
