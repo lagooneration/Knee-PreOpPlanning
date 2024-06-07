@@ -322,10 +322,18 @@
     <div class="main-container" style="visibility:hidden;">
 
         
-            <div class="switch">
+        <div class="switch">
+            <label for="dark-mode-switch" class="ui-switch">
                 <input type="checkbox" id="dark-mode-switch">
-                <label for="dark-mode-switch" class="slider"></label>
-            </div>
+                <div class="slider">
+                    <div class="circle"></div>
+                </div>
+            </label>
+
+            <!--<input type="checkbox" id="dark-mode-switch">
+        <label for="dark-mode-switch" class="slider"></label>
+    -->
+        </div>
 
             <div class="sidebarM" id="mySidebar">
                 <div class="drag" id="mySidebarHeader"><i class='bx bx-dots-horizontal-rounded'></i></div>
@@ -400,32 +408,7 @@
                     <div class="menu-btn"><i class="ph-bold ph-caret-left"></i></div>
                     <div class="headS">
                         <div class="card">
-                            <div class="top-section">
-                                <div class="border"></div>
-                                <div class="icons">
-                                    <div class="logo">
-                                        <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="#2cccde" d="M2 12c0-4.714 0-7.07 1.464-8.535c1.177-1.177 2.93-1.408 6.017-1.454v2.05c0 .556-.476.998-.96 1.273c-.915.518-1.56 1.706-1.56 2.757a2.519 2.519 0 1 0 5.039 0a2.519 2.519 0 0 0 5.038 0c0-1.051-.644-2.24-1.559-2.757c-.484-.275-.96-.717-.96-1.273V2.01c3.088.046 4.84.277 6.016 1.454C22 4.929 22 7.286 22 12s0 7.071-1.465 8.536c-1.171 1.171-2.914 1.406-5.978 1.452v-2.003c0-.557.476-.999.96-1.273c.915-.518 1.559-1.706 1.559-2.758a2.519 2.519 0 0 0-5.038 0a2.519 2.519 0 0 0-5.038 0c0 1.052.644 2.24 1.558 2.758c.485.274.961.716.961 1.273v2.005c-3.111-.045-4.873-.273-6.055-1.454C2 19.07 2 16.714 2 12" /></svg>
-                                        </div>
-                                    </div>
-                                    <div class="social-media">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#1b233d"><path d="M5 16H3a1 1 0 0 0-1 1v.5a1 1 0 0 0 1 1h1a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H2m6.5-5h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1m5.5 0h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1m8 0v5l-3.5-5v5M17 8A5 5 0 1 0 7 8a5 5 0 0 0 10 0" /><path d="M13.5 8.5L12 8V5.5" /></g></svg>
-                                    </div>
-                                </div>
-                                <form class="file-upload-form">
-                                    <label for="file" class="file-upload-label">
-                                        <div class="file-upload-design">
-                                            <svg viewBox="0 0 640 512" height="1em">
-                                                <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
-                                            </svg>
-                                            <p>Drag and Drop</p>
 
-                                            <span class="browse-button">Browse file</span>
-                                        </div>
-                                        <input id="file" type="file" />
-                                    </label>
-                                </form>
-                            </div>
                             <div class="bottom-section">
                                 <span class="title">Pre-Op Planning</span>
                                 <div class="row row1">
@@ -445,7 +428,59 @@
                             </div>
                         </div>
                     </div>
+
+
                     <button id="open-popup">Open Settings</button>
+
+                    <div class="card2">
+                        <span>Landmarks</span>
+                        <div class="card__container">
+                            <p class="element">Try it</p>
+                            <p class="element">Syntax</p>
+                            <p class="element active">Formal definition</p>
+                            <p class="element">Formal syntax</p>
+                            <p class="element">Examples</p>
+                            <p class="element">See also</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="top-section">
+                            <div class="border"></div>
+                            <div class="icons">
+                                <div class="logo">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.3em" height="1.3em" viewBox="0 0 24 24"><path fill="#2cccde" d="M2 12c0-4.714 0-7.07 1.464-8.535c1.177-1.177 2.93-1.408 6.017-1.454v2.05c0 .556-.476.998-.96 1.273c-.915.518-1.56 1.706-1.56 2.757a2.519 2.519 0 1 0 5.039 0a2.519 2.519 0 0 0 5.038 0c0-1.051-.644-2.24-1.559-2.757c-.484-.275-.96-.717-.96-1.273V2.01c3.088.046 4.84.277 6.016 1.454C22 4.929 22 7.286 22 12s0 7.071-1.465 8.536c-1.171 1.171-2.914 1.406-5.978 1.452v-2.003c0-.557.476-.999.96-1.273c.915-.518 1.559-1.706 1.559-2.758a2.519 2.519 0 0 0-5.038 0a2.519 2.519 0 0 0-5.038 0c0 1.052.644 2.24 1.558 2.758c.485.274.961.716.961 1.273v2.005c-3.111-.045-4.873-.273-6.055-1.454C2 19.07 2 16.714 2 12" /></svg>
+                                    </div>
+                                </div>
+                                <div class="social-media">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 512 512"><path fill="#1b233d" d="M219.23 296.46c-5.671 12.448-16.372 19.836-28.558 22.77c-75.797 17.209-92.672-96.291-38.338-125.741c37.824-15.714 60.188 1.858 66.929 15.109v-17.766h20.228c.759 139.008 24.696 193.732-118.867 193.06C48.694 359-.008 311.063 0 256.024c.011-80.634 104.555-145.983 233.504-145.96c84.195.014 157.833 29.383 198.9 71.181c-37.626-24.945-94.208-39.318-157.315-39.318c-113.28 0-205.113 51.101-205.113 114.139c0 39.521 36.227 74.39 91.075 94.877c42.964 13.611 60.959-12.234 58.18-54.483m212.716 34.84c-57.002 35.728-133.006 43.277-197.245 36.688c-12.235 11.105-34.088 23.78-63.85 28.757c106.144 17.176 203.316-9.18 261.095-65.445m-68.122-114.36h38.234v-26.107H295.115v26.107h38.234v102.437l30.475.073zm84.571 50.199h55.677V241.03h-55.677v-24.092H512v-26.107h-94.081v128.69l30.476.073zm-191.176 52.09l21.228.073V158.751H257.22zm-38.955-65.31c0-37.5-31.573-61.065-56.694-42.315s-25.122 65.88 0 84.63s56.694-4.815 56.694-42.315" /></svg>
+                                </div>
+                            </div>
+                            <form class="file-upload-form">
+
+                                <label for="file" class="file-upload-label">
+                                    <div class="file-upload-design">
+                                        <svg viewBox="0 0 640 512" height="1em">
+                                            <path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z"></path>
+                                        </svg>
+                                        <p>Drag and Drop</p>
+
+                                        <span class="browse-button">Browse file</span>
+                                    </div>
+                                    <input id="file" type="file" />
+
+
+                                </label>
+
+                            </form>
+                            <div class="soon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="#1b233d"><path d="M5 16H3a1 1 0 0 0-1 1v.5a1 1 0 0 0 1 1h1a1 1 0 0 1 1 1v.5a1 1 0 0 1-1 1H2m6.5-5h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1m5.5 0h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1m8 0v5l-3.5-5v5M17 8A5 5 0 1 0 7 8a5 5 0 0 0 10 0" /><path d="M13.5 8.5L12 8V5.5" /></g></svg>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="sidebar-footer">
                         <div class="footer-box">
 
