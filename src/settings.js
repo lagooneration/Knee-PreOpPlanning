@@ -7,6 +7,11 @@
 //import $ from 'jquery';
 //import './sidebar.scss';
 
+
+
+
+
+
 ////import './styles/styles.scss';
 ////import { slideToggle, slideUp, slideDown } from './libs/slide';
 ////import {
@@ -155,10 +160,10 @@ items2.forEach((items) => {
 ///////////////////////////////////////////////////////////////////////////////
 //// POINTS //// ATRIBUTES: https://codepen.io/Yanis-Ahmidach/pen/VwNNGrO
 
-document.getElementById("open-popup").addEventListener("click", function () {
-  document.getElementById("popup").classList.toggle("hidden");
-  addOverlay(); // Call function to add overlay
-});
+//document.getElementById("open-popup").addEventListener("click", function () {
+//  document.getElementById("popup").classList.toggle("hidden");
+//  addOverlay(); // Call function to add overlay
+//});
 
 document.getElementById("close-popup").addEventListener("click", function () {
   document.getElementById("popup").classList.add("hidden");
@@ -906,3 +911,8 @@ function dragElement(elmnt) {
         document.body.classList.remove('dragging');
     }
 }
+
+
+////////////////////////////////////////////////////////////////////
+////// SIDEBAR  //////////////////////////////////////////////////
+
