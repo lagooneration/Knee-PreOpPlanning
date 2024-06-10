@@ -333,9 +333,9 @@ class DropdownMenu {
 // }
 // list.forEach((item) => item.addEventListener("click", activelink));
 
-if (document.querySelector(".main")) {
-  document.querySelector(".main").onclick = function () {
-    var submenu = document.querySelector(".spacer");
-    submenu.classList.toggle("show");
-  };
-}
+//if (document.querySelector(".main")) {
+//  document.querySelector(".main").onclick = function () {
+//    var submenu = document.querySelector(".spacer");
+//    submenu.classList.toggle("show");
+//  };
+//}

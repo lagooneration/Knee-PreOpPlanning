@@ -19,6 +19,7 @@
     "@tweenjs/tween.js": "^23.1.2",
     "css-layout": "^1.1.1",
     "css-pro-layout": "^1.1.0",
+    "feather-icons": "^4.29.2",
     "gsap": "^3.12.5",
     "jquery": "^3.7.1",
     "less": "^4.2.0",

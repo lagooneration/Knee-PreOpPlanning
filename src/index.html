@@ -10,9 +10,12 @@
     <link rel="stylesheet" href="./style.css">
     <!--<link rel="icon" type="image/x-icon" href="/femur.svg">-->
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png" />
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Lato:400,500,900' rel='stylesheet' type='text/css'>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     <canvas class="webgl"></canvas>
@@ -316,7 +319,57 @@
             <div class="overlay"></div>
         </div>
     </div>-->
-
+    <div class="containerSL">
+        <div class="sidebarSL">
+            <div class="menu-btn"><i class="ph-bold ph-caret-left"></i></div>
+            <div class="head">
+                <div class="user-img"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTUzMjAyMTh8&ixlib=rb-4.0.3&q=85" alt=""></div>
+                <div class="user-details">
+                    <p class="title"> Orthopedic Alignment</p>
+                    <p class="name">PreOp Planning</p>
+                </div>
+            </div>
+            <div class="navSL">
+                <div class="menuSL">
+                    <p class="title">Main</p>
+                    <ul>
+                        <li><a href="#"><i class="icon ph-bold ph-house-simple"></i><span class="text">Dashboard</span></a></li>
+                        <li>
+                            <a href="#"><i class="icon ph-bold ph-user"></i><span class="text">Landmarks</span><i class="arrow ph-bold ph-caret-down"></i></a>
+                            <ul class="sub-menu">
+                                <li><a href="#"><span class="text">Users</span></a></li>
+                                <li><a href="#"><span class="text">Subscribers</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#"><i class="icon ph-bold ph-calendar-blank"></i><span class="text">Axes</span></a></li>
+                        <li>
+                            <a href="#"><i class="icon ph-bold ph-chart-bar"></i><span class="text">Angles</span><i class="arrow ph-bold ph-caret-down"></i></a>
+                            <ul class="sub-menu">
+                                <li><a href="#"><span class="text">Earnings</span></a></li>
+                                <li><a href="#"><span class="text">Funds</span></a></li>
+                                <li><a href="#"><span class="text">Declines</span></a></li>
+                                <li><a href="#"><span class="text">Payouts</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="active"><a href="#"><i class="icon ph-bold ph-file-text"></i><span class="text">Articles</span></a></li>
+                    </ul>
+                </div>
+                <div class="menuSL">
+                    <p class="title">Settings</p>
+                    <ul>
+                        <li><a href="#"><i class="icon ph-bold ph-gear"></i><span class="text">Settings</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menuSL">
+                <p class="title">Feedback</p>
+                <ul>
+                    <li><a href="#"><i class="icon ph-bold ph-info"></i><span class="text">FAQ</span></a></li>
+                    <li><a href="#"><i class="icon ph-bold ph-sign-out"></i><span class="text">Logout</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -332,8 +385,8 @@
             </label>
 
             <!--<input type="checkbox" id="dark-mode-switch">
-            <label for="dark-mode-switch" class="slider"></label>
-        -->
+                <label for="dark-mode-switch" class="slider"></label>
+            -->
         </div>
 
         <div class="sidebarM" id="mySidebar">
@@ -348,53 +401,53 @@
                 <i class='bx bx-chevron-right'></i>
             </div>
             <!--<ul id="section2">
-            <li onclick="selectItem(this)" class="active">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-                <span class="detail">Detail</span>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-                <span class="detail">Detail</span>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-            </li>
-        </ul>-->
+                <li onclick="selectItem(this)" class="active">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                    <span class="detail">Detail</span>
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                    <span class="detail">Detail</span>
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                </li>
+            </ul>-->
             <div class="section-title" onclick="toggleSection('section3', this)">
                 Section 3
                 <i class='bx bx-chevron-right'></i>
             </div>
             <!--<ul id="section3">
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-                <span class="detail">Detail</span>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-                <div class="detail-icon"></div>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-            </li>
-            <li onclick="selectItem(this)">
-                <div class="iconM"></div>
-                <span class="titleM">Title</span>
-                <div class="detail-both">
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
                     <span class="detail">Detail</span>
-                    <div class="icon-both"></div>
-                </div>
-            </li>
-        </ul>-->
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                    <div class="detail-icon"></div>
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                </li>
+                <li onclick="selectItem(this)">
+                    <div class="iconM"></div>
+                    <span class="titleM">Title</span>
+                    <div class="detail-both">
+                        <span class="detail">Detail</span>
+                        <div class="icon-both"></div>
+                    </div>
+                </li>
+            </ul>-->
             <div class="add">
                 <div class="plus-icon"><i class='bx bx-plus'></i></div>
                 <div class="add-item">Add Item</div>
@@ -402,135 +455,85 @@
         </div>
 
 
-
+        <div class="buttons"><button class="button button--primary" id="miniButton">Toggle Size</button></div>
         <!-- ////////////////////////// SIDEBAR -->
         <!-- sidebar-wrapper  -->
-        <div class="sidebarL close">
-            <div class="logo-details">
-                <i class='bx bxl-c-plus-plus'></i>
-                <span class="logo_name">Alignment Planner</span>
-            </div>
-            <ul class="nav-linksL">
-                <li>
-                    <a href="#">
-                        <i class='bx bx-grid-alt'></i>
-                        <span class="link_name">Dashboard</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Category</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="iocn-link">
-                        <a href="#">
-                            <i class='bx bx-collection'></i>
-                            <span class="link_name">Category</span>
-                        </a>
-                        <i class='bx bxs-chevron-down arrow'></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Category</a></li>
-                        <li><a href="#">HTML & CSS</a></li>
-                        <li><a href="#">JavaScript</a></li>
-                        <li><a href="#">PHP & MySQL</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="iocn-link">
-                        <a href="#">
-                            <i class='bx bx-book-alt'></i>
-                            <span class="link_name">Posts</span>
-                        </a>
-                        <i class='bx bxs-chevron-down arrow'></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Posts</a></li>
-                        <li><a href="#">Web Design</a></li>
-                        <li><a href="#">Login Form</a></li>
-                        <li><a href="#">Card Design</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-pie-chart-alt-2'></i>
-                        <span class="link_name">Analytics</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Analytics</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-line-chart'></i>
-                        <span class="link_name">Chart</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Chart</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="iocn-link">
-                        <a href="#">
-                            <i class='bx bx-plug'></i>
-                            <span class="link_name">Plugins</span>
-                        </a>
-                        <i class='bx bxs-chevron-down arrow'></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="link_name" href="#">Plugins</a></li>
-                        <li><a href="#">UI Face</a></li>
-                        <li><a href="#">Pigments</a></li>
-                        <li><a href="#">Box Icons</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-compass'></i>
-                        <span class="link_name">Explore</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Explore</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-history'></i>
-                        <span class="link_name">History</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">History</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bx-cog'></i>
-                        <span class="link_name">Setting</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Setting</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="profile-details">
-                        <div class="profile-content">
-                            <img src="image/profile.jpg" alt="profileImg">
+        <!--<div id="sideL">
+            <div class="wrapper">
+
+                <div class="sidebar">
+                    <div class="sidebar__header">
+                        <div class="profile sidebar__profile">
+                            <svg class="profile__avatar" fill="#ffffff" height="262px" width="262px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 496" xml:space="preserve" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M494.896,339.888c-0.432-2.552-0.992-5.064-1.688-7.52c-0.16-0.56-0.264-1.128-0.432-1.68 c-0.888-2.856-2-5.608-3.224-8.304c-0.368-0.808-0.76-1.608-1.16-2.408c-1.328-2.664-2.776-5.264-4.416-7.728 c-0.056-0.08-0.088-0.168-0.144-0.248C491.816,300.152,496,286.448,496,272c0-39.704-32.296-72-72-72 c-33.816,0-62.816,23.624-70.16,56h-49.76l-94.624-116.712C218.872,126.832,224,111.696,224,96c0-39.704-32.296-72-72-72 c-30.04,0-56.896,18.904-67.344,46.672C46.504,72.424,16,104.016,16,142.592c0,25.672,13.544,48.184,33.824,60.936 C20.952,212.904,0,240.04,0,272c0,14.448,4.184,28.152,12.168,40c-0.056,0.08-0.088,0.168-0.144,0.248 c-1.64,2.464-3.08,5.064-4.416,7.728c-0.4,0.8-0.792,1.6-1.16,2.416c-1.224,2.688-2.336,5.44-3.224,8.296 c-0.168,0.552-0.272,1.128-0.432,1.68c-0.696,2.456-1.256,4.96-1.688,7.52c-0.152,0.904-0.296,1.808-0.416,2.72 C0.28,345.688,0,348.808,0,352c0,39.704,32.296,72,72,72c33.816,0,62.816-23.624,70.16-56h89.392 c-4.904,9.84-7.552,20.712-7.552,32c0,39.704,32.296,72,72,72c30.04,0,56.896-18.904,67.344-46.672 c10.872-0.496,21.088-3.488,30.192-8.304C403.088,421.512,413.488,424,424,424c39.704,0,72-32.296,72-72 c0-3.192-0.28-6.312-0.688-9.392C495.2,341.688,495.048,340.792,494.896,339.888z M128.384,352l-0.872,7.008 C124.016,386.936,100.16,408,72,408c-30.872,0-56-25.128-56-56c0-2.856,0.288-5.664,0.704-8.432 c0.088-0.576,0.16-1.152,0.264-1.728c0.472-2.592,1.136-5.136,1.976-7.624c0.2-0.584,0.424-1.16,0.64-1.744 c0.952-2.536,2.024-5.024,3.344-7.408c0.104-0.192,0.232-0.376,0.344-0.56c1.416-2.496,3.032-4.904,4.856-7.2 c0.184-0.232,0.352-0.488,0.544-0.72l0.224-0.28C39.168,303.912,54.68,296,72,296v-16c-18.872,0-36.024,7.352-48.872,19.28 C18.456,290.984,16,281.712,16,272c0-30.872,25.128-56,56-56c28.16,0,52.016,21.064,55.504,48.992l0.88,7.008h44.48l12.976,16H176 v16h22.808l12.976,16H200v16h24.752l12.976,16H128.384z M110.064,211c3.432-1.112,6.824-2.392,10.072-4.024L159.888,256H142.16 C137.832,236.936,125.968,220.96,110.064,211z M360,409.408l-8.432-0.36l-1.704,6.08C343.128,439.184,320.976,456,296,456 c-30.872,0-56-25.128-56-56c0-14.816,5.744-28.792,16.168-39.344l5.04-5.104L123.832,186.128l-6.008,3.8 C108.856,195.6,98.544,198.6,88,198.6c-30.872,0-56-25.128-56-56c0-30.872,25.128-56,56-56s56,25.128,56,56h16 c0-35.072-25.216-64.328-58.472-70.68C110.696,52.752,130.264,40,152,40c30.872,0,56,25.128,56,56 c0,14-5.248,27.432-14.792,37.816l-4.672,5.088l127.68,157.48c-17.12,13.168-28.216,33.8-28.216,57.024h16 c0-20.712,11.336-38.8,28.112-48.488c4.096-2.36,8.456-4.168,12.952-5.424c0.36-0.096,0.72-0.184,1.08-0.28 c1.84-0.472,3.704-0.84,5.576-1.128c0.504-0.072,0.992-0.168,1.496-0.232c2.248-0.28,4.512-0.456,6.784-0.456 c30.872,0,56,25.128,56,56S390.872,409.408,360,409.408z M467.112,316.304l0.224,0.28c0.192,0.232,0.352,0.488,0.536,0.72 c1.824,2.296,3.44,4.704,4.856,7.2c0.112,0.192,0.232,0.368,0.344,0.56c1.32,2.384,2.392,4.872,3.344,7.408 c0.216,0.576,0.44,1.152,0.64,1.744c0.832,2.488,1.496,5.032,1.976,7.624c0.104,0.568,0.176,1.144,0.264,1.72 c0.416,2.776,0.704,5.584,0.704,8.44c0,30.872-25.128,56-56,56c-5.104,0-10.08-0.736-14.896-2.088 C423.152,392.768,432,374.12,432,353.408c0-39.704-32.296-72-72-72c-2.584,0-5.128,0.152-7.64,0.416 c-0.264,0.032-0.52,0.088-0.792,0.12c-2.296,0.272-4.568,0.632-6.792,1.112c-0.232,0.048-0.456,0.128-0.696,0.176 c-2.256,0.512-4.472,1.12-6.648,1.84c-0.304,0.104-0.6,0.224-0.904,0.336c-2.072,0.72-4.096,1.512-6.08,2.408 c-0.144,0.064-0.296,0.112-0.44,0.176L317.048,272h50.568l0.872-7.008C371.984,237.064,395.84,216,424,216 c30.872,0,56,25.128,56,56c0,9.712-2.456,18.984-7.128,27.28C460.024,287.352,442.872,280,424,280v16 C441.32,296,456.832,303.912,467.112,316.304z"></path> </g> </g> </g></svg>
+
+                            <div class="profile__name">Kimi Raikkonen</div>
                         </div>
-                        <div class="name-job">
-                            <div class="profile_name">Prem Shahi</div>
-                            <div class="job">Web Desginer</div>
+
+                        <div class="sortable-accordion">
+                            <h3>GROUP 1</h3>
+
+                            <div class="inner">
+                                <ul class="sortable">
+                                    <li class="ui-state-default">Item 1</li>
+                                    <li class="ui-state-default">Item 2</li>
+                                    <li class="ui-state-default">Item 3</li>
+                                    <li class="ui-state-default">Item 4</li>
+                                </ul>
+                            </div>
+                            <h3>GROUP 2</h3>
+
+                            <div class="inner">
+                                <ul class="sortable">
+                                    <li class="ui-state-default">Item 1</li>
+                                    <li class="ui-state-default">Item 2</li>
+                                </ul>
+                            </div>
+                            <h3>GROUP 3</h3>
+
+                            <div class="inner">
+                                <ul class="sortable">
+                                    <li class="ui-state-default">Item 1</li>
+                                    <li class="ui-state-default">Item 2</li>
+                                    <li class="ui-state-default">Item 3</li>
+                                    <li class="ui-state-default">Item 4</li>
+                                </ul>
+                            </div>
                         </div>
-                        <i class='bx bx-log-out'></i>
+                        <div id="submenu">
+                            <a class="compare" href=""></a>
+                            <a class="revisions" href=""></a>
+                            <a class="edit" href=""></a>
+                            <span></span>
+                        </div>
+                        <div class="theme-btn" id="themeButton"><i class="theme-btn__icon" data-feather="moon"></i><span class="theme-btn__label">Night mode</span></div>
                     </div>
-                </li>
-            </ul>
-        </div>
-        <section class="home-section">
-            <div class="home-content">
-                <i class='bx bx-menu'></i>
-                <span class="text">Drop Down Sidebar</span>
+                    <div class="sidebar__body">
+                        <div class="menu sidebar__menu">
+                            <a class="menu__item" href="#">
+                                <div class="menu__icon"><i data-feather="home"></i></div>
+                                <div class="menu__title">Home</div>
+                            </a>
+                            <a class="menu__item" href="#">
+                                <div class="menu__icon"><i data-feather="image"></i></div>
+                                <div class="menu__title">Media</div>
+                            </a>
+                            <a class="menu__item" href="#">
+                                <div class="menu__icon"><i data-feather="file-text"></i></div>
+                                <div class="menu__title">Documents</div>
+                            </a>
+                            <a class="menu__item" href="#">
+                                <div class="menu__icon"><i data-feather="users"></i></div>
+                                <div class="menu__title">Teams</div>
+                            </a>
+                            <a class="menu__item" href="#">
+                                <div class="menu__icon"><i data-feather="settings"></i></div>
+                                <div class="menu__title">Settings</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-        
+        </div>-->
 
         <div id="empty"></div>
 
@@ -606,9 +609,9 @@
 
 
                                 <!--<span>View</span>
-                            <i class='bx bx-home'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.192 19.129l-4.884-2.837q-.38-.217-.593-.59q-.215-.373-.215-.808V9.221q0-.434.215-.807q.214-.373.593-.591l4.884-2.836q.38-.218.808-.218t.808.218l4.884 2.836q.38.218.594.59q.214.374.214.808v5.673q0 .435-.214.808q-.215.373-.594.59l-4.884 2.837q-.38.217-.808.217t-.808-.217m.308-.973v-5.831l-5-2.844v5.413q0 .154.077.289t.23.23zm1 0l4.692-2.742q.154-.097.231-.231q.077-.135.077-.289V9.481l-5 2.844zM3 7V4.616q0-.672.472-1.144T4.616 3H7v1H4.616q-.27 0-.443.173T4 4.616V7zm4 14H4.616q-.672 0-1.144-.472T3 19.385V17h1v2.385q0 .269.173.442t.443.173H7zm10 0v-1h2.385q.269 0 .442-.173t.173-.442V17h1v2.385q0 .67-.472 1.143q-.472.472-1.143.472zm3-14V4.616q0-.27-.173-.443T19.385 4H17V3h2.385q.67 0 1.143.472q.472.472.472 1.144V7zm-8 4.466l4.989-2.883l-4.681-2.698q-.154-.096-.308-.096t-.308.096l-4.68 2.698zm-.5.859" /></svg>
-                            </i>-->
+                                <i class='bx bx-home'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.192 19.129l-4.884-2.837q-.38-.217-.593-.59q-.215-.373-.215-.808V9.221q0-.434.215-.807q.214-.373.593-.591l4.884-2.836q.38-.218.808-.218t.808.218l4.884 2.836q.38.218.594.59q.214.374.214.808v5.673q0 .435-.214.808q-.215.373-.594.59l-4.884 2.837q-.38.217-.808.217t-.808-.217m.308-.973v-5.831l-5-2.844v5.413q0 .154.077.289t.23.23zm1 0l4.692-2.742q.154-.097.231-.231q.077-.135.077-.289V9.481l-5 2.844zM3 7V4.616q0-.672.472-1.144T4.616 3H7v1H4.616q-.27 0-.443.173T4 4.616V7zm4 14H4.616q-.672 0-1.144-.472T3 19.385V17h1v2.385q0 .269.173.442t.443.173H7zm10 0v-1h2.385q.269 0 .442-.173t.173-.442V17h1v2.385q0 .67-.472 1.143q-.472.472-1.143.472zm3-14V4.616q0-.27-.173-.443T19.385 4H17V3h2.385q.67 0 1.143.472q.472.472.472 1.144V7zm-8 4.466l4.989-2.883l-4.681-2.698q-.154-.096-.308-.096t-.308.096l-4.68 2.698zm-.5.859" /></svg>
+                                </i>-->
                                 <div class="zoomzoombtns">
 
                                     <span><button class="zoomzoom__btn"></button></span>
@@ -924,29 +927,38 @@
         <!-- //////////////////////////////////////////////////////////////////////////////// -->
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/jquery-ui.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/jquery-ui.min.js"></script>-->
     <script type="module" src="./test.js"></script>
     <script type="module" src="./components/dropdown.js"></script>
     <script type="module" src="./settings.js"></script>
 
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js" integrity="sha512-8Z5++K1rB3U+USaLKG6oO8uWWBhdYsM3hmdirnOEWp8h2B1aOikj5zBzlXs8QOrvY9OxEnD2QDkbSKKpfqcIWw==" crossorigin="anonymous"></script>
     <script>
-        let arrow = document.querySelectorAll(".arrow");
-        for (var i = 0; i < arrow.length; i++) {
-            arrow[i].addEventListener("click", (e) => {
-                let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-                arrowParent.classList.toggle("showMenu");
-            });
-        }
-        let sidebar = document.querySelector(".sidebarL");
-        let sidebarBtn = document.querySelector(".bx-menu");
-        console.log(sidebarBtn);
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
+
+        console.clear();
+
+        $(".menuSL > ul > li").click(function (e) {
+            // Remove the 'active' class from other menu items
+            $(this).siblings().removeClass("active");
+            // Toggle the 'active' class on the clicked menu item
+            $(this).toggleClass("active");
+            // Toggle the visibility of the submenu
+            $(this).find("ul").slideToggle();
+            // Close other submenus if they are open
+            $(this).siblings().find("ul").slideUp();
+            // Remove the 'active' class from submenu items
+            $(this).siblings().find("ul").find("li").removeClass("active");
         });
+
+        $(".menu-btn").click(function () {
+            // Toggle the 'active' class on the sidebar
+            $(".sidebarSL").toggleClass("active");
+        });
+
+
     </script>
+
 </body>
 
 

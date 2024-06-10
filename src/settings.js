@@ -783,136 +783,29 @@ initializeDropdown();
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-//// SIDEBAR 
+//// SIDEBAR
+
 //const ANIMATION_DURATION = 300;
-$(".menu > ul > li").click(function (e) {
-    // Remove the 'active' class from other menu items
-    $(this).siblings().removeClass("active");
-    // Toggle the 'active' class on the clicked menu item
-    $(this).toggleClass("active");
-    // Toggle the visibility of the submenu
-    $(this).find("ul").slideToggle();
-    // Close other submenus if they are open
-    $(this).siblings().find("ul").slideUp();
-    // Remove the 'active' class from submenu items
-    $(this).siblings().find("ul").find("li").removeClass("active");
-});
+//$(".menu > ul > li").click(function (e) {
+//    // Remove the 'active' class from other menu items
+//    $(this).siblings().removeClass("active");
+//    // Toggle the 'active' class on the clicked menu item
+//    $(this).toggleClass("active");
+//    // Toggle the visibility of the submenu
+//    $(this).find("ul").slideToggle();
+//    // Close other submenus if they are open
+//    $(this).siblings().find("ul").slideUp();
+//    // Remove the 'active' class from submenu items
+//    $(this).siblings().find("ul").find("li").removeClass("active");
+//});
 
-$(".menu-btn").click(function () {
-    // Toggle the 'active' class on the sidebar
-    $(".sidebar").toggleClass("active");
-});
-
+//$(".menu-btn").click(function () {
+//    // Toggle the 'active' class on the sidebar
+//    $(".sidebar").toggleClass("active");
+//});
 
 
 
 ////
 //////////////////////////////////////////////////////////////////////////\
-
-function selectItem(item) {
-    const items = document.querySelectorAll('.sidebarM li');
-    items.forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
-}
-
-function toggleSection(sectionId, element) {
-    const section = document.getElementById(sectionId);
-    const icon = element.querySelector('.bx');
-
-    if (section.style.maxHeight && section.style.maxHeight !== "0px") {
-        section.style.maxHeight = "0px";
-        section.style.padding = "0";
-    } else {
-        section.style.maxHeight = section.scrollHeight + "px";
-        section.style.padding = "10px 0";
-    }
-
-    icon.classList.toggle('bx-chevron-down');
-    icon.classList.toggle('bx-chevron-up');
-}
-
-// Initialize sections to be expanded
-document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll('.sidebarM ul');
-    sections.forEach(section => {
-        section.style.maxHeight = section.scrollHeight + "px";
-        section.style.padding = "10px 0";
-    });
-
-    const icons = document.querySelectorAll('.section-title .bx');
-    icons.forEach(icon => {
-        icon.classList.add('bx-chevron-up');
-        icon.classList.remove('bx-chevron-down');
-    });
-});
-
-// Check the saved dark mode state on page load
-document.addEventListener("DOMContentLoaded", function () {
-    const darkModeSwitch = document.getElementById('dark-mode-switch');
-    const darkModeState = localStorage.getItem('dark-mode');
-
-    if (darkModeState === 'enabled') {
-        document.body.classList.add('dark-mode');
-        darkModeSwitch.checked = true;
-    }
-
-    darkModeSwitch.addEventListener('change', function () {
-        if (darkModeSwitch.checked) {
-            document.body.classList.add('dark-mode');
-            localStorage.setItem('dark-mode', 'enabled');
-        } else {
-            document.body.classList.remove('dark-mode');
-            localStorage.setItem('dark-mode', 'disabled');
-        }
-    });
-});
-
-// Make the DIV element draggable:
-dragElement(document.getElementById("mySidebar"));
-
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    const dragHandle = document.getElementById("mySidebarHeader");
-
-    dragHandle.onmousedown = dragMouseDown;
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-
-        // Add grabbing cursor
-        document.body.classList.add('dragging');
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-
-        // Remove grabbing cursor
-        document.body.classList.remove('dragging');
-    }
-}
-
-
-////////////////////////////////////////////////////////////////////
-////// SIDEBAR  //////////////////////////////////////////////////
 
