@@ -76,8 +76,8 @@ const checkboxes = document.querySelectorAll(".radio-input-wrapper .check-box");
 // Variables
 let femur, part1, part2, parentPart;
 let transformControls, transformControls1, transformControls2;
-let needsRender = true;
-let enableAdding = false;
+let uploadModel = new THREE.Object3D();
+
 let currentIndex;
 let currentCheckbox = false;
 const spheres = [];
@@ -454,7 +454,9 @@ console.log(labels);
 const labelGeometry = new THREE.SphereGeometry(sphereSize, 32, 32);
 
 // Handle slider input
-const sliderrange = document.getElementById("myRange");
+const sliderrange = document.getElementById("rangeValueLandmark");
+const modelsizing = document.getElementById("rangeValueModel");
+
 const slider = document.getElementById("slid");
 
 const sphere = new THREE.Mesh(labelGeometry, labelMaterial);
@@ -863,7 +865,17 @@ function animate() {
   holoMaterial.uniforms.uTime.value = elapsedTime;
 
   // Update controls
-  orbitControls.update();
+    orbitControls.update();
+
+
+
+    if (uploadModel) {
+        modelsizing.addEventListener("input", (event) => {
+            const scale = 0.07 * event.target.value;
+            uploadModel.scale.set(scale, scale, scale);
+        });
+    }
+
 
   composer2.render();
     requestAnimationFrame(animate);
@@ -879,6 +891,63 @@ animate();
 transformControls.addEventListener("dragging-changed", function (event) {
   orbitControls.enabled = !event.value;
 });
+
+// code for variable
+
+
+
+if (uploadModel) {
+    modelsizing.addEventListener("input", (event) => {
+        const scale = 0.07 * event.target.value;
+        uploadModel.scale.set(scale, scale, scale);
+    });
+}
+
+ // Handle file input
+        document.getElementById('file').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file && file.name.endsWith('.gltf')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const contents = e.target.result;
+                    
+                    gltfLoader.parse(contents, '', function (gltf) {
+                        uploadModel = gltf.scene
+                        //modelSizeD();
+                        const checkboxHighlight = document.getElementById("checkboxA");
+                        xRay.addEventListener("click", () => {
+                            if (uploadModel) {
+                                uploadModel.traverse((child) => {
+                                    if (child.isMesh) {
+                                        if (child.material === holoMaterial) {
+                                            child.material = basicMaterial;
+                                            checkboxHighlight.checked = false;
+                                        } else {
+                                            child.material = holoMaterial;
+                                            checkboxHighlight.checked = true;
+                                        }
+                                    }
+                                });
+                            }
+
+                        });
+
+                        
+
+                        
+
+                        scene.add(gltf.scene);
+                    }, function (error) {
+                        console.error('An error happened', error);
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert('Please upload a valid .gltf file.');
+            }
+        });
+
+
 
 // gui.add(camera.position, "x").min(-20).max(50).step(0.5).name("Dir X pos");
 // gui.add(camera2.position, "y").min(-100).max(50).step(1).name("Dir Y pos");
