@@ -4,99 +4,104 @@
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
-import $ from 'jquery';
+//import $ from 'jquery';
+//import './sidebar.scss';
 
 
-import './styles/styles.scss';
-import { slideToggle, slideUp, slideDown } from './libs/slide';
-import {
-    ANIMATION_DURATION,
-    FIRST_SUB_MENUS_BTN,
-    INNER_SUB_MENUS_BTN,
-    SIDEBAR_EL,
-} from './libs/constants';
-import Poppers from './libs/poppers';
 
-const PoppersInstance = new Poppers();
 
-/**
- * wait for the current animation to finish and update poppers position
- */
-const updatePoppersTimeout = () => {
-    setTimeout(() => {
-        PoppersInstance.updatePoppers();
-    }, ANIMATION_DURATION);
-};
 
-/**
- * sidebar collapse handler
- */
-document.getElementById('btn-collapse').addEventListener('click', () => {
-    SIDEBAR_EL.classList.toggle('collapsed');
-    PoppersInstance.closePoppers();
-    if (SIDEBAR_EL.classList.contains('collapsed'))
-        FIRST_SUB_MENUS_BTN.forEach((element) => {
-            element.parentElement.classList.remove('open');
-        });
 
-    updatePoppersTimeout();
-});
+////import './styles/styles.scss';
+////import { slideToggle, slideUp, slideDown } from './libs/slide';
+////import {
+////    ANIMATION_DURATION,
+////    FIRST_SUB_MENUS_BTN,
+////    INNER_SUB_MENUS_BTN,
+////    SIDEBAR_EL,
+////} from './libs/constants';
+//import Poppers from './libs/poppers';
 
-/**
- * sidebar toggle handler (on break point )
- */
+//const PoppersInstance = new Poppers();
+//import { FIRST_SUB_MENUS_BTN, INNER_SUB_MENUS_BTN, SIDEBAR_EL, ANIMATION_DURATION } from './libs/constants';
+///**
+// * wait for the current animation to finish and update poppers position
+// */
+//const updatePoppersTimeout = () => {
+//    setTimeout(() => {
+//        PoppersInstance.updatePoppers();
+//    }, ANIMATION_DURATION);
+//};
+
+///**
+// * sidebar collapse handler
+// */
+//document.getElementById('btn-collapse').addEventListener('click', () => {
+//    SIDEBAR_EL.classList.toggle('collapsed');
+//    PoppersInstance.closePoppers();
+//    if (SIDEBAR_EL.classList.contains('collapsed'))
+//        FIRST_SUB_MENUS_BTN.forEach((element) => {
+//            element.parentElement.classList.remove('open');
+//        });
+
+//    updatePoppersTimeout();
+//});
+
+///**
+// * sidebar toggle handler (on break point )
+// */
 //document.getElementById('btn-toggle').addEventListener('click', () => {
 //    SIDEBAR_EL.classList.toggle('toggled');
 
 //    updatePoppersTimeout();
 //});
 
-/**
- * toggle sidebar on overlay click
- */
-document.getElementById('overlay').addEventListener('click', () => {
-    SIDEBAR_EL.classList.toggle('toggled');
-});
+///**
+// * toggle sidebar on overlay click
+// */
+//document.getElementById('overlay').addEventListener('click', () => {
+//    SIDEBAR_EL.classList.toggle('toggled');
+//});
 
-const defaultOpenMenus = document.querySelectorAll('.menu-item.sub-menu.open');
+//const defaultOpenMenus = document.querySelectorAll('.menu-item.sub-menu.open');
 
-defaultOpenMenus.forEach((element) => {
-    element.lastElementChild.style.display = 'block';
-});
+//defaultOpenMenus.forEach((element) => {
+//    element.lastElementChild.style.display = 'block';
+//});
 
-/**
- * handle top level submenu click
- */
-FIRST_SUB_MENUS_BTN.forEach((element) => {
-    element.addEventListener('click', () => {
-        if (SIDEBAR_EL.classList.contains('collapsed'))
-            PoppersInstance.togglePopper(element.nextElementSibling);
-        else {
-            /**
-             * if menu has "open-current-only" class then only one submenu opens at a time
-             */
-            const parentMenu = element.closest('.menu.open-current-submenu');
-            if (parentMenu)
-                parentMenu
-                    .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
-                    .forEach(
-                        (el) =>
-                            window.getComputedStyle(el.nextElementSibling).display !==
-                            'none' && slideUp(el.nextElementSibling)
-                    );
-            slideToggle(element.nextElementSibling);
-        }
-    });
-});
+///**
+// * handle top level submenu click
+// */
+//FIRST_SUB_MENUS_BTN.forEach((element) => {
+//    element.addEventListener('click', () => {
+//        if (SIDEBAR_EL.classList.contains('collapsed'))
+//            PoppersInstance.togglePopper(element.nextElementSibling);
+//        else {
+//            /**
+//             * if menu has "open-current-only" class then only one submenu opens at a time
+//             */
+//            const parentMenu = element.closest('.menu.open-current-submenu');
+//            if (parentMenu)
+//                parentMenu
+//                    .querySelectorAll(':scope > ul > .menu-item.sub-menu > a')
+//                    .forEach(
+//                        (el) =>
+//                            window.getComputedStyle(el.nextElementSibling).display !==
+//                            'none' && slideUp(el.nextElementSibling)
+//                    );
+//            slideToggle(element.nextElementSibling);
+//        }
+//    });
+//});
 
-/**
- * handle inner submenu click
- */
-INNER_SUB_MENUS_BTN.forEach((element) => {
-    element.addEventListener('click', () => {
-        slideToggle(element.nextElementSibling);
-    });
-});
+///**
+// * handle inner submenu click
+// */
+//INNER_SUB_MENUS_BTN.forEach((element) => {
+//    element.addEventListener('click', () => {
+//        slideToggle(element.nextElementSibling);
+//    });
+//});
 
 
 /////////////////// ////////////////////////////////////////////////////////////
@@ -778,5 +783,29 @@ initializeDropdown();
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-//// SIDEBAR 
+//// SIDEBAR
+
 //const ANIMATION_DURATION = 300;
+//$(".menu > ul > li").click(function (e) {
+//    // Remove the 'active' class from other menu items
+//    $(this).siblings().removeClass("active");
+//    // Toggle the 'active' class on the clicked menu item
+//    $(this).toggleClass("active");
+//    // Toggle the visibility of the submenu
+//    $(this).find("ul").slideToggle();
+//    // Close other submenus if they are open
+//    $(this).siblings().find("ul").slideUp();
+//    // Remove the 'active' class from submenu items
+//    $(this).siblings().find("ul").find("li").removeClass("active");
+//});
+
+//$(".menu-btn").click(function () {
+//    // Toggle the 'active' class on the sidebar
+//    $(".sidebar").toggleClass("active");
+//});
+
+
+
+////
+//////////////////////////////////////////////////////////////////////////\
+

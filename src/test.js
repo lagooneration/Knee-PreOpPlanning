@@ -14,7 +14,7 @@ import labelVertexShader from "./shaders/labels/vertex.glsl";
 import lineFragmentShader from "./shaders/lineSegments/fragment.glsl";
 import lineVertexShader from "./shaders/lineSegments/vertex.glsl";
 
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { EffectComposer }  from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { DotScreenShader } from "three/examples/jsm/shaders/DotScreenShader.js";
