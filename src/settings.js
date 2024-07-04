@@ -1,6 +1,10 @@
 
 //import "./angles.css";
-
+import gsap from "gsap";
+import MotionPathPlugin from "gsap/MotionPathPlugin"; 
+import Draggable from "gsap/Draggable";
+import MorphSVGPlugin from "gsap/MorphSVGPlugin";
+gsap.registerPlugin(MotionPathPlugin, Draggable, MorphSVGPlugin);
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
@@ -622,176 +626,157 @@ initializeDropdown();
 
 ////////////////////////////////// CANVAS ANGLE////////////////////////////////////
 
+// Get positions around the circle.
+const circle = document.querySelector('.circle')
+const radius = circle.offsetWidth / 2
 
+const turnDegrees = 8
+const angleIncrement = turnDegrees * (Math.PI / 180)
+const startAngle = -Math.PI / 2
 
-//function renderLoop() {
-//    requestAnimationFrame(renderLoop);
+let dataPositions = []
+for (let i = 0; i < 360 / turnDegrees; i++) {
+    let angle = startAngle + (angleIncrement * i)
 
+    const x = radius + Math.cos(angle) * radius
+    const y = radius + Math.sin(angle) * radius
+    const rotation = angle * (180 / Math.PI) + 90
 
+    dataPositions.push({ x, y, rotation })
+}
 
+// Create ghost elements for positions.
+dataPositions.forEach((position, i) => {
+    const node = document.createElement('div')
+    node.classList.add('position')
+    if (i == 0) node.classList.add('active')
+    const textNode = document.createTextNode(i)
+    node.appendChild(textNode)
+    circle.insertBefore(node, circle.children[i])
 
-//renderLoop();
+    gsap.set(node, {
+        display: 'none',
+        backgroundColor: '#ccc',
+        opacity: 0.3,
+        xPercent: -50,
+        yPercent: -50,
+        transformOrigin: '50% 50%',
+        x: position.x,
+        y: position.y,
+        rotation: position.rotation
+    })
+})
 
-//ctx.font = "20px Helvetica";
-//ctx.textBaseline = "top";
+// Set initial values for boxes.
+const boxes = gsap.utils.toArray('.box')
+const colors = ["#f38630", "#6fb936", "#ccc", "#6fb936"]
 
+const wrapBoxes = gsap.utils.wrap(-3, 7)
+const wrapPositions = gsap.utils.wrap(0, 45)
+const transformIndex = gsap.utils.pipe(wrapBoxes, wrapPositions)
 
-//const canvas = document.getElementById("canvas");
-//const ctx = canvas.getContext("2d");
-//const pi = Math.PI;
+gsap.set(boxes, {
+    backgroundColor: gsap.utils.wrap(colors),
+    xPercent: -50,
+    yPercent: -50,
+    transformOrigin: '50% 50%',
+    x: (index) => {
+        const position = transformIndex(index)
+        return dataPositions[position].x
+    },
+    y: (index) => {
+        const position = transformIndex(index)
+        return dataPositions[position].y
+    },
+    rotation: (index) => {
+        const position = transformIndex(index)
+        return dataPositions[position].rotation
+    }
+})
 
-//// background gradient
-//var gradient;
-//function fixDpiResizeCanvas() {
-//    const dpr = window.devicePixelRatio || 1;
-//    canvas.style.width = window.innerWidth + "px";
-//    canvas.style.height = window.innerHeight + "px";
-//    canvas.width = window.innerWidth * dpr;
-//    canvas.height = window.innerHeight * dpr;
-//    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+// Animation.
+const positions = gsap.utils.toArray('.position')
+const trackPosition = { position: 0 }
 
-//    // sorry for not using css
-//    gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, 0);
-//    gradient.addColorStop(0, "#88d8ff");
-//    gradient.addColorStop(1, "#d899ff");
-//}
-//fixDpiResizeCanvas();
-//window.addEventListener("resize", fixDpiResizeCanvas);
+const tl = gsap.timeline({
+    paused: true,
+    reversed: true,
+})
 
-////
+tl.to(circle, {
+    rotation: 360,
+    duration: 1,
+    ease: 'none',
+})
 
-///////////////////////////
-////  JOYSTICK UPDATING  //
-///////////////////////////
+tl.to(trackPosition, {
+    position: 45,
+    duration: 1,
+    ease: 'none',
+    modifiers: {
+        position: function (value) {
+            const tracked = wrapPositions(45 - Math.round(value))
 
-//var positions = {
-//    // Here, fixed is the outer circle and inner is the small circle that moves
-//    fixedX: undefined,
-//    fixedY: undefined,
-//    innerX: undefined,
-//    innerY: undefined
-//};
+            if (trackPosition.position !== tracked) {
+                console.log('update')
 
-//var angle = undefined;
+                // TODO: Update box with active class.
+                //positions[trackPosition.position].classList.remove('active')
+                //positions[tracked].classList.add('active')
+            }
 
-//function touchStart(x, y) {
-//    if (positions.fixedX || positions.fixedY) return;
-//    positions.fixedX = positions.innerX = x;
-//    positions.fixedY = positions.innerY = y;
-//}
+            return tracked
+        }
+    }
+}, 0)
 
-//function touchMove(x, y) {
-//    if (!(positions.fixedX || positions.fixedY)) return;
+// Draggable proxy.
+const proxy = document.createElement('div')
+const circumference = Math.PI * circle.offsetWidth
+var normalizeX = gsap.utils.normalize(0, circumference)
+const wrapProgress = gsap.utils.wrap(0, 1)
 
-//    positions.innerX = x;
-//    positions.innerY = y;
+Draggable.create(proxy, {
+    type: 'x',
+    trigger: '.wrapperA',
+    inertia: true,
+    onDrag: updateProgress,
+    onThrowUpdate: updateProgress
+})
 
-//    angle = Math.atan2(
-//        positions.innerY - positions.fixedY,
-//        positions.innerX - positions.fixedX
-//    );
+function updateProgress() {
+    gsap.to(tl, {
+        duration: 0,
+        progress: normalizeX(this.x),
+        modifiers: {
+            progress: wrapProgress
+        }
+    })
+}
 
-//    // If inner circle is outside joystick radius, reduce it to the circumference
-//    if (!(
-//        (x - positions.fixedX) ** 2 +
-//        (y - positions.fixedY) ** 2 < 10000
-//    )) {
-//        positions.innerX = Math.round(Math.cos(angle) * 100 + positions.fixedX);
-//        positions.innerY = Math.round(Math.sin(angle) * 100 + positions.fixedY);
-//    }
-//}
+// Toggle positions.
+const showPositions = document.querySelector('#positions')
+showPositions.addEventListener('change', applyPositions);
 
-//function touchEndOrCancel() {
-//    positions.fixedX
-//        = positions.fixedY
-//        = positions.innerX
-//        = positions.innerY
-//        = angle
-//        = undefined;
-//}
+function applyPositions() {
+    if (showPositions.checked) {
+        gsap.set('.position', { display: 'block' });
+    } else {
+        gsap.set('.position', { display: 'none' });
+    }
+}
 
-//canvas.addEventListener("touchstart", function (e) {
-//    touchStart(e.touches[0].clientX, e.touches[0].clientY);
-//});
+// Toggle overflow.
+const overflow = document.querySelector('#overflow')
+overflow.addEventListener('change', applyOverflow);
 
-//canvas.addEventListener("touchmove", function (e) {
-//    touchMove(e.touches[0].clientX, e.touches[0].clientY)
-//});
-
-//canvas.addEventListener("touchend", touchEndOrCancel);
-//canvas.addEventListener("touchcancel", touchEndOrCancel);
-
-//// TODO: test mouse on pc
-//canvas.addEventListener("mousedown", function (e) {
-//    touchStart(e.offsetX, e.offsetY);
-//});
-
-//canvas.addEventListener("mousemove", function (e) {
-//    touchMove(e.offsetX, e.offsetY);
-//});
-
-//canvas.addEventListener("mouseup", touchEndOrCancel);
-
-//function renderLoop() {
-//    requestAnimationFrame(renderLoop);
-
-
-//    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-//    // Background gradient
-//    ctx.fillStyle = gradient;
-//    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-
-//    // Invert Y axis and turn into positive
-//    var displayAngle = (-angle + 2 * pi) % (2 * pi);
-
-
-
-//    ctx.fillStyle = "#0008";
-//    // Draw other message if not touching screen
-//    if (!(positions.fixedX || positions.fixedY)) {
-//        ctx.fillText("Touch the screen", 20, 20);
-//        return;
-//    };
-
-//    // Display data
-//    ctx.fillText(
-//        `Angle: ${Math.round((displayAngle * 180) / pi)} degrees (${Math.round(displayAngle * 100) / 100
-//        } radians)`,
-//        20,
-//        20
-//    );
-
-//    ctx.fillText(`Raw angle: ${Math.round(angle * 100) / 100} radians (inverted Y axis)`, 20, 50);
-//    ctx.fillText(`Inner joystick: (${positions.innerX},${positions.innerY})`, 20, 80);
-//    ctx.fillText(`Touch start point: (${positions.fixedX},${positions.fixedY}) or (${Math.round(positions.fixedX / window.innerWidth * 1000) / 1000},${Math.round(positions.fixedY / window.innerHeight * 1000) / 1000})`, 20, 110);
-
-//    // Draw joystick outer circle
-//    ctx.beginPath();
-//    ctx.fillStyle = "#0004";
-//    ctx.arc(positions.fixedX, positions.fixedY, 100, 0, 2 * pi);
-//    ctx.fill();
-//    ctx.closePath();
-
-//    // Draw inner circle
-//    ctx.beginPath();
-//    ctx.fillStyle = "#0008";
-//    ctx.arc(positions.innerX, positions.innerY, 30, 0, 2 * pi);
-//    ctx.fill();
-//    ctx.closePath();
-//}
-
-//renderLoop();
-
-//ctx.font = "20px Helvetica";
-//ctx.textBaseline = "top";
-
-
-
-/**
- * wait for the current animation to finish and update poppers position
- */
+function applyOverflow() {
+    if (overflow.checked) {
+        gsap.set('.wrapperA', { overflow: 'visible' });
+    } else {
+        gsap.set('.wrapperA', { overflow: 'hidden' });
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //// RANGE SLIDER MODEL SIZE && LANDMARK SIZE

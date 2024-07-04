@@ -788,11 +788,18 @@ z-index: 2;
     margin: 5px 0;
     cursor: pointer;
     width: 100%;
+    font-size: 12px;
     justify-content: space-between;
     transition: .3s;
 }
 
-  .check-box {
+
+#sidebarCheck {
+    transform: scale(.9);
+}
+
+
+.check-box {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -801,10 +808,8 @@ z-index: 2;
     background-color: transparent;
     display: inline-block;
     position: relative;
-    margin-right: 10px;
     cursor: pointer;
-    
-  }
+}
   
   .check-box:before {
     content: "";
@@ -4411,7 +4416,7 @@ a:hover #rlink {
     display: flex;
     gap: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #f6f6f6;
+/*    border-bottom: 1px solid #f6f6f6;*/
 }
 
 .head {
@@ -4497,7 +4502,6 @@ a:hover #rlink {
 .menuSL .sub-menu {
     display: none;
     margin-left: 20px;
-    padding-left: 20px;
     padding-top: 5px;
     border-left: 2px dashed #6ba7a8;
 }
@@ -4620,7 +4624,7 @@ a:hover #rlink {
 
 #upload-card {
     width: 210px;
-    height: 165px;
+    height: 95px;
     background: rgb(38, 38, 38);
     box-shadow: 7px 5px 10px rgba(0, 0, 0, 0.333);
 }
@@ -4658,7 +4662,7 @@ a:hover #rlink {
 
 .Description {
     border-color: #141414;
-    background-color: #414141;
+/*    background-color: #414141;*/
     transform: translate(5px, 6px);
     width: 10px;
     height: 130px;
@@ -4696,7 +4700,7 @@ a:hover #rlink {
 
 
 .custum-file-upload {
-    height: 140px;
+    height: 70px;
     width: 190px;
     display: flex;
     flex-direction: column;
@@ -4765,7 +4769,7 @@ a:hover #rlink {
     width: 100%;
     transition: all 0.4s;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
     opacity: 1;
@@ -5099,4 +5103,57 @@ a:hover #rlink {
     font-weight: 500;
     font-size: 1.25em;
     color: #fff;
+}
+
+
+
+.wrapperA {
+    width: 192px;
+    height: 72px;
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+}
+
+    .wrapperA::after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 70px;
+        border: solid 1px white;
+    }
+
+.circle {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    margin-left: -320px;
+    width: 640px;
+    height: 640px;
+    border-radius: 9999px;
+    border: solid 1px white;
+}
+
+.box, .position {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    font-size: 25px;
+    line-height: 50px;
+    text-align: center;
+    background: #f38630;
+}
+
+    .box.active {
+        color: white;
+        border: 2px solid white;
+    }
+
+
+.degreePicker {
+    position: relative;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    margin: 20px 0;
 }
