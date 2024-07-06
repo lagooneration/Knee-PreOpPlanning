@@ -1,10 +1,18 @@
 
 //import "./angles.css";
 import gsap from "gsap";
-import MotionPathPlugin from "gsap/MotionPathPlugin"; 
+import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import Draggable from "gsap/Draggable";
+import MotionPathPlugin from "gsap/MotionPathPlugin";
+import CSSRulePlugin from "gsap/CSSRulePlugin";
+import CSSPlugin from "gsap/CSSPlugin";
+import CustomEase from "gsap/CustomEase";
+import EasePack from "gsap/EasePack";
+import { TweenMax, TimelineMax, Linear } from "gsap/all";
 import MorphSVGPlugin from "gsap/MorphSVGPlugin";
-gsap.registerPlugin(MotionPathPlugin, Draggable, MorphSVGPlugin);
+import TWEEN from '@tweenjs/tween.js';
+import ScrollTrigger from "gsap/ScrollTrigger";
+gsap.registerPlugin(CustomEase, ScrollTrigger, MotionPathPlugin, Draggable, MorphSVGPlugin, DrawSVGPlugin, CSSRulePlugin, EasePack, CSSPlugin);
 ///////////////////////////////////////////////////////////////////////////////
 ////  NAV HEADER //// ATRIBUTES: https://codepen.io/0pensource/pen/GRLopQM
 
@@ -626,167 +634,350 @@ initializeDropdown();
 
 ////////////////////////////////// CANVAS ANGLE////////////////////////////////////
 
-// Get positions around the circle.
-const circle = document.querySelector('.circle')
-const radius = circle.offsetWidth / 2
+var DegreePicker = function (el, opts) {
 
-const turnDegrees = 8
-const angleIncrement = turnDegrees * (Math.PI / 180)
-const startAngle = -Math.PI / 2
+    var defaults = {
+        /**
+         * Degrees step
+         * @type {Number}
+         */
+        step: 1,
 
-let dataPositions = []
-for (let i = 0; i < 360 / turnDegrees; i++) {
-    let angle = startAngle + (angleIncrement * i)
+        /**
+         * Function called after degree update
+         * @param  {DOM Element}   self   Picker
+         * @param  {Number}   degree 
+         */
+        callback: function (self, degree) { }
+    };
 
-    const x = radius + Math.cos(angle) * radius
-    const y = radius + Math.sin(angle) * radius
-    const rotation = angle * (180 / Math.PI) + 90
+    opts = opts || {};
 
-    dataPositions.push({ x, y, rotation })
-}
-
-// Create ghost elements for positions.
-dataPositions.forEach((position, i) => {
-    const node = document.createElement('div')
-    node.classList.add('position')
-    if (i == 0) node.classList.add('active')
-    const textNode = document.createTextNode(i)
-    node.appendChild(textNode)
-    circle.insertBefore(node, circle.children[i])
-
-    gsap.set(node, {
-        display: 'none',
-        backgroundColor: '#ccc',
-        opacity: 0.3,
-        xPercent: -50,
-        yPercent: -50,
-        transformOrigin: '50% 50%',
-        x: position.x,
-        y: position.y,
-        rotation: position.rotation
-    })
-})
-
-// Set initial values for boxes.
-const boxes = gsap.utils.toArray('.box')
-const colors = ["#f38630", "#6fb936", "#ccc", "#6fb936"]
-
-const wrapBoxes = gsap.utils.wrap(-3, 7)
-const wrapPositions = gsap.utils.wrap(0, 45)
-const transformIndex = gsap.utils.pipe(wrapBoxes, wrapPositions)
-
-gsap.set(boxes, {
-    backgroundColor: gsap.utils.wrap(colors),
-    xPercent: -50,
-    yPercent: -50,
-    transformOrigin: '50% 50%',
-    x: (index) => {
-        const position = transformIndex(index)
-        return dataPositions[position].x
-    },
-    y: (index) => {
-        const position = transformIndex(index)
-        return dataPositions[position].y
-    },
-    rotation: (index) => {
-        const position = transformIndex(index)
-        return dataPositions[position].rotation
+    for (var property in defaults) {
+        if (!opts[property])
+            opts[property] = defaults[property];
     }
-})
 
-// Animation.
-const positions = gsap.utils.toArray('.position')
-const trackPosition = { position: 0 }
 
-const tl = gsap.timeline({
-    paused: true,
-    reversed: true,
-})
+    var _ = {
+        container: {
+            el: null,
+            x: null,
+            y: null,
+            radius: null,
+            center: {
+                x: null,
+                y: null
+            }
+        },
+        handle: {
+            el: null,
+            x: null,
+            y: null,
+            size: 0,
+            position: function (of) {
+                return Math.round(_.container.radius * Math[of === 'x' ? 'cos' : 'sin'](Math.atan2(_.handle.y, _.handle.x)));
+            }
+        },
 
-tl.to(circle, {
-    rotation: 360,
-    duration: 1,
-    ease: 'none',
-})
+        degree: {
+            el: null,
+            value: null,
 
-tl.to(trackPosition, {
-    position: 45,
-    duration: 1,
-    ease: 'none',
-    modifiers: {
-        position: function (value) {
-            const tracked = wrapPositions(45 - Math.round(value))
+            get: function () {
+                return Math.round(this.value);
+            },
 
-            if (trackPosition.position !== tracked) {
-                console.log('update')
+            update: function () {
+                this.value = Math.atan2(_.handle.y * -1, _.handle.x) * 180 / Math.PI;
 
-                // TODO: Update box with active class.
-                //positions[trackPosition.position].classList.remove('active')
-                //positions[tracked].classList.add('active')
+                this.value += this.value < 0 ? 360 : 0;
+            },
+
+            set: function (value) {
+                value = value > 180 ? value - 360 : value;
+
+                value = value * Math.PI / 180;
+
+                _.handle.x = Math.cos(value);
+
+                _.handle.y = -Math.sin(value);
+
+                _.move();
+            }
+        },
+
+        isDragging: false,
+
+        init: function () {
+            _.container.el = document.querySelector(el);
+            _.container.x = _.container.el.offsetLeft;
+            _.container.y = _.container.el.offsetTop;
+            _.container.radius = _.container.el.offsetWidth / 2;
+            _.updateElementCenter();
+
+            _.handle.el = _.container.el.children[0];
+            _.handle.size = _.handle.el.offsetWidth;
+
+            _.degree.el = _.container.el.children[1];
+            _.degree.set(_.container.el.getAttribute('data-degree') || 0);
+
+            // Bind events
+            _.handle.el.addEventListener('mousedown', _.onMouseDown);
+            window.addEventListener('mouseup', _.onMouseUp);
+            window.addEventListener('mousemove', _.onMouseMove);
+            window.addEventListener('resize', _.updateElementCenter);
+        },
+
+        /* Events
+         *************************************/
+        onMouseDown: function (event) {
+            _.isDragging = true;
+            _.updateCoords(event);
+            _.move();
+        },
+
+        onMouseUp: function () {
+            _.isDragging = false;
+        },
+
+        onMouseMove: function (event) {
+            if (_.isDragging) {
+                _.updateCoords(event);
+                _.move();
+            }
+        },
+
+        /* Methods
+         *************************************/
+        updateElementCenter: function () {
+            _.container.center.x = _.container.el.offsetLeft + _.container.radius;
+            _.container.center.y = _.container.el.offsetTop + _.container.radius;
+        },
+
+        updateCoords: function (e) {
+            _.handle.x = e.clientX - _.container.center.x;
+            _.handle.y = e.clientY - _.container.center.y;
+        },
+
+        move: function () {
+            _.degree.update();
+
+            if (_.degree.get() % opts.step === 0) {
+                _.degree.el.innerHTML = _.degree.get();
+                _.container.el.setAttribute('data-degree', _.degree.get());
             }
 
-            return tracked
+            _.handle.el.style['-webkit-transform'] = 'translate(' + _.handle.position('x') + 'px, ' + _.handle.position('y') + 'px)';
+            _.handle.el.style['-moz-transform'] = 'translate(' + _.handle.position('x') + 'px, ' + _.handle.position('y') + 'px)';
+            _.handle.el.style['-o-transform'] = 'translate(' + _.handle.position('x') + 'px, ' + _.handle.position('y') + 'px)';
+            _.handle.el.style.transform = 'translate(' + _.handle.position('x') + 'px, ' + _.handle.position('y') + 'px)';
+
+            opts.callback(_.container.el, _.degree.get());
         }
-    }
-}, 0)
+    };
 
-// Draggable proxy.
-const proxy = document.createElement('div')
-const circumference = Math.PI * circle.offsetWidth
-var normalizeX = gsap.utils.normalize(0, circumference)
-const wrapProgress = gsap.utils.wrap(0, 1)
+    _.init();
 
-Draggable.create(proxy, {
-    type: 'x',
-    trigger: '.wrapperA',
-    inertia: true,
-    onDrag: updateProgress,
-    onThrowUpdate: updateProgress
-})
+    /**
+     * Picker API
+     */
+    return {
+        /**
+         * Get picker value
+         * @return {Number}
+         */
+        getValue: _.degree.get,
 
-function updateProgress() {
-    gsap.to(tl, {
-        duration: 0,
-        progress: normalizeX(this.x),
-        modifiers: {
-            progress: wrapProgress
-        }
-    })
-}
+        /**
+         * Set value of picker
+         * @param {Number} value
+         */
+        setValue: _.degree.set
+    };
+};
 
-// Toggle positions.
-const showPositions = document.querySelector('#positions')
-showPositions.addEventListener('change', applyPositions);
-
-function applyPositions() {
-    if (showPositions.checked) {
-        gsap.set('.position', { display: 'block' });
-    } else {
-        gsap.set('.position', { display: 'none' });
-    }
-}
-
-// Toggle overflow.
-const overflow = document.querySelector('#overflow')
-overflow.addEventListener('change', applyOverflow);
-
-function applyOverflow() {
-    if (overflow.checked) {
-        gsap.set('.wrapperA', { overflow: 'visible' });
-    } else {
-        gsap.set('.wrapperA', { overflow: 'hidden' });
-    }
-}
+var picker = new DegreePicker('.js-radius-picker');
 
 ////////////////////////////////////////////////////////////////////////////////
 //// RANGE SLIDER MODEL SIZE && LANDMARK SIZE
 
-/* range */
+//let select = s => document.querySelector(s),
+//	mainSVG = select('#mainSVG'),
+//	dialToothContainer = select('#dialToothContainer'),
+//	dialBodyShine = select('#dialBodyShine'),
+//	dialMarker = select('#dialMarker'),
+//	dialTooth = select('.dialTooth'),
+//	numTeeth = 32,
+//	dialToothArray = [],
+//	maxRotation = 270,
+//	style = getComputedStyle(document.body),
+//	uiGrey = style.getPropertyValue('--ui-red'),
+//	dragger = null,
+//	currentTooth = 0,
+//	toothRadius = 4,
+//	dialColorArray = [style.getPropertyValue('--ui-green'), style.getPropertyValue('--ui-amber'), style.getPropertyValue('--ui-red')],
+//	step = maxRotation / (numTeeth - 1),
+//	dialColor = gsap.utils.interpolate(dialColorArray),
+//	toothIdClamp = gsap.utils.clamp(0, numTeeth - 1),
+//	jumpEase = CustomEase.create("custom", "M0,0 C0.25,0 0.342,0.22 0.384,0.422 0.474,0.864 0.698,1 1,1 ")
+
+//gsap.set('svg', {
+//	visibility: 'visible'
+//})
+//function blendEases(startEase, endEase, blender) {
+//	var parse = function (ease) {
+//		return typeof (ease) === "function" ? ease : gsap.parseEase("power4.inOut");
+//	},
+//		s = gsap.parseEase(startEase),
+//		e = gsap.parseEase(endEase),
+//		blender = parse(blender);
+//	return function (v) {
+//		var b = blender(v);
+//		return s(v) * (1 - b) + e(v) * b;
+//	};
+//}
+//gsap.set(dialMarker, {
+//	x: 334,
+//	y: 356
+//})
 
 
+//function jumpTo(toothId, duration) {
+//	toothId = toothIdClamp(toothId);
+//	gsap.to(dialMarker, {
+//		rotation: toothId * step,
+//		onUpdate: onDrag,
+//		scale: 2,
+//		duration: duration || 0.5,
+//		ease: jumpEase
+//	})
+//}
+//gsap.set(dialMarker, {
+//	svgOrigin: `${dialBodyShine.getAttribute('cx')} ${dialBodyShine.getAttribute('cy')}`,
+//	attr: {
+//		r: toothRadius * 2
+//	}
+//})
+//for (let i = 0; i < numTeeth; i++) {
+//	let clone = dialTooth.cloneNode(true);
+//	dialToothContainer.appendChild(clone);
+//	clone.addEventListener('click', function (e) {
+//		jumpTo(i)
+//	})
+//	gsap.set(clone, {
+//		rotation: i * step,
+//		svgOrigin: `${dialBodyShine.getAttribute('cx')} ${dialBodyShine.getAttribute('cy')}`,
+//		attr: {
+//			r: toothRadius
+//		}
+//	})
+//	gsap.from(clone, {
+//		attr: {
+//			r: 10
+//		},
+//		opacity: 0,
+//		delay: i / numTeeth
+//	})
+//	dialToothArray.push(clone)
+//}
+//let pipeRotation = gsap.utils.pipe(
+//	gsap.utils.mapRange(0, 1, 1, dialToothArray.length),
+//	gsap.utils.snap(1)
+//)
+
+
+
+//function onDrag() {
+//	let dialRotation = gsap.getProperty(dialMarker, 'rotation');
+//	let rotationProgress = dialRotation / maxRotation;
+//	currentTooth = pipeRotation(rotationProgress);
+//	//tooth colours
+//	gsap.to(dialToothArray, {
+//		fill: (i) => currentTooth <= i ? uiGrey : dialColor(i / (dialToothArray.length)),
+//		duration: 0.25
+//	})
+//	//dial marker colour
+//	//gsap.set(dialMarker, {
+//	//	fill: (i) => dialColor(currentTooth / (dialToothArray.length))
+//	//})
+//	//want the shadow to follow the current color? No problem!
+//	/* 	gsap.set(':root', {
+//			'--ui-shadow': dialColor(currentTooth/(dialToothArray.length))
+//		})	 
+		
+//		*/
+
+//}
+//function onDial(str) {
+
+//	gsap.to('#dialBodyGroup', {
+//		scale: str == 'press' ? 0.96 : 1,
+//		duration: 0.6,
+//		ease: str == 'press' ? 'expo' : 'elastic(0.5, 0.25)'
+//	})
+//}
+//dragger = Draggable.create(dialMarker, {
+//	type: 'rotation',
+//	trigger: '#dialBodyGroup',
+//	bounds: { min: 0, max: maxRotation },
+//	onDrag: onDrag,
+//	onThrowUpdate: onDrag,
+//	inertia: true,
+//	dragResistance: 0.23,
+//	onPress: onDial,
+//	onPressParams: ['press'],
+//	onRelease: onDial,
+//	onReleaseParams: ['release'],
+//	overshootTolerance: 0.3,
+//	throwResistance: 3000
+//})
+//let initTl = gsap.timeline();
+//initTl.from('#dialBodyGroup', {
+//	scale: 0,
+//	transformOrigin: '50% 50%',
+//	onComplete: function () {
+//		jumpTo(28, 1.5)
+//	},
+//	ease: blendEases('power1.in', 'expo'),
+//	duration: 1.6
+//})
 
 
 
 ////
 //////////////////////////////////////////////////////////////////////////\
+
+
+//// SLIDER  ANGLE
+
+/* a Pen by Diaco m.lotfollahi  : https://diacodesign.com */
+
+// const D = document.createElement('div');
+//const D = document.getElementById('xyz');
+//gsap.set('svg', { overflow: "visible" });
+//// gsap.set('.knobA', { x: 10, y: 80 });
+
+//const tl = gsap.timeline({ paused: true })
+//    .from("#path2", 1, { drawSVG: "0%", stroke: 'orange', ease: Linear.easeNone })
+//    .to('.knobA', 1, { bezier: { type: "quadratic", values: [{ x: 10, y: 80 }, { x: 150, y: 0 }, { x: 300, y: 80 }] }, ease: Linear.easeNone }, 0);
+
+//Draggable.create('div', {
+//    trigger: ".knobA",
+//    type: 'x',
+//    throwProps: true,
+//    bounds: { minX: 0, maxX: 300 },
+//    onDrag: Update,
+//    onThrowUpdate: Update
+//});
+
+//function Update() {
+//    tl.progress(Math.abs(this.x / 300));
+//}
+
+//gsap.to('#path1', { duration: 0.5, strokeDashoffset: -10, repeat: -1, ease: "none" });
+
+
+
+
 
